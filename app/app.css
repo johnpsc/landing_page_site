@@ -1,15 +1,122 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-html,
-body {
-  @apply bg-white dark:bg-gray-950;
+/**
+ * CSS Custom Properties — Tokens de cor do Big Chef
+ *
+ * Estas variáveis espelham os valores de app/lib/theme.ts e permitem
+ * usar cores da marca em classes Tailwind com pseudo-seletores
+ * (hover:, focus:, selection:, group-hover:, etc.) que não aceitam
+ * variáveis JavaScript diretamente.
+ *
+ * Exemplo de uso em JSX:
+ *   className="hover:text-[var(--color-primary)] selection:bg-[var(--color-primary)]"
+ *
+ * ⚠️  Ao alterar uma cor em theme.ts, atualize também aqui.
+ */
+:root {
+  /* Laranja — Cor Principal */
+  --color-primary: #ff7a00; /* = Colors.primary       — botões, ícones, destaques */
+  --color-primary-dark: #ff4500; /* = Colors.primaryDark   — fim do gradiente hero     */
+  --color-primary-light: #fff1e6; /* = Colors.primaryLight  — fundos suaves, bordas     */
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+  /* Verde — Cor Secundária */
+  --color-accent: #16a34a; /* = Colors.accent        — blobs decorativos         */
+  --color-dark: #052e16; /* = Colors.dark          — seções escuras, títulos   */
+
+  /* Neutros */
+  --color-light: #ffffff; /* = Colors.light         — fundo geral               */
+  --color-border: #e5e7eb; /* = Colors.border        — bordas inativos            */
+  --color-text-muted: #4b5563; /* = Colors.textMuted     — parágrafos secundários    */
+  --color-text-disabled: #9ca3af; /* = Colors.textDisabled  — ícone "não incluído"      */
+
+  /* Sombras (box-shadow completo) — usados em shadow-[var(--shadow-*)] */
+  --shadow-header: 0 4px 30px rgba(0, 0, 0, 0.05);
+  --shadow-dashboard: 0 20px 50px rgba(0, 0, 0, 0.1);
+  --shadow-cta-normal: 0 8px 20px rgba(255, 122, 0, 0.3);
+  --shadow-cta-hover: 0 8px 25px rgba(255, 122, 0, 0.4);
+  --shadow-hero-btn: 0 10px 40px rgba(255, 122, 0, 0.4);
+  --shadow-pricing-btn: 0 10px 30px rgba(255, 122, 0, 0.3);
+  --shadow-pricing-btn-hover: 0 10px 35px rgba(255, 122, 0, 0.4);
+  --shadow-feature-card: 0 10px 40px rgba(255, 122, 0, 0.08);
+  --shadow-plan-selected: 0 6px 20px rgba(255, 122, 0, 0.3);
+}
+
+@keyframes planos-enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.planos-enter {
+  opacity: 0;
+}
+
+.planos-enter-visible {
+  animation: planos-enter-up 400ms ease-out both;
+}
+
+.planos-delay-0 {
+  animation-delay: 0ms;
+}
+
+.planos-delay-1 {
+  animation-delay: 90ms;
+}
+
+.planos-delay-2 {
+  animation-delay: 170ms;
+}
+
+.planos-delay-3 {
+  animation-delay: 250ms;
+}
+
+.planos-delay-4 {
+  animation-delay: 320ms;
+}
+
+.planos-delay-5 {
+  animation-delay: 390ms;
+}
+
+@keyframes planos-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: -100% 50%;
+  }
+}
+
+.planos-skeleton {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-primary-light) 75%, var(--color-light) 25%) 0%,
+    var(--color-light) 50%,
+    color-mix(in srgb, var(--color-primary-light) 75%, var(--color-light) 25%) 100%
+  );
+  background-size: 220% 100%;
+  animation: planos-shimmer 1.35s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planos-enter,
+  .planos-enter-visible {
+    opacity: 1;
+    animation: none;
+  }
+
+  .planos-skeleton {
+    animation: none;
+    background: color-mix(in srgb, var(--color-primary-light) 80%, var(--color-light) 20%);
   }
 }

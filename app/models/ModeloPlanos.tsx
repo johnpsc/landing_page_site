@@ -1,8 +1,11 @@
 export interface ModeloComparacaoDeModulos {
   id: string;
   nome: string;
-  planosemqueestaativo: any[];
+  planosemqueestaativo: string[];
 }
+
+/** Alias curto usado nos componentes de UI */
+export type Modulo = ModeloComparacaoDeModulos;
 
 export interface ModeloComparacaoDeModulosCad {
   id: string;
@@ -15,14 +18,17 @@ export interface ModeloModalidadeDosPlanos {
   nome: string;
 }
 
+/** Alias mantido para compatibilidade com CardPlanosPainel */
+export type ModalidadePlano = ModeloModalidadeDosPlanos;
+
 export interface ModeloPlanos {
   id: string;
   nome: string;
-  descricaodoplano: string;
+  descricaodoplano?: string;
   valordoplano: string;
-  maisvendido: string;
-  quantidadedeusuario: string;
-  modalidadedosplanos: ModeloModalidadeDosPlanos[];
+  maisvendido?: string;
+  quantidadedeusuario?: string;
+  modalidadedosplanos?: ModeloModalidadeDosPlanos[];
 }
 
 export interface ModeloTipoDeMensalidade {
@@ -38,3 +44,6 @@ export interface RespostaListarPlanos {
   tipodemensalidade: ModeloTipoDeMensalidade[];
   comparacaodemoduloscad: ModeloComparacaoDeModulosCad[];
 }
+
+/** Alias em inglês para consistência nos componentes de UI */
+export type FetchPlansResponse = RespostaListarPlanos;

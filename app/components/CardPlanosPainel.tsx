@@ -1,273 +1,290 @@
-import React, { useState } from "react";
-// Importações hipotéticas baseadas na sua estrutura de serviços e rotas
-// import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../essencial/provedores/usuario/usuario_provedor";
-// import { useFaturas } from "../../modulos/faturas/servicos/servico_faturas";
-// import { useLicencas } from "../../essencial/provedores/licencas/provedor_licencas";
+﻿import React from "react";
+import { useCardPlano } from "../hooks/useCardPlano";
+import { Colors } from "../lib/theme";
+import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../models/ModeloPlanos";
 
-export interface ModalidadePlano {
-    id: string;
-    nome: string;
-}
+export type { ModeloPlanos, ModeloTipoDeMensalidade };
 
-export interface ModeloPlanos {
-    id: string;
-    nome: string;
-    valordoplano: string;
-    maisvendido?: string;
-    descricaodoplano?: string;
-    quantidadedeusuario?: string;
-    modalidadedosplanos?: ModalidadePlano[];
-}
-
-export interface ModeloTipoDeMensalidade {
-    id: string;
-    nome: string;
-    percentualdedesconto: string;
-    quantmeses: string;
-}
-
-interface CardPlanosPainelProps {
+export interface CardPlanosPainelProps {
     item: ModeloPlanos;
     tipodemensalidadeSelecionado?: ModeloTipoDeMensalidade | null;
-    targetRef?: React.RefObject<HTMLDivElement>;
+    targetRef?: React.RefObject<HTMLDivElement | null>;
     mostrarPlanoCliente: boolean;
 }
 
+/**
+ * Card visual de plano. Toda lógica de cálculo e navegação está em
+ * `hooks/useCardPlano.ts` — aqui existe apenas presentação.
+ */
 export default function CardPlanosPainel({
     item,
     tipodemensalidadeSelecionado,
     targetRef,
     mostrarPlanoCliente,
 }: CardPlanosPainelProps) {
-    // Mock do usuário atual (Substitua pelo seu contexto real)
-    const usuario = { id: "1", idtipodemensalidade: "1", idplanospainel: "1", email: "teste@teste.com", senha: "123" };
+    if (!item) return null;
 
-    const [carregando, setCarregando] = useState(false);
+    const {
+        valorF,
+        valorTotalF,
+        economiaFormatada,
+        percentual,
+        isMaisVendido,
+        isSelecionado,
+        carregando,
+        escolherPlano,
+    } = useCardPlano({ item, tipodemensalidadeSelecionado, mostrarPlanoCliente });
 
-    // Guarda de segurança: se o item não existir, não tenta renderizar e evita o erro "Cannot read properties of undefined"
-    if (!item) {
-        return null;
+    const textClass = (ativo: string, inativo: string) =>
+        isMaisVendido ? ativo : inativo;
+
+    function rolarParaComparacao() {
+        if (!targetRef?.current) return;
+        const y =
+            targetRef.current.getBoundingClientRect().top +
+            window.pageYOffset -
+            50;
+        window.scrollTo({ top: y, behavior: "smooth" });
     }
-
-    // Lógica de cálculo de valores com fallback seguro ("0" se vier vazio)
-    const valorString = item.valordoplano ?? "0";
-    const valor = parseFloat(valorString.replace(',', '.'));
-    const percentual = parseFloat(tipodemensalidadeSelecionado?.percentualdedesconto ?? "0");
-
-    const valorPercentual = () => {
-        return (valor * percentual) / 100;
-    };
-
-    const valorCalculado = () => {
-        if (percentual <= 0) {
-            return valor;
-        }
-        return valor - valorPercentual();
-    };
-
-    const quantMeses = parseInt(tipodemensalidadeSelecionado?.quantmeses ?? "1", 10);
-    const total = valorCalculado() * quantMeses;
-
-    // Formatação de valores
-    const formatarRealSemSimbolo = (num: number) => num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const formatarReal = (num: number) => num.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-
-    const valorF = formatarRealSemSimbolo(valorCalculado()).split(',');
-    const valorTotalF = formatarRealSemSimbolo(total).split(',');
-    const valorTotal = total.toFixed(2);
-
-    const verificarPlanoSelecionado = () => {
-        if (mostrarPlanoCliente) {
-            if (usuario?.idtipodemensalidade === tipodemensalidadeSelecionado?.id) {
-                if (usuario?.idplanospainel === item.id) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-
-    const isMaisVendido = item.maisvendido === 'Sim';
-    const isSelecionado = verificarPlanoSelecionado();
-
-    const escolherPlano = async (plano: ModeloPlanos, totalValor: string) => {
-        const idPlanoAtual = parseInt(usuario?.idplanospainel ?? "0", 10);
-        const idPlanoSelecionado = parseInt(plano.id, 10);
-
-        const idMensalidadeAtual = parseInt(usuario?.idtipodemensalidade ?? "0", 10);
-        const idMensalidadeSelecionada = parseInt(tipodemensalidadeSelecionado?.id ?? "0", 10);
-
-        // Validações de downgrade
-        if (idPlanoSelecionado < idPlanoAtual) {
-            alert("Não pode selecionar um plano inferior");
-            return;
-        }
-
-        if (idMensalidadeSelecionada < idMensalidadeAtual) {
-            alert("Não pode selecionar um plano inferior");
-            return;
-        }
-
-        if (usuario && usuario.id !== '') {
-            setCarregando(true);
-
-            try {
-                // Simulação do backend
-                console.log("Fatura gerada e redirecionando para /faturas");
-                setCarregando(false);
-            } catch (error) {
-                console.error(error);
-                setCarregando(false);
-            }
-        } else {
-            console.log("Navegando para Novo Cadastro", { idplanospainel: plano.id, idtipodemensalidade: tipodemensalidadeSelecionado?.id ?? '', valordamensalidade: totalValor });
-        }
-    };
-
-    const rolarParaComparacao = () => {
-        if (targetRef?.current) {
-            const yOffset = -50;
-            const y = targetRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-    };
 
     return (
         <div className="relative pt-2 pl-2 pr-2">
-            {isMaisVendido && (
-                <div className="absolute top-0 -right-2.5 z-10 w-25 h-7.5 flex items-center justify-center">
-                    <div className="relative w-full h-full">
-                        <svg className="absolute -top-px left-1/2 transform -translate-x-1/2 text-[#B21512] w-12.5 h-12.5 z-[-1]" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M7 10l5 5 5-5z" />
-                        </svg>
-                        <div className="w-30 bg-[#B21512] rounded-[5px] px-2.5 py-0.5 text-white text-sm text-center transform -translate-x-2.5">
-                            Mais vendido
-                        </div>
-                    </div>
-                </div>
-            )}
+            {isMaisVendido && <BadgeMaisVendido />}
 
             <div className="h-full px-5">
-                <div className={`w-75 h-262.5 rounded-[10px] border ${isSelecionado ? 'border-red-500' : 'border-gray-400'} ${isMaisVendido ? 'bg-[#091D33]' : 'bg-white'}`}>
+                <div
+                    className={`w-75 h-262.5 rounded-[10px] border ${isSelecionado ? "border-(--color-primary)" : "border-gray-200"
+                        }`}
+                    style={isMaisVendido ? { backgroundColor: Colors.dark } : { backgroundColor: "white" }}
+                >
                     <div className="p-3.75 h-full flex flex-col relative">
-
-                        {isSelecionado && (
-                            <div className="absolute -top-2.5 right-5">
-                                <svg className="text-red-500 w-12.5 h-12.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                </svg>
-                            </div>
-                        )}
+                        {isSelecionado && <CheckmarkSelecionado />}
 
                         <div className="flex flex-col items-center grow">
-                            <h3 className={`text-[24px] font-semibold ${isMaisVendido ? 'text-[#8FBDFA]' : 'text-gray-900'}`}>
+                            {/* Nome */}
+                            <h3 className={`text-[24px] font-semibold ${textClass("text-orange-200", "text-gray-900")}`}>
                                 {item.nome ?? "Plano"}
                             </h3>
 
+                            {/* Descrição */}
                             <div className="mt-3.75 w-full">
                                 <p
-                                    className={`text-center line-clamp-3 text-sm ${isMaisVendido ? 'text-[#8FBDFA]' : 'text-gray-600'}`}
+                                    className={`text-center line-clamp-3 text-sm ${textClass("text-orange-100", "text-gray-600")}`}
                                     title={item.descricaodoplano ?? ""}
                                 >
                                     {item.descricaodoplano ?? "Sem descrição disponível."}
                                 </p>
                             </div>
 
-                            {valorPercentual() > 0 ? (
-                                <div className="mt-7.5[30px] relative w-full flex justify-center items-center">
-                                    <svg className="absolute -top-3.75 text-[#8FBDFA] w-12.5 h-12.5 z-0" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M7 10l5 5 5-5z" />
-                                    </svg>
-                                    <div className="bg-[#8FBDFA] rounded-[5px] px-2.5 py-0.5 text-gray-900 text-sm font-medium z-10 whitespace-nowrap">
-                                        Economize {formatarReal(valorPercentual() * quantMeses)}
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="mt-7.5 h-7.5"></div>
-                            )}
-
-                            <div className="flex justify-center items-end mt-3.75">
-                                <span className={`text-[18px] font-semibold mb-1.5 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}>R$</span>
-                                <span className={`text-[50px] font-semibold leading-[1.05] mx-1 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}>{valorF[0]}</span>
-                                <span className={`text-[18px] font-semibold mb-1.5 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}>,{valorF[1]}</span>
-                                <span className={`text-[18px] mb-1.5 ml-1 ${isMaisVendido ? 'text-white' : 'text-gray-600'}`}>/mês</span>
+                            {/* Badge de economia — sempre ocupa espaço, visível só quando há desconto */}
+                            <div
+                                className="transition-opacity duration-300"
+                                style={{ opacity: percentual > 0 ? 1 : 0, pointerEvents: percentual > 0 ? "auto" : "none" }}
+                            >
+                                <BadgeEconomia texto={`Economize ${economiaFormatada}`} />
                             </div>
 
+                            {/* Preço mensal */}
+                            <div className="flex justify-center items-end mt-3.75">
+                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>R$</span>
+                                <span className={`text-[50px] font-bold leading-[1.05] mx-1 ${textClass("text-white", "text-gray-900")}`}>
+                                    {valorF.inteiro}
+                                </span>
+                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>
+                                    ,{valorF.decimal}
+                                </span>
+                                <span className={`text-[18px] mb-1.5 ml-1 ${textClass("text-orange-200", "text-gray-400")}`}>/mês</span>
+                            </div>
+
+                            {/* Botão CTA */}
                             <div className="mt-3.75 w-full h-12.5">
                                 <button
                                     disabled={isSelecionado}
-                                    onClick={() => escolherPlano(item, valorTotal)}
-                                    className={`w-full h-full rounded-[3px] text-[17px] font-medium transition-colors flex items-center justify-center
-                    ${isSelecionado
-                                            ? 'bg-red-500 hover:bg-red-700 text-white cursor-not-allowed'
-                                            : 'bg-green-600 hover:bg-green-700 text-white'}
-                  `}
+                                    onClick={escolherPlano}
+                                    className={`w-full h-full rounded-xl text-[16px] font-semibold transition-all flex items-center justify-center hover:-translate-y-0.5 ${isSelecionado ? "cursor-not-allowed opacity-70" : ""
+                                        }`}
+                                    style={{
+                                        backgroundColor: isSelecionado ? Colors.textDisabled : Colors.primary,
+                                        color: "white",
+                                    }}
                                 >
                                     {carregando ? (
-                                        <div className="w-3.75 h-3.75 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        <div className="w-3.75 h-3.75 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                                    ) : isSelecionado ? (
+                                        "Plano Atual"
                                     ) : (
-                                        isSelecionado ? 'Plano Atual' : 'Comece Agora'
+                                        "Comece Agora"
                                     )}
                                 </button>
                             </div>
 
-                            <div className="mt-3.75 bg-[#DAE7FD] rounded-[10px] p-2.5 w-full">
-                                <div className="flex items-center mb-1.25">
-                                    <svg className="text-[#2975AB] w-4.5 h-4.5 mr-1.25" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></svg>
-                                    <span className="text-gray-800 text-sm">{item.quantidadedeusuario ?? "0"} Usuários</span>
-                                </div>
-                                <div className="flex items-center mb-1.25">
-                                    <svg className="text-[#2975AB] w-4.5 h-4.5 mr-1.25" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                                    <span className="text-gray-800 text-sm">Painel Administrativo</span>
-                                </div>
-                                <div className="flex items-center mb-1.25">
-                                    <svg className="text-[#2975AB] w-4.5 h-4.5 mr-1.25" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                                    <span className="text-gray-800 text-sm">App Android e iOS</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <svg className="text-[#2975AB] w-4.5 h-4.5 mr-1.25" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" /></svg>
-                                    <span className="text-gray-800 text-sm">Espaço ilimitado</span>
-                                </div>
-                            </div>
+                            {/* Box de features fixas */}
+                            <FeaturesBox isMaisVendido={isMaisVendido} quantidadeUsuarios={item.quantidadedeusuario} />
 
+                            {/* Modalidades incluídas */}
                             <div className="mt-3.75 w-full flex flex-col">
-                                {(item.modalidadedosplanos ?? []).map((modalidade) => (
-                                    <div key={modalidade.id} className="flex items-center px-2 py-1">
-                                        <svg className="text-[#2975AB] w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                                        </svg>
-                                        <span className={`ml-2.5 text-sm ${isMaisVendido ? 'text-white' : 'text-gray-800'}`}>
-                                            {modalidade.nome}
+                                {(item.modalidadedosplanos ?? []).map((mod) => (
+                                    <div key={mod.id} className="flex items-center px-2 py-1">
+                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${isMaisVendido ? "bg-white/20" : "bg-orange-100"}`}>
+                                            <svg className="w-3 h-3" fill="none" stroke={Colors.primary} strokeWidth="3" viewBox="0 0 24 24">
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </svg>
+                                        </div>
+                                        <span className={`ml-2.5 text-sm ${textClass("text-orange-100", "text-gray-700")}`}>
+                                            {mod.nome}
                                         </span>
                                     </div>
                                 ))}
                             </div>
 
-                            <div className="grow"></div>
+                            <div className="grow" />
 
-                            {percentual > 0 && (
-                                <div className="flex justify-center items-end mt-4">
-                                    <span className={`text-[18px] font-semibold mb-1.5 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}> R$</span>
-                                    <span className={`text-[50px] font-semibold leading-[1.05] mx-1 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}>{valorTotalF[0]}</span>
-                                    <span className={`text-[18px] font-semibold mb-1.5 ${isMaisVendido ? 'text-white' : 'text-gray-900'}`}>,{valorTotalF[1]}</span>
-                                    <span className={`text-[18px] mb-1.5 ml-1 ${isMaisVendido ? 'text-white' : 'text-gray-600'}`}>/total</span>
-                                </div>
-                            )}
+                            {/* Total do período — sempre ocupa espaço, visível só quando há desconto */}
+                            <div
+                                className="flex justify-center items-end mt-4 transition-opacity duration-300"
+                                style={{ opacity: percentual > 0 ? 1 : 0, pointerEvents: percentual > 0 ? "auto" : "none" }}
+                            >
+                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>R$</span>
+                                <span className={`text-[40px] font-bold leading-[1.05] mx-1 ${textClass("text-white", "text-gray-900")}`}>
+                                    {valorTotalF.inteiro}
+                                </span>
+                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>
+                                    ,{valorTotalF.decimal}
+                                </span>
+                                <span className={`text-[16px] mb-1.5 ml-1 ${textClass("text-orange-200", "text-gray-400")}`}>/total</span>
+                            </div>
 
+                            {/* Link para tabela comparativa */}
                             <button
                                 onClick={rolarParaComparacao}
-                                className={`mt-2 mb-2 text-[13px] underline decoration-solid leading-[1.35] bg-transparent border-none cursor-pointer
-                  ${isMaisVendido ? 'text-white decoration-white hover:text-gray-200' : 'text-[#205295] decoration-[#205295] hover:text-[#194175]'}
-                `}
+                                className={`mt-2 mb-2 text-[13px] underline bg-transparent border-none cursor-pointer transition-colors ${isMaisVendido ? "text-orange-200 hover:text-white" : "hover:text-(--color-primary)"
+                                    }`}
+                                style={!isMaisVendido ? { color: Colors.primary } : {}}
                             >
                                 Comparar os Planos
                             </button>
-
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    );
+}
+
+// ── Sub-componentes visuais internos ────────────────────────────────────────
+
+function BadgeMaisVendido() {
+    return (
+        <div className="absolute top-0 -right-2.5 z-10 w-25 h-7.5 flex items-center justify-center">
+            <div className="relative w-full h-full">
+                <svg
+                    className="absolute -top-px left-1/2 -translate-x-1/2 w-12.5 h-12.5 z-[-1]"
+                    fill={Colors.primary}
+                    viewBox="0 0 24 24"
+                >
+                    <path d="M7 10l5 5 5-5z" />
+                </svg>
+                <div
+                    className="w-30 rounded-[5px] px-2.5 py-0.5 text-white text-sm text-center -translate-x-2.5"
+                    style={{ backgroundColor: Colors.primary }}
+                >
+                    Mais vendido
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function CheckmarkSelecionado() {
+    return (
+        <div className="absolute -top-2.5 right-5">
+            <svg
+                className="w-12.5 h-12.5"
+                fill="none"
+                stroke={Colors.primary}
+                viewBox="0 0 24 24"
+            >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+        </div>
+    );
+}
+
+function BadgeEconomia({ texto }: { texto: string }) {
+    return (
+        <div className="mt-7.5 relative w-full flex justify-center items-center">
+            <svg
+                className="absolute -top-3.75 w-12.5 h-12.5 z-0"
+                fill={Colors.primary}
+                viewBox="0 0 24 24"
+            >
+                <path d="M7 10l5 5 5-5z" />
+            </svg>
+            <div
+                className="rounded-[5px] px-2.5 py-0.5 text-white text-sm font-medium z-10 whitespace-nowrap"
+                style={{ backgroundColor: Colors.primary }}
+            >
+                {texto}
+            </div>
+        </div>
+    );
+}
+
+function FeaturesBox({
+    isMaisVendido,
+    quantidadeUsuarios,
+}: {
+    isMaisVendido: boolean;
+    quantidadeUsuarios?: string;
+}) {
+    const spanClass = isMaisVendido ? "text-orange-100" : "text-gray-700";
+    const boxClass = isMaisVendido
+        ? "bg-white/10"
+        : "bg-orange-50 border border-orange-100";
+
+    const items: { icon: React.ReactNode; label: string }[] = [
+        {
+            icon: (
+                <svg className="w-4.5 h-4.5" fill={Colors.primary} viewBox="0 0 24 24">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                </svg>
+            ),
+            label: `${quantidadeUsuarios ?? "0"} Usuários`,
+        },
+        {
+            icon: (
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+            ),
+            label: "Painel Administrativo",
+        },
+        {
+            icon: (
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+            ),
+            label: "App Android e iOS",
+        },
+        {
+            icon: (
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+            ),
+            label: "Espaço ilimitado",
+        },
+    ];
+
+    return (
+        <div className={`mt-3.75 rounded-xl p-2.5 w-full ${boxClass}`}>
+            {items.map(({ icon, label }) => (
+                <div key={label} className="flex items-center mb-1.25 last:mb-0">
+                    <span className="mr-1.25">{icon}</span>
+                    <span className={`text-sm ${spanClass}`}>{label}</span>
+                </div>
+            ))}
         </div>
     );
 }

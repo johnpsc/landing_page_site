@@ -1,21 +1,30 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        brand: {
+          primary: "#E02041", // Main red GrandChef uses
+          secondary: "#F5F5F5",
+          dark: "#1A1A1A",
+          light: "#FFFFFF",
+          textMuted: "#6B7280",
+        },
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
       animation: {
-        'infinite-scroll': 'infinite-scroll 20s linear infinite',
+        "infinite-scroll": "infinite-scroll 20s linear infinite",
       },
       keyframes: {
-        'infinite-scroll': {
-          from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-50%)' },
-        }
-      }
+        "infinite-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-50%)" },
+        },
+      },
     },
   },
   plugins: [],
-}
+};
