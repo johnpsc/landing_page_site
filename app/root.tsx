@@ -70,11 +70,11 @@ export default function App() {
       {
         pathname: location.pathname,
         search: `?${params.toString()}`,
-        hash: location.hash,
+        hash: "",
       },
       { replace: true },
     );
-  }, [location.hash, location.pathname, navigate, searchParams]);
+  }, [location.pathname, navigate, searchParams]);
 
   return <Outlet />;
 }

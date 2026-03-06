@@ -62,11 +62,11 @@ export default function PaginaBaixar() {
             {
                 pathname: location.pathname,
                 search: `?${params.toString()}`,
-                hash: location.hash,
+                hash: "",
             },
             { replace: true },
         );
-    }, [cadastroRealizado, destinoManual, location.hash, location.pathname, navigate, searchParams]);
+    }, [cadastroRealizado, destinoManual, location.pathname, navigate, searchParams]);
 
     useEffect(() => {
         if (!destinoEhWeb) return;

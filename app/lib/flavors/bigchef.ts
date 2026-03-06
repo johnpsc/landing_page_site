@@ -63,7 +63,7 @@ export const bigchef: Flavor = {
     },
 
     links: {
-      webApp: "https://bigchef.com.br/#/autenticacao/login",
+      webApp: "https://bigchef.com.br/painel/#/autenticacao/login",
       appStoreInfo: URL_APP_STORE,
       playStoreInfo: URL_PLAY_STORE,
     },
