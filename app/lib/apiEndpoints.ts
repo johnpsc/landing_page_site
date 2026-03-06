@@ -7,6 +7,9 @@ export const API_PATHS = {
   preCadastroPainel: {
     inserir: "pre_cadastro_painel/inserir.php",
   },
+  atualizacoes: {
+    listar: "atualizacoes/listar.php",
+  },
 };
 
 export const API_ENDPOINTS = {
@@ -15,5 +18,8 @@ export const API_ENDPOINTS = {
   },
   preCadastroPainel: {
     inserir: `${API_CONFIG.BASE}${API_PATHS.preCadastroPainel.inserir}`,
+  },
+  atualizacoes: {
+    listar: `${API_CONFIG.BASE}${API_PATHS.atualizacoes.listar}`,
   },
 };

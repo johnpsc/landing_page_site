@@ -19,6 +19,12 @@ export async function fetchPlans() {
   return res.json();
 }
 
+export async function buscarLinksAtualizacoes() {
+  const res = await fetch(API_ENDPOINTS.atualizacoes.listar, { method: "GET" });
+  if (!res.ok) throw new Error(`Erro ao buscar atualizações: ${res.status}`);
+  return res.json();
+}
+
 export async function signup(payload: SignupPayload) {
   const res = await fetch(API_ENDPOINTS.preCadastroPainel.inserir, {
     method: "POST",

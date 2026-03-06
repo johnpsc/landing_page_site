@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SiteConfig, Texts, type DownloadPlatformKey } from "../lib/config";
+import { SiteConfig, Texts, type DownloadCategoryKey, type DownloadPlatformKey } from "../lib/config";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, type ClientOSKey } from "../lib/downloadUtils";
 import { Colors, Shadows } from "../lib/theme";
@@ -53,7 +53,25 @@ function ReqRow({ label, min, rec }: { label: string; min: string; rec: string }
 
 // ─── SecaoDownload ────────────────────────────────────────────────────────────
 
-export default function SecaoDownload() {
+type SecaoDownloadProps = {
+    tipo: DownloadCategoryKey[];
+    downloadUrl?: string;
+    downloadPrimaryLabel?: string;
+    downloadPrimaryVersion?: string;
+    downloadSecondaryUrl?: string;
+    downloadSecondaryLabel?: string;
+    downloadSecondaryVersion?: string;
+};
+
+export default function SecaoDownload({
+    tipo,
+    downloadUrl,
+    downloadPrimaryLabel,
+    downloadPrimaryVersion,
+    downloadSecondaryUrl,
+    downloadSecondaryLabel,
+    downloadSecondaryVersion,
+}: SecaoDownloadProps) {
     const [osDetectado, setOsDetectado] = useState<PlataformaKey>("unknown");
     const [mostrarOutras, setMostrarOutras] = useState(false);
 
@@ -61,7 +79,7 @@ export default function SecaoDownload() {
         setOsDetectado(detectClientOS());
     }, []);
 
-    const plataformaPrincipal = PLATAFORMAS.find((p) => p.platformKey === osDetectado) ?? PLATAFORMAS[0];
+    const plataformaPrincipal = PLATAFORMAS.filter((item) => tipo.includes(item.categoryKey)).find((p) => p.platformKey === osDetectado) ?? PLATAFORMAS[0];
     const outras = PLATAFORMAS.filter((p) => p.id !== plataformaPrincipal.id);
 
     return (
@@ -87,14 +105,17 @@ export default function SecaoDownload() {
 
                 {/* Botão principal */}
                 <a
-                    href={plataformaPrincipal.downloadUrl}
+                    href={downloadUrl ?? plataformaPrincipal.downloadUrl}
                     className="flex items-center justify-between w-full text-white rounded-2xl px-6 py-5 hover:-translate-y-0.5 transition-all duration-300 mb-4"
                     style={{ backgroundColor: Colors.primary, boxShadow: Shadows.heroBtnPrimary }}
                 >
                     <div className="flex items-center gap-4">
                         <span style={{ color: "rgba(255,255,255,0.85)" }}>{plataformaPrincipal.icon}</span>
                         <div className="text-left">
-                            <p className="font-extrabold text-lg leading-tight">{Texts.download.downloadBtnPrefix} {plataformaPrincipal.label}</p>
+                            <p className="font-extrabold text-lg leading-tight">{downloadPrimaryLabel ?? `${Texts.download.downloadBtnPrefix} ${plataformaPrincipal.label}`}</p>
+                            {downloadPrimaryVersion && (
+                                <p className="text-xs text-white/90 font-semibold">Versão {downloadPrimaryVersion}</p>
+                            )}
                             <p className="text-xs text-white/80 font-semibold">{plataformaPrincipal.category.label} · {plataformaPrincipal.category.descricao}</p>
                             <p className="text-sm text-white/70">{plataformaPrincipal.versao} · {plataformaPrincipal.tamanho}</p>
                         </div>
@@ -103,6 +124,29 @@ export default function SecaoDownload() {
                         <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
                 </a>
+
+                {downloadSecondaryUrl && (
+                    <a
+                        href={downloadSecondaryUrl}
+                        className="flex items-center justify-between w-full rounded-2xl px-6 py-4 border hover:-translate-y-0.5 transition-all duration-300 mb-4"
+                        style={{ borderColor: Colors.border, backgroundColor: Colors.light, color: Colors.primary }}
+                    >
+                        <div className="flex items-center gap-3">
+                            <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" className="shrink-0">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
+                            <div>
+                                <p className="font-bold text-sm">{downloadSecondaryLabel ?? "Baixar atualização"}</p>
+                                {downloadSecondaryVersion && (
+                                    <p className="text-xs" style={{ color: Colors.textMuted }}>Versão {downloadSecondaryVersion}</p>
+                                )}
+                            </div>
+                        </div>
+                        <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                            <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                )}
 
                 {/* Outras versões */}
                 <button
@@ -121,7 +165,7 @@ export default function SecaoDownload() {
 
                 {mostrarOutras && (
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {outras.map((p) => (
+                        {outras.filter((p) => tipo.includes(p.categoryKey)).map((p) => (
                             <a
                                 key={p.id}
                                 href={p.downloadUrl}

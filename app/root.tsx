@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -5,6 +6,9 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
+  useNavigate,
+  useSearchParams,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -47,6 +51,31 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams);
+    const destinoAtual = params.get("destino")?.trim();
+    const destinoOriginalAtual = params.get("destino_original")?.trim();
+
+    if (destinoOriginalAtual) return;
+
+    const destinoOriginalFinal = destinoAtual || "desktop";
+
+    params.set("destino_original", destinoOriginalFinal);
+
+    navigate(
+      {
+        pathname: location.pathname,
+        search: `?${params.toString()}`,
+        hash: location.hash,
+      },
+      { replace: true },
+    );
+  }, [location.hash, location.pathname, navigate, searchParams]);
+
   return <Outlet />;
 }
 

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useSearchParams } from "react-router";
 import { SiteConfig, type DownloadPlatformKey } from "../lib/config";
+import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, DOWNLOAD_BADGES, type ClientOSKey } from "../lib/downloadUtils";
 import { Colors, Shadows } from "../lib/theme";
@@ -38,10 +39,17 @@ const DOWNLOADS_HEADER: DownloadHeaderItem[] = SiteConfig.download.items.map((do
  */
 export default function CabecalhoSite() {
     const { pathname } = useLocation();
+    const [searchParams] = useSearchParams();
+    const destinoAtual = obterDestinoDownloadDaSearchParams(searchParams);
+    const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(searchParams);
     const [menuAberto, setMenuAberto] = useState(false);
     const [downloadAberto, setDownloadAberto] = useState(false);
     const [osDetectado, setOsDetectado] = useState<OSKey>("unknown");
     const dropdownRef = useRef<HTMLDivElement>(null);
+
+    function withDestino(url: string) {
+        return adicionarDestinoNaUrl(url, destinoAtual, destinoOriginalAtual);
+    }
 
     useEffect(() => {
         setOsDetectado(detectClientOS());
@@ -84,19 +92,19 @@ export default function CabecalhoSite() {
         <header className="fixed w-full top-0 z-50 shadow-(--shadow-header) backdrop-blur-md bg-white/90 transition-all border-b border-(--color-primary-light)">
             <div className="py-4 px-6 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                    <Link to="/" className="flex items-center" onClick={() => setMenuAberto(false)}>
+                    <Link to={withDestino("/")} className="flex items-center" onClick={() => setMenuAberto(false)}>
                         <img src={SiteConfig.logo} alt={`${SiteConfig.name} Logo`} className="h-10 object-contain" />
                     </Link>
                 </div>
 
                 <nav className="hidden md:flex space-x-8">
-                    <a href="/#funcionalidades" style={navStyle("/#funcionalidades")} className={navClass("/#funcionalidades")}>
+                    <a href={withDestino("/#funcionalidades")} style={navStyle("/#funcionalidades")} className={navClass("/#funcionalidades")}>
                         Recursos
                     </a>
-                    <a href="/#app-garcom" style={navStyle("/#app-garcom")} className={navClass("/#app-garcom")}>
+                    <a href={withDestino("/#app-garcom")} style={navStyle("/#app-garcom")} className={navClass("/#app-garcom")}>
                         App Garçom
                     </a>
-                    <Link to="/planos" style={navStyle("/planos")} className={navClass("/planos")}>
+                    <Link to={withDestino("/planos")} style={navStyle("/planos")} className={navClass("/planos")}>
                         Planos
                     </Link>
                 </nav>
@@ -107,7 +115,7 @@ export default function CabecalhoSite() {
                     <div className="hidden md:block relative" ref={dropdownRef}>
                         <button
                             onClick={() => setDownloadAberto((v) => !v)}
-                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-sm border bg-white hover:border-(--color-primary) hover:text-(--color-primary) transition-all duration-200"
+                            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-sm border bg-white hover:border-(--color-primary) hover:text-(--color-primary) transition-all duration-200 cursor-pointer"
                             style={{ color: Colors.textMuted, borderColor: Colors.border }}
                         >
                             <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -136,11 +144,12 @@ export default function CabecalhoSite() {
                                                     {cat.label}
                                                 </p>
                                                 {items.map((d) => {
+                                                    const downloadUrl = withDestino(d.downloadUrl);
                                                     const isRecomendado = d.platformKey === osDetectado;
                                                     return (
                                                         <a
                                                             key={d.id}
-                                                            href={d.downloadUrl}
+                                                            href={downloadUrl}
                                                             onClick={() => setDownloadAberto(false)}
                                                             className="flex items-center gap-2.5 px-4 py-2 transition-all hover:bg-orange-50 relative"
                                                             style={isRecomendado ? { backgroundColor: "rgba(255,122,0,0.06)" } : {}}
@@ -182,7 +191,7 @@ export default function CabecalhoSite() {
                     </a>
 
                     <Link
-                        to="/cadastro"
+                        to={withDestino("/cadastro")}
                         style={{ backgroundColor: Colors.primary, color: Colors.light, boxShadow: Shadows.ctaNormal }}
                         className="px-6 py-2.5 rounded-xl font-semibold hover:shadow-(--shadow-cta-hover) hover:-translate-y-0.5 transition-all duration-300"
                     >
@@ -214,13 +223,13 @@ export default function CabecalhoSite() {
             {/* Menu mobile */}
             {menuAberto && (
                 <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md px-4 pb-4 flex flex-col gap-1">
-                    <a href="/#funcionalidades" style={navStyleMobile("/#funcionalidades")} className={navClassMobile("/#funcionalidades")} onClick={() => setMenuAberto(false)}>
+                    <a href={withDestino("/#funcionalidades")} style={navStyleMobile("/#funcionalidades")} className={navClassMobile("/#funcionalidades")} onClick={() => setMenuAberto(false)}>
                         Recursos
                     </a>
-                    <a href="/#app-garcom" style={navStyleMobile("/#app-garcom")} className={navClassMobile("/#app-garcom")} onClick={() => setMenuAberto(false)}>
+                    <a href={withDestino("/#app-garcom")} style={navStyleMobile("/#app-garcom")} className={navClassMobile("/#app-garcom")} onClick={() => setMenuAberto(false)}>
                         App Garçom
                     </a>
-                    <Link to="/planos" style={navStyleMobile("/planos")} className={navClassMobile("/planos")} onClick={() => setMenuAberto(false)}>
+                    <Link to={withDestino("/planos")} style={navStyleMobile("/planos")} className={navClassMobile("/planos")} onClick={() => setMenuAberto(false)}>
                         Planos
                     </Link>
 
@@ -235,11 +244,12 @@ export default function CabecalhoSite() {
                                         {cat.label}
                                     </p>
                                     {items.map((d) => {
+                                        const downloadUrl = withDestino(d.downloadUrl);
                                         const isRec = d.platformKey === osDetectado;
                                         return (
                                             <a
                                                 key={d.id}
-                                                href={d.downloadUrl}
+                                                href={downloadUrl}
                                                 onClick={() => setMenuAberto(false)}
                                                 className="flex items-center gap-2.5 px-4 py-2.5 border-t border-gray-50"
                                                 style={isRec ? { backgroundColor: "rgba(255,122,0,0.06)" } : {}}

@@ -1,7 +1,7 @@
 // ─── Tipos de Download ────────────────────────────────────────────────────────
 
 export type DownloadPlatformKey = "windows" | "mac" | "linux" | "android" | "ios";
-export type DownloadCategoryKey = "sistema_principal" | "app_garcom" | (string & {});
+export type DownloadCategoryKey = "sistema_desktop" | "sistema_web" | "app_garcom" | (string & {});
 
 export type DownloadCategory = {
   key: DownloadCategoryKey;
@@ -30,25 +30,25 @@ export type SystemRequirementsRow = {
 
 /** Paleta de cores do flavor. Espelha app.css :root e theme.ts Colors. */
 export type FlavorColors = {
-  primary: string;
-  primaryDark: string;
-  primaryLight: string;
-  accent: string;
-  dark: string;
-  light: string;
-  border: string;
-  textMuted: string;
-  textDisabled: string;
-  /** Alias de retrocompatibilidade — mesmo valor de primaryLight */
-  secondary: string;
+  primaria: string;
+  primariaEscura: string;
+  primariaClara: string;
+  destaque: string;
+  escura: string;
+  clara: string;
+  borda: string;
+  textoSuave: string;
+  textoDesabilitado: string;
+  /** Alias de retrocompatibilidade — mesmo valor de primariaClara */
+  secundaria: string;
 };
 
 /** Imagens e assets do flavor */
 export type FlavorImages = {
-  heroGif: string;
-  dashboardPreview: string;
-  whatsappSim: string;
-  testimonial1: string;
+  gifHeroi: string;
+  preVisualizacaoPainel: string;
+  simulacaoWhatsapp: string;
+  depoimento1: string;
   aiqfome: string;
   ifood: string;
 };
@@ -58,15 +58,15 @@ export type FlavorImages = {
  * que as sombras acompanhem automaticamente a paleta do flavor.
  */
 export type FlavorShadows = {
-  header: string;
-  dashboardImage: string;
-  ctaNormal: string;
+  cabecalho: string;
+  imagemPainel: string;
+  ctaPadrao: string;
   ctaHover: string;
-  heroBtnPrimary: string;
-  pricingBtn: string;
-  pricingBtnHover: string;
-  featureCard: string;
-  planSelected: string;
+  botaoHeroiPrimario: string;
+  botaoPreco: string;
+  botaoPrecoHover: string;
+  cardFuncionalidade: string;
+  planoSelecionado: string;
 };
 
 /** Configurações textuais e de dados do flavor */
@@ -79,7 +79,7 @@ export type FlavorConfig = {
   logo: string;
   logoColored: string;
   /** Duração do período de teste gratuito (em dias) */
-  trialDays: number;
+  diasTeste: number;
   contact: {
     whatsappUrl: string;
     email: string;
@@ -110,103 +110,103 @@ export type FlavorConfig = {
 /** Todos os textos visíveis nas páginas, centralizados por flavor */
 export type FlavorTexts = {
   // ── Página inicial (inicio.tsx) ──────────────────────────────────────────
-  hero: {
-    badge: string;
-    titleBefore: string;
-    titleHighlight: string;
-    subtitle: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
+  heroi: {
+    selo: string;
+    tituloAntes: string;
+    tituloDestaque: string;
+    subtitulo: string;
+    ctaPrimario: string;
+    ctaSecundario: string;
   };
   appGarcom: {
-    badge: string;
-    title: string;
-    titleHighlight: string;
-    subtitle: string;
-    features: Array<{ title: string; desc: string }>;
+    selo: string;
+    titulo: string;
+    tituloDestaque: string;
+    subtitulo: string;
+    recursos: Array<{ titulo: string; descricao: string }>;
   };
   funcionalidades: {
-    title: string;
-    subtitle: string;
-    cards: Array<{ icon: string; title: string; desc: string }>;
+    titulo: string;
+    subtitulo: string;
+    cartoes: Array<{ icone: string; titulo: string; descricao: string }>;
   };
-  stats: {
-    badge: string;
-    title: string;
-    items: Array<{ value: string; label: string; icon: string }>;
-    testimonials: Array<{ quote: string; name: string; role: string; initials: string }>;
+  estatisticas: {
+    selo: string;
+    titulo: string;
+    itens: Array<{ valor: string; rotulo: string; icone: string }>;
+    depoimentos: Array<{ citacao: string; nome: string; papel: string; iniciais: string }>;
   };
   suporte: {
-    badge: string;
-    title: string;
-    subtitle: string;
-    cards: Array<{
-      icon: string;
-      title: string;
-      desc: string;
+    selo: string;
+    titulo: string;
+    subtitulo: string;
+    cartoes: Array<{
+      icone: string;
+      titulo: string;
+      descricao: string;
       destaque?: boolean;
-      destaqueLabel?: string;
+      rotuloDestaque?: string;
     }>;
-    scheduleTitle: string;
-    sundayLabel: string;
-    sundayValue: string;
-    sundayNote: string;
-    fullSupportNote: string;
+    tituloHorario: string;
+    rotuloDomingo: string;
+    valorDomingo: string;
+    notaDomingo: string;
+    notaSuporteCompleto: string;
   };
   contato: {
-    badge: string;
-    title: string;
-    subtitle: string;
-    whatsappLabel: string;
-    whatsappNote: string;
-    emailLabel: string;
-    formBtnText: string;
-    formNote: string;
+    selo: string;
+    titulo: string;
+    subtitulo: string;
+    rotuloWhatsapp: string;
+    notaWhatsapp: string;
+    rotuloEmail: string;
+    textoBotaoFormulario: string;
+    notaFormulario: string;
   };
-  ctaFinal: {
-    badge: string;
-    title: string;
-    subtitle: string;
-    ctaPrimary: string;
-    ctaSecondary: string;
+  chamadaFinal: {
+    selo: string;
+    titulo: string;
+    subtitulo: string;
+    ctaPrimario: string;
+    ctaSecundario: string;
   };
   // ── Página de cadastro (cadastro.tsx) ────────────────────────────────────
   cadastro: {
-    trialBadge: string;
-    formTitle: string;
-    formSubtitle: string;
-    formFieldEstabelecimento: string;
-    formFieldEstabelecimentoPlaceholder: string;
-    sidebarRiskBadge: string;
-    sidebarTitle: string;
-    sidebarItems: string[];
-    sidebarModulesLabel: string;
-    sidebarModules: string[];
+    seloTeste: string;
+    tituloFormulario: string;
+    subtituloFormulario: string;
+    campoEstabelecimento: string;
+    placeholderCampoEstabelecimento: string;
+    seloRiscoLateral: string;
+    tituloLateral: string;
+    itensLateral: string[];
+    rotuloModulosLateral: string;
+    modulosLateral: string[];
   };
   // ── Página de download (baixar.tsx) ──────────────────────────────────────
   baixar: {
-    successTitle: string;
-    successSubtitle: string;
-    webAccessLabel: string;
+    tituloSucesso: string;
+    subtituloSucesso: string;
+    rotuloAcessoWeb: string;
   };
   // ── Componente SecaoDownload ─────────────────────────────────────────────
   download: {
-    sectionTitle: string;
-    osDetectedPrefix: string;
-    osUnknown: string;
-    downloadBtnPrefix: string;
-    otherPlatformsBtn: string;
-    stepsTitle: string;
-    steps: Array<{ titulo: string; desc: string }>;
-    requirementsTitle: string;
-    desktopLabel: string;
-    mobileLabel: string;
+    tituloSecao: string;
+    prefixoOsDetectado: string;
+    osDesconhecido: string;
+    prefixoBotaoDownload: string;
+    botaoOutrasPlataformas: string;
+    tituloPassos: string;
+    passos: Array<{ titulo: string; descricao: string }>;
+    tituloRequisitos: string;
+    rotuloDesktop: string;
+    rotuloMobile: string;
   };
   // ── Página de planos (HeroPlanos.tsx) ────────────────────────────────────
   planos: {
-    heroBadge: string;
-    heroTitle: string;
-    heroSubtitle: string;
+    seloHeroi: string;
+    tituloHeroi: string;
+    subtituloHeroi: string;
   };
 };
 
@@ -214,9 +214,9 @@ export type FlavorTexts = {
 export type Flavor = {
   /** Identificador único do flavor (deve coincidir com a chave em FLAVORS) */
   id: string;
-  colors: FlavorColors;
-  images: FlavorImages;
-  shadows: FlavorShadows;
-  config: FlavorConfig;
-  texts: FlavorTexts;
+  cores: FlavorColors;
+  imagens: FlavorImages;
+  sombras: FlavorShadows;
+  configuracao: FlavorConfig;
+  textos: FlavorTexts;
 };

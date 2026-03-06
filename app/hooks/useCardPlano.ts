@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../models/ModeloPlanos";
 import { calcularEconomia, calcularValorMensal, quebrarValorEmPartes } from "../utils/calculoPlanos";
 import { formatarReal, formatarRealSemSimbolo } from "../utils/formatacao";
@@ -19,6 +20,9 @@ interface UseCardPlanoOptions {
  */
 export function useCardPlano({ item, tipodemensalidadeSelecionado, mostrarPlanoCliente }: UseCardPlanoOptions) {
   const navigate = useNavigate();
+  const { search } = useLocation();
+  const destinoAtual = obterDestinoDownloadDaSearchParams(new URLSearchParams(search));
+  const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(new URLSearchParams(search));
   const [carregando, setCarregando] = useState(false);
 
   // Mock do usuário — substituir por contexto real de autenticação
@@ -52,7 +56,16 @@ export function useCardPlano({ item, tipodemensalidadeSelecionado, mostrarPlanoC
   async function escolherPlano() {
     // Visitante (landing page) → redireciona direto para o cadastro
     if (!mostrarPlanoCliente) {
-      navigate(`/cadastro?plano=${item.id}&mensalidade=${tipodemensalidadeSelecionado?.id ?? ""}&valor=${valorTotal}`);
+      const params = new URLSearchParams();
+      params.set("plano", item.id);
+      params.set("mensalidade", tipodemensalidadeSelecionado?.id ?? "");
+      params.set("valor", valorTotal);
+      if (destinoOriginalAtual) {
+        params.set("destino_original", destinoOriginalAtual);
+      } else if (destinoAtual) {
+        params.set("destino_original", destinoAtual);
+      }
+      navigate(`/cadastro?${params.toString()}`);
       return;
     }
 

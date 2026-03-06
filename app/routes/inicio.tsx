@@ -1,8 +1,9 @@
 ﻿import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
 import RodapeSite from "../components/RodapeSite";
 import { SiteConfig, Texts } from "../lib/config";
+import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
 import { Colors, Fonts, Images, Shadows } from "../lib/theme";
 
 export function meta() {
@@ -10,6 +11,12 @@ export function meta() {
 }
 
 export default function Home() {
+  const [searchParams] = useSearchParams();
+  const destinoAtual = obterDestinoDownloadDaSearchParams(searchParams);
+  const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(searchParams);
+  const cadastroUrl = adicionarDestinoNaUrl("/cadastro", destinoAtual, destinoOriginalAtual);
+  const planosUrl = adicionarDestinoNaUrl("/planos", destinoAtual, destinoOriginalAtual);
+
   return (
     <div style={{ fontFamily: Fonts.main, backgroundColor: Colors.light, color: Colors.dark }} className="min-h-screen selection:bg-(--color-primary) selection:text-white">
       <CabecalhoSite />
@@ -37,7 +44,7 @@ export default function Home() {
 
         <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 mb-16">
           <Link
-            to="/cadastro"
+            to={cadastroUrl}
             style={{ backgroundColor: Colors.primary, boxShadow: Shadows.heroBtnPrimary }}
             className="text-white px-8 py-4 rounded-xl font-bold text-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-center"
           >
@@ -352,13 +359,13 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/cadastro"
+              to={cadastroUrl}
               style={{ backgroundColor: Colors.primary, boxShadow: Shadows.heroBtnPrimary }}
               className="text-white px-10 py-4 rounded-xl font-bold text-lg hover:-translate-y-1 transition-all duration-300"
             >
               {Texts.ctaFinal.ctaPrimary.replace("{trialDays}", String(SiteConfig.trialDays))}
             </Link>
-            <Link to="/planos" style={{ color: Colors.dark }} className="px-10 py-4 rounded-xl font-bold text-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors">
+            <Link to={planosUrl} style={{ color: Colors.dark }} className="px-10 py-4 rounded-xl font-bold text-lg bg-white border border-gray-200 hover:bg-gray-50 transition-colors">
               {Texts.ctaFinal.ctaSecondary}
             </Link>
           </div>

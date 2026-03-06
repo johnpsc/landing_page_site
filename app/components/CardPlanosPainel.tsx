@@ -101,7 +101,7 @@ export default function CardPlanosPainel({
                                 <button
                                     disabled={isSelecionado}
                                     onClick={escolherPlano}
-                                    className={`w-full h-full rounded-xl text-[16px] font-semibold transition-all flex items-center justify-center hover:-translate-y-0.5 ${isSelecionado ? "cursor-not-allowed opacity-70" : ""
+                                    className={`w-full h-full rounded-xl text-[16px] font-semibold transition-all flex items-center justify-center hover:-translate-y-0.5 ${isSelecionado ? "cursor-not-allowed opacity-70" : "cursor-pointer"
                                         }`}
                                     style={{
                                         backgroundColor: isSelecionado ? Colors.textDisabled : Colors.primary,

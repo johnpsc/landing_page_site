@@ -1,5 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../../lib/downloadDestino";
 import { Colors } from "../../lib/theme";
 import type {
     ModeloComparacaoDeModulosCad,
@@ -25,15 +26,25 @@ export default function ComparisonTable({
     tableRef,
 }: ComparisonTableProps) {
     const navigate = useNavigate();
+    const { search } = useLocation();
+    const destinoAtual = obterDestinoDownloadDaSearchParams(new URLSearchParams(search));
+    const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(new URLSearchParams(search));
 
     function handleEscolherPlano(plano: ModeloPlanos) {
         const valorFormatado = calcularValorFormatado(
             plano.valordoplano,
             tipodemensalidadeSelecionado
         );
-        navigate(
-            `/cadastro?plano=${plano.id}&mensalidade=${tipodemensalidadeSelecionado?.id ?? ""}&valor=${valorFormatado.valorOriginal.toFixed(2)}`
-        );
+        const params = new URLSearchParams();
+        params.set("plano", plano.id);
+        params.set("mensalidade", tipodemensalidadeSelecionado?.id ?? "");
+        params.set("valor", valorFormatado.valorOriginal.toFixed(2));
+        if (destinoOriginalAtual) {
+            params.set("destino_original", destinoOriginalAtual);
+        } else if (destinoAtual) {
+            params.set("destino_original", destinoAtual);
+        }
+        navigate(`/cadastro?${params.toString()}`);
     }
 
     return (
@@ -106,7 +117,7 @@ export default function ComparisonTable({
 
                                         <div className="w-full h-7.5 mt-1.25">
                                             <button
-                                                className="w-full h-full text-white rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center"
+                                                className="w-full h-full text-white rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center cursor-pointer"
                                                 style={{ backgroundColor: Colors.primary }}
                                                 onClick={() => handleEscolherPlano(plano)}
                                             >

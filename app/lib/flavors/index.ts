@@ -1,7 +1,7 @@
 import { bigchef } from "./bigchef";
 import { mulherz } from "./mulherz";
 import { sagestart } from "./sagestart";
-import type { Flavor, FlavorColors, FlavorShadows } from "./types";
+import type { Flavor } from "./types";
 
 export * from "./types";
 
@@ -26,14 +26,162 @@ export const activeFlavor: Flavor = FLAVORS[FLAVOR_KEY] ?? FLAVORS.bigchef;
 
 // ─── Exports compatíveis com config.ts e theme.ts ────────────────────────────
 
-export const SiteConfig = activeFlavor.config;
-export const Colors: FlavorColors = activeFlavor.colors;
-export const Images = activeFlavor.images;
-export const Shadows: FlavorShadows = activeFlavor.shadows;
-export const Texts = activeFlavor.texts;
+export const SiteConfig = {
+  ...activeFlavor.configuracao,
+  trialDays: activeFlavor.configuracao.diasTeste,
+};
+
+export const Colors = {
+  primary: activeFlavor.cores.primaria,
+  primaryDark: activeFlavor.cores.primariaEscura,
+  primaryLight: activeFlavor.cores.primariaClara,
+  accent: activeFlavor.cores.destaque,
+  dark: activeFlavor.cores.escura,
+  light: activeFlavor.cores.clara,
+  border: activeFlavor.cores.borda,
+  textMuted: activeFlavor.cores.textoSuave,
+  textDisabled: activeFlavor.cores.textoDesabilitado,
+  secondary: activeFlavor.cores.secundaria,
+};
+
+export const Images = {
+  heroGif: activeFlavor.imagens.gifHeroi,
+  dashboardPreview: activeFlavor.imagens.preVisualizacaoPainel,
+  whatsappSim: activeFlavor.imagens.simulacaoWhatsapp,
+  testimonial1: activeFlavor.imagens.depoimento1,
+  aiqfome: activeFlavor.imagens.aiqfome,
+  ifood: activeFlavor.imagens.ifood,
+};
+
+export const Shadows = {
+  header: activeFlavor.sombras.cabecalho,
+  dashboardImage: activeFlavor.sombras.imagemPainel,
+  ctaNormal: activeFlavor.sombras.ctaPadrao,
+  ctaHover: activeFlavor.sombras.ctaHover,
+  heroBtnPrimary: activeFlavor.sombras.botaoHeroiPrimario,
+  pricingBtn: activeFlavor.sombras.botaoPreco,
+  pricingBtnHover: activeFlavor.sombras.botaoPrecoHover,
+  featureCard: activeFlavor.sombras.cardFuncionalidade,
+  planSelected: activeFlavor.sombras.planoSelecionado,
+};
+export const Texts = {
+  hero: {
+    badge: activeFlavor.textos.heroi.selo,
+    titleBefore: activeFlavor.textos.heroi.tituloAntes,
+    titleHighlight: activeFlavor.textos.heroi.tituloDestaque,
+    subtitle: activeFlavor.textos.heroi.subtitulo,
+    ctaPrimary: activeFlavor.textos.heroi.ctaPrimario,
+    ctaSecondary: activeFlavor.textos.heroi.ctaSecundario,
+  },
+  appGarcom: {
+    badge: activeFlavor.textos.appGarcom.selo,
+    title: activeFlavor.textos.appGarcom.titulo,
+    titleHighlight: activeFlavor.textos.appGarcom.tituloDestaque,
+    subtitle: activeFlavor.textos.appGarcom.subtitulo,
+    features: activeFlavor.textos.appGarcom.recursos.map((recurso) => ({
+      title: recurso.titulo,
+      desc: recurso.descricao,
+    })),
+  },
+  funcionalidades: {
+    title: activeFlavor.textos.funcionalidades.titulo,
+    subtitle: activeFlavor.textos.funcionalidades.subtitulo,
+    cards: activeFlavor.textos.funcionalidades.cartoes.map((cartao) => ({
+      icon: cartao.icone,
+      title: cartao.titulo,
+      desc: cartao.descricao,
+    })),
+  },
+  stats: {
+    badge: activeFlavor.textos.estatisticas.selo,
+    title: activeFlavor.textos.estatisticas.titulo,
+    items: activeFlavor.textos.estatisticas.itens.map((item) => ({
+      value: item.valor,
+      label: item.rotulo,
+      icon: item.icone,
+    })),
+    testimonials: activeFlavor.textos.estatisticas.depoimentos.map((depoimento) => ({
+      quote: depoimento.citacao,
+      name: depoimento.nome,
+      role: depoimento.papel,
+      initials: depoimento.iniciais,
+    })),
+  },
+  suporte: {
+    badge: activeFlavor.textos.suporte.selo,
+    title: activeFlavor.textos.suporte.titulo,
+    subtitle: activeFlavor.textos.suporte.subtitulo,
+    cards: activeFlavor.textos.suporte.cartoes.map((cartao) => ({
+      icon: cartao.icone,
+      title: cartao.titulo,
+      desc: cartao.descricao,
+      destaque: cartao.destaque,
+      destaqueLabel: cartao.rotuloDestaque,
+    })),
+    scheduleTitle: activeFlavor.textos.suporte.tituloHorario,
+    sundayLabel: activeFlavor.textos.suporte.rotuloDomingo,
+    sundayValue: activeFlavor.textos.suporte.valorDomingo,
+    sundayNote: activeFlavor.textos.suporte.notaDomingo,
+    fullSupportNote: activeFlavor.textos.suporte.notaSuporteCompleto,
+  },
+  contato: {
+    badge: activeFlavor.textos.contato.selo,
+    title: activeFlavor.textos.contato.titulo,
+    subtitle: activeFlavor.textos.contato.subtitulo,
+    whatsappLabel: activeFlavor.textos.contato.rotuloWhatsapp,
+    whatsappNote: activeFlavor.textos.contato.notaWhatsapp,
+    emailLabel: activeFlavor.textos.contato.rotuloEmail,
+    formBtnText: activeFlavor.textos.contato.textoBotaoFormulario,
+    formNote: activeFlavor.textos.contato.notaFormulario,
+  },
+  ctaFinal: {
+    badge: activeFlavor.textos.chamadaFinal.selo,
+    title: activeFlavor.textos.chamadaFinal.titulo,
+    subtitle: activeFlavor.textos.chamadaFinal.subtitulo,
+    ctaPrimary: activeFlavor.textos.chamadaFinal.ctaPrimario,
+    ctaSecondary: activeFlavor.textos.chamadaFinal.ctaSecundario,
+  },
+  cadastro: {
+    trialBadge: activeFlavor.textos.cadastro.seloTeste,
+    formTitle: activeFlavor.textos.cadastro.tituloFormulario,
+    formSubtitle: activeFlavor.textos.cadastro.subtituloFormulario,
+    formFieldEstabelecimento: activeFlavor.textos.cadastro.campoEstabelecimento,
+    formFieldEstabelecimentoPlaceholder: activeFlavor.textos.cadastro.placeholderCampoEstabelecimento,
+    sidebarRiskBadge: activeFlavor.textos.cadastro.seloRiscoLateral,
+    sidebarTitle: activeFlavor.textos.cadastro.tituloLateral,
+    sidebarItems: activeFlavor.textos.cadastro.itensLateral,
+    sidebarModulesLabel: activeFlavor.textos.cadastro.rotuloModulosLateral,
+    sidebarModules: activeFlavor.textos.cadastro.modulosLateral,
+  },
+  baixar: {
+    successTitle: activeFlavor.textos.baixar.tituloSucesso,
+    successSubtitle: activeFlavor.textos.baixar.subtituloSucesso,
+    webAccessLabel: activeFlavor.textos.baixar.rotuloAcessoWeb,
+  },
+  download: {
+    sectionTitle: activeFlavor.textos.download.tituloSecao,
+    osDetectedPrefix: activeFlavor.textos.download.prefixoOsDetectado,
+    osUnknown: activeFlavor.textos.download.osDesconhecido,
+    downloadBtnPrefix: activeFlavor.textos.download.prefixoBotaoDownload,
+    otherPlatformsBtn: activeFlavor.textos.download.botaoOutrasPlataformas,
+    stepsTitle: activeFlavor.textos.download.tituloPassos,
+    steps: activeFlavor.textos.download.passos.map((passo) => ({
+      titulo: passo.titulo,
+      desc: passo.descricao,
+    })),
+    requirementsTitle: activeFlavor.textos.download.tituloRequisitos,
+    desktopLabel: activeFlavor.textos.download.rotuloDesktop,
+    mobileLabel: activeFlavor.textos.download.rotuloMobile,
+  },
+  planos: {
+    heroBadge: activeFlavor.textos.planos.seloHeroi,
+    heroTitle: activeFlavor.textos.planos.tituloHeroi,
+    heroSubtitle: activeFlavor.textos.planos.subtituloHeroi,
+  },
+};
 
 export const Gradients = {
-  heroTitle: `linear-gradient(to right, ${activeFlavor.colors.primary}, ${activeFlavor.colors.primaryDark})`,
+  heroTitle: `linear-gradient(to right, ${activeFlavor.cores.primaria}, ${activeFlavor.cores.primariaEscura})`,
 };
 
 export const Fonts = {
@@ -48,26 +196,26 @@ export const Fonts = {
  * Tailwind que usam var(--color-primary) etc. funcionem com qualquer flavor.
  */
 export function buildCssVars(flavor: Flavor): string {
-  const c = flavor.colors;
-  const s = flavor.shadows;
+  const c = flavor.cores;
+  const s = flavor.sombras;
   return `:root {
-  --color-primary: ${c.primary};
-  --color-primary-dark: ${c.primaryDark};
-  --color-primary-light: ${c.primaryLight};
-  --color-accent: ${c.accent};
-  --color-dark: ${c.dark};
-  --color-light: ${c.light};
-  --color-border: ${c.border};
-  --color-text-muted: ${c.textMuted};
-  --color-text-disabled: ${c.textDisabled};
-  --shadow-header: ${s.header};
-  --shadow-dashboard: ${s.dashboardImage};
-  --shadow-cta-normal: ${s.ctaNormal};
+  --color-primary: ${c.primaria};
+  --color-primary-dark: ${c.primariaEscura};
+  --color-primary-light: ${c.primariaClara};
+  --color-accent: ${c.destaque};
+  --color-dark: ${c.escura};
+  --color-light: ${c.clara};
+  --color-border: ${c.borda};
+  --color-text-muted: ${c.textoSuave};
+  --color-text-disabled: ${c.textoDesabilitado};
+  --shadow-header: ${s.cabecalho};
+  --shadow-dashboard: ${s.imagemPainel};
+  --shadow-cta-normal: ${s.ctaPadrao};
   --shadow-cta-hover: ${s.ctaHover};
-  --shadow-hero-btn: ${s.heroBtnPrimary};
-  --shadow-pricing-btn: ${s.pricingBtn};
-  --shadow-pricing-btn-hover: ${s.pricingBtnHover};
-  --shadow-feature-card: ${s.featureCard};
-  --shadow-plan-selected: ${s.planSelected};
+  --shadow-hero-btn: ${s.botaoHeroiPrimario};
+  --shadow-pricing-btn: ${s.botaoPreco};
+  --shadow-pricing-btn-hover: ${s.botaoPrecoHover};
+  --shadow-feature-card: ${s.cardFuncionalidade};
+  --shadow-plan-selected: ${s.planoSelecionado};
 }`;
 }

@@ -7,6 +7,12 @@ interface PlanTypeSelectorProps {
     onChange: (tipo: ModeloTipoDeMensalidade) => void;
 }
 
+/** 10.00 → "10" | 10.20 → "10.20" | 10.21 → "10.21" */
+function formatDesconto(value: string): string {
+    const n = parseFloat(value);
+    return n % 1 === 0 ? String(Math.round(n)) : n.toFixed(2);
+}
+
 /**
  * Botões de seleção de tipo de mensalidade (mensal, trimestral, anual…).
  * Exibe badge de desconto acima do botão quando aplicável.
@@ -17,34 +23,34 @@ export default function PlanTypeSelector({
     onChange,
 }: PlanTypeSelectorProps) {
     return (
-        <div className="mt-10 flex justify-center px-4">
+        <div className="mt-10 flex justify-center px-4 w-full">
             <div
-                className="inline-flex items-center rounded-full border p-1"
-                style={{ borderColor: Colors.border, backgroundColor: "white" }}
+                className="flex flex-col gap-4 w-full max-w-sm md:w-auto md:max-w-none md:gap-0 md:inline-flex md:flex-row md:items-center md:rounded-full md:border md:p-1 md:bg-white"
+                style={{ borderColor: Colors.border }}
             >
                 {tipos.map((tipo) => {
                     const isSelected = selecionado?.id === tipo.id;
                     const hasDiscount = parseFloat(tipo.percentualdedesconto) > 0;
 
                     return (
-                        <div key={tipo.id} className="relative">
+                        <div key={tipo.id} className="relative w-full md:w-auto">
                             {hasDiscount && (
                                 <div
                                     className="absolute -top-3 left-1/2 -translate-x-1/2 text-white text-xs px-2 py-0.5 rounded-full font-bold shadow-sm z-10 whitespace-nowrap"
                                     style={{ backgroundColor: Colors.primary }}
                                 >
-                                    -{tipo.percentualdedesconto}%
+                                    -{formatDesconto(tipo.percentualdedesconto)}%
                                 </div>
                             )}
 
                             <button
                                 onClick={() => onChange(tipo)}
-                                className="h-12 min-w-36 px-8 rounded-full text-[17px] font-bold uppercase leading-none transition-all duration-200"
-                                style={
-                                    isSelected
-                                        ? { backgroundColor: Colors.primary, color: "white" }
-                                        : { backgroundColor: "transparent", color: Colors.primary }
-                                }
+                                className={`h-12 px-8 rounded-full text-[17px] font-bold uppercase leading-none transition-all duration-200 w-full md:w-auto md:min-w-36 cursor-pointer ${isSelected ? 'shadow-md md:shadow-none' : 'bg-white border md:border-0 md:bg-transparent shadow-sm md:shadow-none'}`}
+                                style={{
+                                    backgroundColor: isSelected ? Colors.primary : undefined,
+                                    color: isSelected ? "white" : Colors.primary,
+                                    borderColor: Colors.border
+                                }}
                             >
                                 {tipo.nome}
                             </button>

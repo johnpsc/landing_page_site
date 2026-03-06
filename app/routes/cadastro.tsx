@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
 import RodapeSite from "../components/RodapeSite";
 import { SiteConfig, Texts } from "../lib/config";
+import { normalizarDestinoDownload } from "../lib/downloadDestino";
 import { Colors, Fonts, Shadows } from "../lib/theme";
 import { signup } from "../services/ServicoApi";
 import { maskCNPJ, maskPhone } from "../utils/formatacao";
@@ -40,6 +41,8 @@ function CheckItem({ children }: { children: React.ReactNode }) {
 
 export default function PaginaNovoCadastro() {
   const [searchParams] = useSearchParams();
+  const destinoCampanha = searchParams.get("destino_original")?.trim();
+  const destinoDownload = normalizarDestinoDownload(destinoCampanha);
 
   const [form, setForm] = useState({
     nome_da_empresa: "",
@@ -96,7 +99,10 @@ export default function PaginaNovoCadastro() {
     try {
       const res = await signup(form as any);
       if (res.sucesso) {
-        navigate("/baixar?cadastro=1");
+        const params = new URLSearchParams();
+        params.set("cadastro", "1");
+        params.set("destino_original", destinoDownload);
+        navigate(`/baixar?${params.toString()}`);
       } else {
         setSubmitError(res.mensagem || "Falha ao cadastrar. Tente novamente.");
       }
