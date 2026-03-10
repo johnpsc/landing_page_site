@@ -54,6 +54,47 @@ export const mulherz: Flavor = {
     logoColored: "https://via.placeholder.com/200x60?text=Mulherz",
     diasTeste: 7,
 
+    secoes: ['heroi', 'appGarcom', 'funcionalidades', 'estatisticas', 'suporte', 'contato', 'chamadaFinal'],
+    cabecalho: true,
+    rodape: true,
+
+    menus: {
+      funcionalidades: {
+        rotulo: "Funcionalidades",
+        prefixoRota: "/funcionalidades",
+        itens: [
+          { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+          { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+          { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+          { rotulo: "Financeiro", slug: "financeiro" },
+          { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+          { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+        ],
+      },
+      segmentos: {
+        rotulo: "Segmentos",
+        prefixoRota: "/segmentos",
+        itens: [
+          { rotulo: "Restaurantes", slug: "restaurantes" },
+          { rotulo: "Bares e Baladas", slug: "bares-e-baladas" },
+          { rotulo: "Cafeterias", slug: "cafeterias" },
+          { rotulo: "Dark Kitchens", slug: "dark-kitchens" },
+          { rotulo: "Sistema para Delivery", slug: "sistema-para-delivery" },
+        ],
+      },
+      plataformas: {
+        rotulo: "Plataformas",
+        prefixoRota: "/plataformas",
+        itens: [
+          { rotulo: "Windows", slug: "windows" },
+          { rotulo: "Mac", slug: "mac" },
+          { rotulo: "Linux", slug: "linux" },
+          { rotulo: "Android", slug: "android" },
+          { rotulo: "iOS", slug: "ios" },
+        ],
+      },
+    },
+
     contact: {
       whatsappUrl: "https://wa.me/5500000000002",
       email: "contato@mulherz.com.br",

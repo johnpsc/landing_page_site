@@ -21,15 +21,15 @@ export default function PlansHero() {
       />
 
       <div className="relative z-10 max-w-2xl mx-auto">
-        <span className="inline-flex items-center space-x-2 bg-orange-500/20 text-orange-300 px-4 py-2 rounded-full font-medium text-sm mb-6 border border-orange-500/30">
-          <span className="flex h-2 w-2 rounded-full bg-orange-400" />
+        <span className="inline-flex items-center space-x-2 px-4 py-2 rounded-full font-medium text-sm mb-6 border" style={{ backgroundColor: `${Colors.primary}33`, color: `${Colors.primaryLight}CC`, borderColor: `${Colors.primary}4D` }}>
+          <span className="flex h-2 w-2 rounded-full" style={{ backgroundColor: `${Colors.primary}99` }} />
           <span>{SiteConfig.trialDays} {Texts.planos.heroBadge}</span>
         </span>
 
         <h1 className="text-white text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
           {Texts.planos.heroTitle}
         </h1>
-        <p className="text-orange-100 text-lg max-w-xl mx-auto leading-relaxed">
+        <p className="text-lg max-w-xl mx-auto leading-relaxed" style={{ color: `${Colors.primaryLight}CC` }}>
           {Texts.planos.heroSubtitle.replace("{trialDays}", String(SiteConfig.trialDays))}
         </p>
       </div>

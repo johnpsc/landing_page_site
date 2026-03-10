@@ -9,23 +9,23 @@ const URL_PLAY_STORE = "https://play.google.com/store/apps/details?id=br.com.TOD
 export const sagestart: Flavor = {
   id: "sagestart",
 
-  // Paleta azul corporativa
+  // Paleta roxa e verde (identidade Sage Start)
   cores: {
-    primaria: "#0065DE",
-    primariaEscura: "#004BAD",
-    primariaClara: "#E8F0FD",
-    destaque: "#00A651",
-    escura: "#001A3D",
+    primaria: "#6B2D8B",
+    primariaEscura: "#4A1D6B",
+    primariaClara: "#F3EAF8",
+    destaque: "#2ECC40",
+    escura: "#1A0A2E",
     clara: "#FFFFFF",
     borda: "#E5E7EB",
     textoSuave: "#4B5563",
     textoDesabilitado: "#9CA3AF",
-    secundaria: "#E8F0FD",
+    secundaria: "#F3EAF8",
   },
 
   imagens: {
     gifHeroi: "https://via.placeholder.com/800x500?text=Sage+Start+Preview",
-    preVisualizacaoPainel: "https://via.placeholder.com/1200x700?text=Sage+Start+Dashboard",
+    preVisualizacaoPainel: "https://www.grandchef.com.br/img/home/dashboard-sistema-grandchef.webp",
     simulacaoWhatsapp: "https://via.placeholder.com/400x600?text=Sage+Start+WhatsApp",
     depoimento1: "https://via.placeholder.com/60x60?text=aspas",
     aiqfome: "https://aiqfome.com/assets/images/logo.svg",
@@ -35,24 +35,65 @@ export const sagestart: Flavor = {
   sombras: {
     cabecalho: "0 4px 30px rgba(0,0,0,0.05)",
     imagemPainel: "0 20px 50px rgba(0,0,0,0.1)",
-    ctaPadrao: "0 8px 20px rgba(0,101,222,0.3)",
-    ctaHover: "0 8px 25px rgba(0,101,222,0.4)",
-    botaoHeroiPrimario: "0 10px 40px rgba(0,101,222,0.4)",
-    botaoPreco: "0 10px 30px rgba(0,101,222,0.3)",
-    botaoPrecoHover: "0 10px 35px rgba(0,101,222,0.4)",
-    cardFuncionalidade: "0 10px 40px rgba(0,101,222,0.08)",
-    planoSelecionado: "0 6px 20px rgba(0,101,222,0.3)",
+    ctaPadrao: "0 8px 20px rgba(107,45,139,0.3)",
+    ctaHover: "0 8px 25px rgba(107,45,139,0.4)",
+    botaoHeroiPrimario: "0 10px 40px rgba(107,45,139,0.4)",
+    botaoPreco: "0 10px 30px rgba(107,45,139,0.3)",
+    botaoPrecoHover: "0 10px 35px rgba(107,45,139,0.4)",
+    cardFuncionalidade: "0 10px 40px rgba(107,45,139,0.08)",
+    planoSelecionado: "0 6px 20px rgba(107,45,139,0.3)",
   },
 
   configuracao: {
     name: "Sage Start",
     namePro: "Sage Start Pro",
     slogan: "ERP para Restaurantes",
-    companyName: "TODO — Empresa do Sage Start",
+    companyName: "Word System Desenvolvimento de Sistemas LTDA",
     description: "Sistema de gestão inteligente para bares, restaurantes e delivery.",
-    logo: "https://via.placeholder.com/200x60?text=Sage+Start",
+    logo: "https://eadsagestart.com.br/sistema/apis_restaurantes/imagens/logo.png",
     logoColored: "https://via.placeholder.com/200x60?text=Sage+Start",
-    diasTeste: 14,
+    diasTeste: 10,
+
+    secoes: ['heroi', 'appGarcom', 'funcionalidades', 'estatisticas', 'suporte', 'contato', 'chamadaFinal'],
+    cabecalho: true,
+    rodape: true,
+
+    menus: {
+      funcionalidades: {
+        rotulo: "Funcionalidades",
+        prefixoRota: "/funcionalidades",
+        itens: [
+          { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+          { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+          { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+          { rotulo: "Financeiro", slug: "financeiro" },
+          { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+          { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+        ],
+      },
+      segmentos: {
+        rotulo: "Segmentos",
+        prefixoRota: "/segmentos",
+        itens: [
+          { rotulo: "Restaurantes", slug: "restaurantes" },
+          { rotulo: "Bares e Baladas", slug: "bares-e-baladas" },
+          { rotulo: "Cafeterias", slug: "cafeterias" },
+          { rotulo: "Dark Kitchens", slug: "dark-kitchens" },
+          { rotulo: "Sistema para Delivery", slug: "sistema-para-delivery" },
+        ],
+      },
+      plataformas: {
+        rotulo: "Plataformas",
+        prefixoRota: "/plataformas",
+        itens: [
+          { rotulo: "Windows", slug: "windows" },
+          { rotulo: "Mac", slug: "mac" },
+          { rotulo: "Linux", slug: "linux" },
+          { rotulo: "Android", slug: "android" },
+          { rotulo: "iOS", slug: "ios" },
+        ],
+      },
+    },
 
     contact: {
       whatsappUrl: "https://wa.me/5500000000001",
@@ -61,31 +102,42 @@ export const sagestart: Flavor = {
 
     support: {
       hours: {
-        weekdays: "08h – 18h",
-        saturday: "09h – 13h",
+        weekdays: "07:30h – 17:30h",
+        saturday: "09h – 12h",
       },
     },
 
     links: {
-      webApp: "https://app.sagestart.com.br/",
+      webApp: "https://eadsagestart.com.br/#/autenticacao/login",
       appStoreInfo: URL_APP_STORE,
       playStoreInfo: URL_PLAY_STORE,
     },
 
     download: {
       categories: [
-        { key: "sistema_principal", label: "Sistema Principal", descricao: "Desktop (PDV / Painel)" },
+        { key: "sistema_desktop", label: "Sistema Desktop", descricao: "Desktop (PDV / Painel)" },
+        { key: "sistema_web", label: "Sistema Web", descricao: "Web (PDV / Painel)" },
         { key: "app_garcom", label: "App do Garçom", descricao: "Android / iPhone" },
       ],
       items: [
         {
-          id: "sistema-principal-windows",
+          id: "sistema_desktop-windows",
           platformKey: "windows",
-          categoryKey: "sistema_principal",
+          categoryKey: "sistema_desktop",
           label: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
-          tamanho: "TODO MB",
-          downloadUrl: "#",
+          tamanho: "142 MB",
+          downloadUrl: "/baixar?destino=desktop-local",
+          corBadge: "#0078D4",
+        },
+        {
+          id: "sistema_web-windows",
+          platformKey: "windows",
+          categoryKey: "sistema_web",
+          label: "Windows",
+          versao: "Windows 10 / 11 (64-bit)",
+          tamanho: "142 MB",
+          downloadUrl: "/baixar?destino=desktop-web",
           corBadge: "#0078D4",
         },
         {
@@ -152,8 +204,8 @@ export const sagestart: Flavor = {
       subtitulo: "PDV, mesas, delivery e fiscal em um único sistema integrado.",
       cartoes: [
         { icone: "🏪", titulo: "PDV e Balcão", descricao: "Atendimento rápido no balcão com suporte a balanças e leitores de código de barras." },
-        { icone: "🧾", titulo: "Mesas e Comandas", descricao: "Gestão completa do salão com comandas individuais e divisão de contas simplificada." },
-        { icone: "🛵", titulo: "Delivery Integrado", descricao: "Receba pedidos online no seu próprio canal, sem intermediários ou taxas abusivas." },
+        // { icone: "🧾", titulo: "Mesas e Comandas", descricao: "Gestão completa do salão com comandas individuais e divisão de contas simplificada." },
+        // { icone: "🛵", titulo: "Delivery Integrado", descricao: "Receba pedidos online no seu próprio canal, sem intermediários ou taxas abusivas." },
         { icone: "💰", titulo: "Financeiro", descricao: "Controle completo de receitas, despesas e fluxo de caixa em tempo real." },
         { icone: "📑", titulo: "Emissão Fiscal", descricao: "NFC-e e NF-e integradas para conformidade fiscal sem esforço." },
         { icone: "📊", titulo: "Relatórios Gerenciais", descricao: "DRE, ticket médio e pratos mais vendidos para decisões estratégicas." },

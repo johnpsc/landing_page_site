@@ -78,7 +78,7 @@ export default function SliderPlanos({
                     <button
                         onClick={() => scrollToIndex(Math.max(0, currentIndex - 1))}
                         disabled={currentIndex === 0}
-                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-orange-50"
+                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-(--color-primary-light)"
                         aria-label="Plano anterior"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -106,7 +106,7 @@ export default function SliderPlanos({
                     <button
                         onClick={() => scrollToIndex(Math.min(planos.length - 1, currentIndex + 1))}
                         disabled={currentIndex === planos.length - 1}
-                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-orange-50"
+                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-(--color-primary-light)"
                         aria-label="Próximo plano"
                     >
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -154,7 +154,7 @@ function NavButton({ direction, onClick }: { direction: "left" | "right"; onClic
         <button
             onClick={onClick}
             aria-label={isLeft ? "Voltar planos" : "Avançar planos"}
-            className={`w-10 h-10 flex items-center justify-center rounded-full hover:bg-orange-50 hover:text-(--color-primary) transition-colors shrink-0 border border-gray-200 ${isLeft ? "mr-2" : "ml-2"}`}
+            className={`w-10 h-10 flex items-center justify-center rounded-full hover:bg-(--color-primary-light) hover:text-(--color-primary) transition-colors shrink-0 border border-gray-200 ${isLeft ? "mr-2" : "ml-2"}`}
         >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d={isLeft ? "m15 18-6-6 6-6" : "m9 18 6-6-6-6"} />

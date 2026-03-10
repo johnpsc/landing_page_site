@@ -89,7 +89,7 @@ export default function ComparisonTable({
                             );
                             return (
                                 <div key={plano.id} className="px-1.25 shrink-0">
-                                    <div className="border border-orange-200 rounded-xl p-2 w-50 h-28.75 flex flex-col items-center justify-center bg-white shadow-sm">
+                                    <div className="rounded-xl p-2 w-50 h-28.75 flex flex-col items-center justify-center bg-white shadow-sm" style={{ border: `1px solid ${Colors.primary}33` }}>
                                         <span
                                             className="text-[18px] font-semibold truncate w-full text-center"
                                             style={{ color: Colors.dark }}
@@ -159,7 +159,7 @@ export default function ComparisonTable({
                                             key={modulo.id}
                                             className="flex flex-row justify-center"
                                         >
-                                            <div className="w-71.25 h-10 border-b border-orange-100 flex items-center pl-2.5 shrink-0 bg-white">
+                                            <div className="w-71.25 h-10 border-b flex items-center pl-2.5 shrink-0 bg-white" style={{ borderColor: `${Colors.primary}22` }}>
                                                 <span
                                                     className="truncate w-full text-gray-600 text-sm font-medium pr-2"
                                                     title={modulo.nome}
@@ -173,7 +173,8 @@ export default function ComparisonTable({
                                                 return (
                                                     <div
                                                         key={`${modulo.id}-${plano.id}`}
-                                                        className="w-52.5 h-10 border-b border-l border-orange-100 flex items-center justify-center shrink-0 bg-white"
+                                                        className="w-52.5 h-10 border-b border-l flex items-center justify-center shrink-0 bg-white"
+                                                        style={{ borderColor: `${Colors.primary}22` }}
                                                     >
                                                         <ModuleIcon ativo={ativo} />
                                                     </div>
@@ -195,7 +196,7 @@ export default function ComparisonTable({
 
 function ModuleIcon({ ativo }: { ativo: boolean }) {
     return ativo ? (
-        <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center">
+        <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: Colors.primaryLight }}>
             <svg
                 width="16"
                 height="16"

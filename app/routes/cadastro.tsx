@@ -32,7 +32,7 @@ function CheckItem({ children }: { children: React.ReactNode }) {
           <polyline points="20 6 9 17 4 12" />
         </svg>
       </div>
-      <span className="text-orange-50 text-sm leading-relaxed">{children}</span>
+      <span className="text-sm leading-relaxed" style={{ color: `${Colors.primary}DD` }}>{children}</span>
     </li>
   );
 }
@@ -368,7 +368,7 @@ export default function PaginaNovoCadastro() {
               </p>
               <div className="grid grid-cols-2 gap-y-2 gap-x-3">
                 {Texts.cadastro.sidebarModules.map((feat) => (
-                  <div key={feat} className="flex items-center gap-2 text-sm text-orange-100">
+                  <div key={feat} className="flex items-center gap-2 text-sm" style={{ color: `${Colors.primary}CC` }}>
                     <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: Colors.primary }}></span>
                     {feat}
                   </div>

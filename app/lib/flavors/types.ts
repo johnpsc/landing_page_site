@@ -1,3 +1,25 @@
+// ─── Tipos de Menu Dropdown ───────────────────────────────────────────────────
+
+/** Um item dentro de um menu dropdown do cabeçalho */
+export type MenuDropdownItem = {
+  rotulo: string;
+  slug: string;
+};
+
+/** Configuração de um menu dropdown no cabeçalho */
+export type MenuDropdown = {
+  rotulo: string;
+  prefixoRota: string;
+  itens: MenuDropdownItem[];
+};
+
+/** Menus dropdown do cabeçalho (funcionalidades, segmentos, plataformas) */
+export type MenusCabecalho = {
+  funcionalidades?: MenuDropdown;
+  segmentos?: MenuDropdown;
+  plataformas?: MenuDropdown;
+};
+
 // ─── Tipos de Download ────────────────────────────────────────────────────────
 
 export type DownloadPlatformKey = "windows" | "mac" | "linux" | "android" | "ios";
@@ -69,6 +91,9 @@ export type FlavorShadows = {
   planoSelecionado: string;
 };
 
+/** IDs de seção disponíveis para a página inicial */
+export type SecaoInicioId = 'heroi' | 'appGarcom' | 'funcionalidades' | 'estatisticas' | 'suporte' | 'contato' | 'chamadaFinal';
+
 /** Configurações textuais e de dados do flavor */
 export type FlavorConfig = {
   name: string;
@@ -80,6 +105,22 @@ export type FlavorConfig = {
   logoColored: string;
   /** Duração do período de teste gratuito (em dias) */
   diasTeste: number;
+
+  /**
+   * Seções da página inicial — array **ordenado** de IDs.
+   * A ordem do array define a ordem de renderização.
+   * Omita ou passe `undefined` para exibir todas na ordem padrão.
+   */
+  secoes?: SecaoInicioId[];
+
+  /** Ocultar o cabeçalho do site (default: true) */
+  cabecalho?: boolean;
+  /** Ocultar o rodapé do site (default: true) */
+  rodape?: boolean;
+
+  /** Menus dropdown do cabeçalho (funcionalidades, segmentos, plataformas) */
+  menus?: MenusCabecalho;
+
   contact: {
     whatsappUrl: string;
     email: string;

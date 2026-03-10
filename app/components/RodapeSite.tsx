@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router";
-import { SiteConfig } from "../lib/config";
+import { Sections, SiteConfig } from "../lib/config";
 import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
 
 /**
@@ -13,6 +13,8 @@ export default function RodapeSite() {
   function withDestino(url: string) {
     return adicionarDestinoNaUrl(url, destinoAtual, destinoOriginalAtual);
   }
+
+  if (!Sections.rodape) return null;
 
   return (
     <footer className="py-16 px-6 border-t border-gray-100 bg-white">
@@ -31,21 +33,27 @@ export default function RodapeSite() {
         <div className="flex space-x-12 text-sm font-medium text-gray-500">
           <div className="flex flex-col space-y-3">
             <span className="text-gray-900 font-bold mb-1">Produto</span>
-            <a href={withDestino("/#funcionalidades")} className="hover:text-(--color-primary) transition-colors">
-              Recursos Inclusos
-            </a>
-            <a href={withDestino("/#app-garcom")} className="hover:text-(--color-primary) transition-colors">
-              App Comanda Digital
-            </a>
+            {Sections.tem('funcionalidades') && (
+              <a href={withDestino("/#funcionalidades")} className="hover:text-(--color-primary) transition-colors">
+                Recursos Inclusos
+              </a>
+            )}
+            {Sections.tem('appGarcom') && (
+              <a href={withDestino("/#app-garcom")} className="hover:text-(--color-primary) transition-colors">
+                App Comanda Digital
+              </a>
+            )}
             <a href={withDestino("/planos")} className="hover:text-(--color-primary) transition-colors">
               Ver Preços
             </a>
           </div>
           <div className="flex flex-col space-y-3">
             <span className="text-gray-900 font-bold mb-1">Empresa</span>
-            <a href={withDestino("/#contato")} className="hover:text-(--color-primary) transition-colors">
-              Falar com Consultor
-            </a>
+            {Sections.tem('contato') && (
+              <a href={withDestino("/#contato")} className="hover:text-(--color-primary) transition-colors">
+                Falar com Consultor
+              </a>
+            )}
             <a href="#" className="hover:text-(--color-primary) transition-colors">
               Políticas Legais
             </a>

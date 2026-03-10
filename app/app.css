@@ -5,45 +5,16 @@
 }
 
 /**
- * CSS Custom Properties — Tokens de cor do Big Chef
+ * CSS Custom Properties — Tokens de cor dinâmicos
  *
- * Estas variáveis espelham os valores de app/lib/theme.ts e permitem
- * usar cores da marca em classes Tailwind com pseudo-seletores
- * (hover:, focus:, selection:, group-hover:, etc.) que não aceitam
- * variáveis JavaScript diretamente.
+ * Todos os valores são injetados por buildCssVars() em root.tsx
+ * a partir do flavor ativo (BigChef, SageStart, Mulherz, etc.).
+ *
+ * NÃO declare --color-* ou --shadow-* aqui — buildCssVars() é a única fonte.
  *
  * Exemplo de uso em JSX:
- *   className="hover:text-[var(--color-primary)] selection:bg-[var(--color-primary)]"
- *
- * ⚠️  Ao alterar uma cor em theme.ts, atualize também aqui.
+ *   className="hover:text-(--color-primary) selection:bg-(--color-primary)"
  */
-:root {
-  /* Laranja — Cor Principal */
-  --color-primary: #ff7a00; /* = Colors.primary       — botões, ícones, destaques */
-  --color-primary-dark: #ff4500; /* = Colors.primaryDark   — fim do gradiente hero     */
-  --color-primary-light: #fff1e6; /* = Colors.primaryLight  — fundos suaves, bordas     */
-
-  /* Verde — Cor Secundária */
-  --color-accent: #16a34a; /* = Colors.accent        — blobs decorativos         */
-  --color-dark: #052e16; /* = Colors.dark          — seções escuras, títulos   */
-
-  /* Neutros */
-  --color-light: #ffffff; /* = Colors.light         — fundo geral               */
-  --color-border: #e5e7eb; /* = Colors.border        — bordas inativos            */
-  --color-text-muted: #4b5563; /* = Colors.textMuted     — parágrafos secundários    */
-  --color-text-disabled: #9ca3af; /* = Colors.textDisabled  — ícone "não incluído"      */
-
-  /* Sombras (box-shadow completo) — usados em shadow-[var(--shadow-*)] */
-  --shadow-header: 0 4px 30px rgba(0, 0, 0, 0.05);
-  --shadow-dashboard: 0 20px 50px rgba(0, 0, 0, 0.1);
-  --shadow-cta-normal: 0 8px 20px rgba(255, 122, 0, 0.3);
-  --shadow-cta-hover: 0 8px 25px rgba(255, 122, 0, 0.4);
-  --shadow-hero-btn: 0 10px 40px rgba(255, 122, 0, 0.4);
-  --shadow-pricing-btn: 0 10px 30px rgba(255, 122, 0, 0.3);
-  --shadow-pricing-btn-hover: 0 10px 35px rgba(255, 122, 0, 0.4);
-  --shadow-feature-card: 0 10px 40px rgba(255, 122, 0, 0.08);
-  --shadow-plan-selected: 0 6px 20px rgba(255, 122, 0, 0.3);
-}
 
 @keyframes planos-enter-up {
   from {
@@ -63,18 +34,18 @@
 
 /* For the track (background) */
 ::-webkit-scrollbar-track {
-  background: var(--color-primary-light, #fff1e6);
+  background: var(--color-primary-light);
 }
 
 /* For the thumb (draggable handle) */
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary, #ff7a00);
+  background-color: var(--color-primary);
   border-radius: 20px;
-  border: 3px solid var(--color-primary-light, #fff1e6);
+  border: 3px solid var(--color-primary-light);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-primary-dark, #ff4500);
+  background-color: var(--color-primary-dark);
 }
 
 .planos-enter {

@@ -1,7 +1,7 @@
 import { bigchef } from "./bigchef";
 import { mulherz } from "./mulherz";
 import { sagestart } from "./sagestart";
-import type { Flavor } from "./types";
+import type { Flavor, SecaoInicioId } from "./types";
 
 export * from "./types";
 
@@ -29,6 +29,34 @@ export const activeFlavor: Flavor = FLAVORS[FLAVOR_KEY] ?? FLAVORS.bigchef;
 export const SiteConfig = {
   ...activeFlavor.configuracao,
   trialDays: activeFlavor.configuracao.diasTeste,
+};
+
+/** Ordem padrão de seções quando o flavor não define `secoes` */
+const SECOES_PADRAO: SecaoInicioId[] = [
+  'heroi',
+  'appGarcom',
+  'funcionalidades',
+  'estatisticas',
+  'suporte',
+  'contato',
+  'chamadaFinal',
+];
+
+const cfg = activeFlavor.configuracao;
+
+/**
+ * Seções da página inicial — array ordenado.
+ * `Sections.lista` dá a ordem; `Sections.tem(id)` verifica se existe.
+ */
+export const Sections = {
+  /** Array ordenado de IDs de seção (define a ordem de renderização) */
+  lista: cfg.secoes ?? SECOES_PADRAO,
+  /** Verifica se uma seção está ativa */
+  tem: (id: SecaoInicioId) => (cfg.secoes ?? SECOES_PADRAO).includes(id),
+  /** Cabeçalho visível? (default true) */
+  cabecalho: cfg.cabecalho !== false,
+  /** Rodapé visível? (default true) */
+  rodape: cfg.rodape !== false,
 };
 
 export const Colors = {
@@ -183,6 +211,9 @@ export const Texts = {
 export const Gradients = {
   heroTitle: `linear-gradient(to right, ${activeFlavor.cores.primaria}, ${activeFlavor.cores.primariaEscura})`,
 };
+
+/** Menus dropdown do cabeçalho configurados pelo flavor ativo */
+export const MenusCabecalhoConfig = activeFlavor.configuracao.menus ?? {};
 
 export const Fonts = {
   main: "'Inter', sans-serif",

@@ -62,14 +62,14 @@ export default function CardPlanosPainel({
 
                         <div className="flex flex-col items-center grow">
                             {/* Nome */}
-                            <h3 className={`text-[24px] font-semibold ${textClass("text-orange-200", "text-gray-900")}`}>
+                            <h3 className={`text-[24px] font-semibold ${textClass("text-white/60", "text-gray-900")}`}>
                                 {item.nome ?? "Plano"}
                             </h3>
 
                             {/* Descrição */}
                             <div className="mt-3.75 w-full">
                                 <p
-                                    className={`text-center line-clamp-3 text-sm ${textClass("text-orange-100", "text-gray-600")}`}
+                                    className={`text-center line-clamp-3 text-sm ${textClass("text-white/70", "text-gray-600")}`}
                                     title={item.descricaodoplano ?? ""}
                                 >
                                     {item.descricaodoplano ?? "Sem descrição disponível."}
@@ -86,14 +86,14 @@ export default function CardPlanosPainel({
 
                             {/* Preço mensal */}
                             <div className="flex justify-center items-end mt-3.75">
-                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>R$</span>
+                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>R$</span>
                                 <span className={`text-[50px] font-bold leading-[1.05] mx-1 ${textClass("text-white", "text-gray-900")}`}>
                                     {valorF.inteiro}
                                 </span>
-                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>
+                                <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>
                                     ,{valorF.decimal}
                                 </span>
-                                <span className={`text-[18px] mb-1.5 ml-1 ${textClass("text-orange-200", "text-gray-400")}`}>/mês</span>
+                                <span className={`text-[18px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>/mês</span>
                             </div>
 
                             {/* Botão CTA */}
@@ -125,12 +125,12 @@ export default function CardPlanosPainel({
                             <div className="mt-3.75 w-full flex flex-col">
                                 {(item.modalidadedosplanos ?? []).map((mod) => (
                                     <div key={mod.id} className="flex items-center px-2 py-1">
-                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${isMaisVendido ? "bg-white/20" : "bg-orange-100"}`}>
+                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${isMaisVendido ? "bg-white/20" : ""}`} style={!isMaisVendido ? { backgroundColor: Colors.primaryLight } : {}}>
                                             <svg className="w-3 h-3" fill="none" stroke={Colors.primary} strokeWidth="3" viewBox="0 0 24 24">
                                                 <polyline points="20 6 9 17 4 12" />
                                             </svg>
                                         </div>
-                                        <span className={`ml-2.5 text-sm ${textClass("text-orange-100", "text-gray-700")}`}>
+                                        <span className={`ml-2.5 text-sm ${textClass("text-white/70", "text-gray-700")}`}>
                                             {mod.nome}
                                         </span>
                                     </div>
@@ -144,20 +144,20 @@ export default function CardPlanosPainel({
                                 className="flex justify-center items-end mt-4 transition-opacity duration-300"
                                 style={{ opacity: percentual > 0 ? 1 : 0, pointerEvents: percentual > 0 ? "auto" : "none" }}
                             >
-                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>R$</span>
+                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>R$</span>
                                 <span className={`text-[40px] font-bold leading-[1.05] mx-1 ${textClass("text-white", "text-gray-900")}`}>
                                     {valorTotalF.inteiro}
                                 </span>
-                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-orange-200", "text-gray-500")}`}>
+                                <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>
                                     ,{valorTotalF.decimal}
                                 </span>
-                                <span className={`text-[16px] mb-1.5 ml-1 ${textClass("text-orange-200", "text-gray-400")}`}>/total</span>
+                                <span className={`text-[16px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>/total</span>
                             </div>
 
                             {/* Link para tabela comparativa */}
                             <button
                                 onClick={rolarParaComparacao}
-                                className={`mt-2 mb-2 text-[13px] underline bg-transparent border-none cursor-pointer transition-colors ${isMaisVendido ? "text-orange-200 hover:text-white" : "hover:text-(--color-primary)"
+                                className={`mt-2 mb-2 text-[13px] underline bg-transparent border-none cursor-pointer transition-colors ${isMaisVendido ? "text-white/60 hover:text-white" : "hover:text-(--color-primary)"
                                     }`}
                                 style={!isMaisVendido ? { color: Colors.primary } : {}}
                             >
@@ -237,10 +237,10 @@ function FeaturesBox({
     isMaisVendido: boolean;
     quantidadeUsuarios?: string;
 }) {
-    const spanClass = isMaisVendido ? "text-orange-100" : "text-gray-700";
+    const spanClass = isMaisVendido ? "text-white/70" : "text-gray-700";
     const boxClass = isMaisVendido
         ? "bg-white/10"
-        : "bg-orange-50 border border-orange-100";
+        : "";
 
     const items: { icon: React.ReactNode; label: string }[] = [
         {
@@ -278,7 +278,7 @@ function FeaturesBox({
     ];
 
     return (
-        <div className={`mt-3.75 rounded-xl p-2.5 w-full ${boxClass}`}>
+        <div className={`mt-3.75 rounded-xl p-2.5 w-full ${boxClass}`} style={!isMaisVendido ? { backgroundColor: Colors.primaryLight, border: `1px solid ${Colors.primary}22` } : {}}>
             {items.map(({ icon, label }) => (
                 <div key={label} className="flex items-center mb-1.25 last:mb-0">
                     <span className="mr-1.25">{icon}</span>
