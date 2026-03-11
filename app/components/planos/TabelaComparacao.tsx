@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router";
-import { obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../../lib/downloadDestino";
-import { Colors } from "../../lib/theme";
+import { obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../../lib/downloadDestino";
+import { Cores } from "../../lib/theme";
 import type {
     ModeloComparacaoDeModulosCad,
     ModeloPlanos,
@@ -28,7 +28,7 @@ export default function ComparisonTable({
     const navigate = useNavigate();
     const { search } = useLocation();
     const destinoAtual = obterDestinoDownloadDaSearchParams(new URLSearchParams(search));
-    const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(new URLSearchParams(search));
+    const plataformaAtual = obterPlataformaDaSearchParams(new URLSearchParams(search));
 
     function handleEscolherPlano(plano: ModeloPlanos) {
         const valorFormatado = calcularValorFormatado(
@@ -39,10 +39,10 @@ export default function ComparisonTable({
         params.set("plano", plano.id);
         params.set("mensalidade", tipodemensalidadeSelecionado?.id ?? "");
         params.set("valor", valorFormatado.valorOriginal.toFixed(2));
-        if (destinoOriginalAtual) {
-            params.set("destino_original", destinoOriginalAtual);
+        if (plataformaAtual) {
+            params.set("plataforma", plataformaAtual);
         } else if (destinoAtual) {
-            params.set("destino_original", destinoAtual);
+            params.set("plataforma", destinoAtual);
         }
         navigate(`/cadastro?${params.toString()}`);
     }
@@ -56,13 +56,13 @@ export default function ComparisonTable({
             >
                 <span
                     className="font-bold tracking-wider uppercase text-sm mb-3 block"
-                    style={{ color: Colors.primary }}
+                    style={{ color: Cores.primaria }}
                 >
                     Comparativo
                 </span>
                 <h2
                     className="text-4xl font-bold leading-tight"
-                    style={{ color: Colors.dark }}
+                    style={{ color: Cores.escura }}
                 >
                     Compare nossos planos e descubra a solução certa para sua empresa
                 </h2>
@@ -71,7 +71,7 @@ export default function ComparisonTable({
             {/* Tabela */}
             <div className="mt-12 w-full overflow-x-auto pb-20">
                 {/* scroll hint no mobile */}
-                <div className="md:hidden flex items-center justify-center gap-2 mb-4 text-xs font-medium" style={{ color: Colors.textMuted }}>
+                <div className="md:hidden flex items-center justify-center gap-2 mb-4 text-xs font-medium" style={{ color: Cores.textoSuave }}>
                     <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></svg>
                     Role para comparar os planos
                     <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></svg>
@@ -89,10 +89,10 @@ export default function ComparisonTable({
                             );
                             return (
                                 <div key={plano.id} className="px-1.25 shrink-0">
-                                    <div className="rounded-xl p-2 w-50 h-28.75 flex flex-col items-center justify-center bg-white shadow-sm" style={{ border: `1px solid ${Colors.primary}33` }}>
+                                    <div className="rounded-xl p-2 w-50 h-28.75 flex flex-col items-center justify-center bg-white shadow-sm" style={{ border: `1px solid ${Cores.primaria}33` }}>
                                         <span
                                             className="text-[18px] font-semibold truncate w-full text-center"
-                                            style={{ color: Colors.dark }}
+                                            style={{ color: Cores.escura }}
                                         >
                                             {plano.nome}
                                         </span>
@@ -103,7 +103,7 @@ export default function ComparisonTable({
                                             </span>
                                             <span
                                                 className="text-[25px] font-bold leading-[1.2] mx-0.5"
-                                                style={{ color: Colors.dark }}
+                                                style={{ color: Cores.escura }}
                                             >
                                                 {vf.inteiro}
                                             </span>
@@ -118,7 +118,7 @@ export default function ComparisonTable({
                                         <div className="w-full h-7.5 mt-1.25">
                                             <button
                                                 className="w-full h-full text-white rounded-lg text-[15px] font-semibold transition-all hover:-translate-y-0.5 hover:shadow-lg flex items-center justify-center cursor-pointer"
-                                                style={{ backgroundColor: Colors.primary }}
+                                                style={{ backgroundColor: Cores.primaria }}
                                                 onClick={() => handleEscolherPlano(plano)}
                                             >
                                                 Comece grátis
@@ -139,13 +139,13 @@ export default function ComparisonTable({
                                     className="h-10 flex items-center"
                                     style={{
                                         width: `${300 + 210 * planos.length}px`,
-                                        backgroundColor: Colors.primaryLight,
+                                        backgroundColor: Cores.primariaClara,
                                     }}
                                 >
                                     <div className="pl-2.5 w-full text-left">
                                         <span
                                             className="text-[17px] font-bold"
-                                            style={{ color: Colors.primary }}
+                                            style={{ color: Cores.primaria }}
                                         >
                                             {categoria.nome}
                                         </span>
@@ -159,7 +159,7 @@ export default function ComparisonTable({
                                             key={modulo.id}
                                             className="flex flex-row justify-center"
                                         >
-                                            <div className="w-71.25 h-10 border-b flex items-center pl-2.5 shrink-0 bg-white" style={{ borderColor: `${Colors.primary}22` }}>
+                                            <div className="w-71.25 h-10 border-b flex items-center pl-2.5 shrink-0 bg-white" style={{ borderColor: `${Cores.primaria}22` }}>
                                                 <span
                                                     className="truncate w-full text-gray-600 text-sm font-medium pr-2"
                                                     title={modulo.nome}
@@ -174,7 +174,7 @@ export default function ComparisonTable({
                                                     <div
                                                         key={`${modulo.id}-${plano.id}`}
                                                         className="w-52.5 h-10 border-b border-l flex items-center justify-center shrink-0 bg-white"
-                                                        style={{ borderColor: `${Colors.primary}22` }}
+                                                        style={{ borderColor: `${Cores.primaria}22` }}
                                                     >
                                                         <ModuleIcon ativo={ativo} />
                                                     </div>
@@ -196,13 +196,13 @@ export default function ComparisonTable({
 
 function ModuleIcon({ ativo }: { ativo: boolean }) {
     return ativo ? (
-        <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: Colors.primaryLight }}>
+        <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ backgroundColor: Cores.primariaClara }}>
             <svg
                 width="16"
                 height="16"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke={Colors.primary}
+                stroke={Cores.primaria}
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -217,7 +217,7 @@ function ModuleIcon({ ativo }: { ativo: boolean }) {
                 height="16"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke={Colors.textDisabled}
+                stroke={Cores.textoDesabilitado}
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"

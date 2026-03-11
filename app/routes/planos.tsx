@@ -6,7 +6,7 @@ import SliderPlanos from "../components/planos/SliderPlanos";
 import TabelaComparacao from "../components/planos/TabelaComparacao";
 import RodapeSite from "../components/RodapeSite";
 import { usePlanos } from "../hooks/usePlanos";
-import { Colors, Fonts } from "../lib/theme";
+import { Cores, Fontes } from "../lib/theme";
 
 interface Props {
   mostrarPlanoCliente?: boolean;
@@ -18,7 +18,7 @@ function classEnter(isVisible: boolean, delayClass: string) {
 
 function PlanosLoadingState() {
   return (
-    <div className="w-full min-h-screen flex flex-col selection:bg-(--color-primary) selection:text-white" style={{ fontFamily: Fonts.main, backgroundColor: Colors.light, color: Colors.dark }}>
+    <div className="w-full min-h-screen flex flex-col selection:bg-(--color-primary) selection:text-white" style={{ fontFamily: Fontes.principal, backgroundColor: Cores.clara, color: Cores.escura }}>
       <CabecalhoSite />
 
       <div className="flex-1 flex flex-col items-center pt-28 pb-10 w-full">
@@ -27,7 +27,7 @@ function PlanosLoadingState() {
         </div>
 
         <div className="mt-10 w-full flex justify-center px-4">
-          <div className="inline-flex items-center rounded-full border p-1" style={{ borderColor: Colors.border, backgroundColor: Colors.light }}>
+          <div className="inline-flex items-center rounded-full border p-1" style={{ borderColor: Cores.borda, backgroundColor: Cores.clara }}>
             <div className="planos-skeleton h-12 w-36 rounded-full" />
             <div className="planos-skeleton h-12 w-36 rounded-full" />
           </div>
@@ -87,7 +87,7 @@ export default function PaginaPlanos({ mostrarPlanoCliente = false }: Props) {
     return (
       <div
         className="p-8 flex justify-center w-full min-h-screen items-center font-bold text-xl"
-        style={{ color: Colors.primary }}
+        style={{ color: Cores.primaria }}
       >
         {error}
       </div>
@@ -97,7 +97,7 @@ export default function PaginaPlanos({ mostrarPlanoCliente = false }: Props) {
   return (
     <div
       className="w-full min-h-screen flex flex-col selection:bg-(--color-primary) selection:text-white"
-      style={{ fontFamily: Fonts.main, backgroundColor: Colors.light, color: Colors.dark }}
+      style={{ fontFamily: Fontes.principal, backgroundColor: Cores.clara, color: Cores.escura }}
     >
       <CabecalhoSite />
 

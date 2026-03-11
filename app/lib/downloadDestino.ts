@@ -1,5 +1,5 @@
 export type DestinoDownload = "web" | "desktop-web" | "desktop-local";
-const DESTINO_ORIGINAL_PADRAO = "desktop";
+const PLATAFORMA_PADRAO = "desktop-local";
 
 const DESTINOS_WEB = new Set(["web"]);
 
@@ -34,30 +34,38 @@ export function normalizarDestinoDownload(destino?: string | null): DestinoDownl
 }
 
 export function obterDestinoDownloadDaSearchParams(searchParams: URLSearchParams): DestinoDownload | undefined {
-    const destinoUrl = searchParams.get("destino_original");
+    const destinoUrl = searchParams.get("plataforma");
     if (!destinoUrl) return undefined;
     return normalizarDestinoDownload(destinoUrl);
 }
 
-export function obterDestinoOriginalDaSearchParams(searchParams: URLSearchParams): string {
-    const destinoOriginal = searchParams.get("destino_original")?.trim();
-    return destinoOriginal || DESTINO_ORIGINAL_PADRAO;
+export function obterPlataformaDaSearchParams(searchParams: URLSearchParams): string {
+    const plataforma = searchParams.get("plataforma")?.trim();
+    return plataforma || PLATAFORMA_PADRAO;
 }
 
-export function adicionarDestinoNaUrl(url: string, destino?: DestinoDownload, destinoOriginal?: string): string {
+export function adicionarDestinoNaUrl(url: string, destino?: DestinoDownload, plataforma?: string): string {
     if (/^(https?:|mailto:|tel:)/i.test(url)) return url;
 
     const normalizedUrl = new URL(url, "https://local");
     const destinoUrl = normalizedUrl.searchParams.get("destino")?.trim();
-    const destinoOriginalFinal =
-        destinoOriginal?.trim()
+    const plataformaFinal =
+        plataforma?.trim()
         || destino?.trim()
         || destinoUrl
-        || DESTINO_ORIGINAL_PADRAO;
+        || PLATAFORMA_PADRAO;
 
-    if (!normalizedUrl.searchParams.get("destino_original")) {
-        normalizedUrl.searchParams.set("destino_original", destinoOriginalFinal);
+    if (!normalizedUrl.searchParams.get("plataforma")) {
+        normalizedUrl.searchParams.set("plataforma", plataformaFinal);
     }
+
+    // Preserva o código de afiliado em todos os links internos
+    try {
+        const ref = localStorage.getItem("ref_afiliado");
+        if (ref && !normalizedUrl.searchParams.get("ref")) {
+            normalizedUrl.searchParams.set("ref", ref);
+        }
+    } catch { }
 
     const query = normalizedUrl.searchParams.toString();
     return `${normalizedUrl.pathname}${query ? `?${query}` : ""}${normalizedUrl.hash}`;

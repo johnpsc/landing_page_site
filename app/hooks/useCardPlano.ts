@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
+import { obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../lib/downloadDestino";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../models/ModeloPlanos";
 import { calcularEconomia, calcularValorMensal, quebrarValorEmPartes } from "../utils/calculoPlanos";
 import { formatarReal, formatarRealSemSimbolo } from "../utils/formatacao";
@@ -22,7 +22,7 @@ export function useCardPlano({ item, tipodemensalidadeSelecionado, mostrarPlanoC
   const navigate = useNavigate();
   const { search } = useLocation();
   const destinoAtual = obterDestinoDownloadDaSearchParams(new URLSearchParams(search));
-  const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(new URLSearchParams(search));
+  const plataformaAtual = obterPlataformaDaSearchParams(new URLSearchParams(search));
   const [carregando, setCarregando] = useState(false);
 
   // Mock do usuário — substituir por contexto real de autenticação
@@ -60,10 +60,10 @@ export function useCardPlano({ item, tipodemensalidadeSelecionado, mostrarPlanoC
       params.set("plano", item.id);
       params.set("mensalidade", tipodemensalidadeSelecionado?.id ?? "");
       params.set("valor", valorTotal);
-      if (destinoOriginalAtual) {
-        params.set("destino_original", destinoOriginalAtual);
+      if (plataformaAtual) {
+        params.set("plataforma", plataformaAtual);
       } else if (destinoAtual) {
-        params.set("destino_original", destinoAtual);
+        params.set("plataforma", destinoAtual);
       }
       navigate(`/cadastro?${params.toString()}`);
       return;

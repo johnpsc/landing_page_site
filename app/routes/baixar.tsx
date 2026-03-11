@@ -4,10 +4,10 @@ import { useAtualizacoes } from "~/hooks/useAtualizacoes";
 import CabecalhoSite from "../components/CabecalhoSite";
 import RodapeSite from "../components/RodapeSite";
 import SecaoDownload from "../components/SecaoDownload";
-import { SiteConfig, Texts } from "../lib/config";
+import { ConfigSite, Textos } from "../lib/config";
 import { montarUrlDownloadApi } from "../lib/downloadApi";
 import { normalizarDestinoDownload } from "../lib/downloadDestino";
-import { Colors, Fonts, Shadows } from "../lib/theme";
+import { Cores, Fontes, Sombras } from "../lib/theme";
 
 /**
  * Página única de downloads.
@@ -23,7 +23,7 @@ export default function PaginaBaixar() {
     const location = useLocation();
     const cadastroRealizado = searchParams.get("cadastro") === "1";
     const destinoManual = searchParams.get("destino")?.trim();
-    const destinoOriginal = searchParams.get("destino_original")?.trim();
+    const destinoOriginal = searchParams.get("plataforma")?.trim();
     const destinoBase = cadastroRealizado
         ? destinoOriginal
         : destinoManual || destinoOriginal;
@@ -53,8 +53,8 @@ export default function PaginaBaixar() {
         if (!cadastroRealizado || !destinoManual) return;
 
         const params = new URLSearchParams(searchParams);
-        if (!params.get("destino_original")?.trim()) {
-            params.set("destino_original", destinoManual);
+        if (!params.get("plataforma")?.trim()) {
+            params.set("plataforma", destinoManual);
         }
         params.delete("destino");
 
@@ -72,7 +72,7 @@ export default function PaginaBaixar() {
         if (!destinoEhWeb) return;
         const timeoutMs = cadastroRealizado ? 5000 : 0;
         const timeoutId = window.setTimeout(() => {
-            window.location.assign(SiteConfig.links.webApp);
+            window.location.assign(ConfigSite.links.webApp);
         }, timeoutMs);
 
         return () => {
@@ -82,7 +82,7 @@ export default function PaginaBaixar() {
 
     if (loading) {
         return (
-            <div className="w-full min-h-screen flex flex-col selection:bg-(--color-primary) selection:text-white" style={{ fontFamily: Fonts.main, backgroundColor: Colors.light, color: Colors.dark }}>
+            <div className="w-full min-h-screen flex flex-col selection:bg-(--color-primary) selection:text-white" style={{ fontFamily: Fontes.principal, backgroundColor: Cores.clara, color: Cores.escura }}>
                 <CabecalhoSite />
 
                 <div className="flex-1 flex flex-col items-center pt-28 pb-10 w-full">
@@ -90,7 +90,7 @@ export default function PaginaBaixar() {
                         <div className="planos-skeleton h-52 w-full rounded-3xl" />
                     </div>
                     <div className="mt-10 w-full flex justify-center px-4">
-                        <div className="inline-flex items-center rounded-full border p-1" style={{ borderColor: Colors.border, backgroundColor: Colors.light }}>
+                        <div className="inline-flex items-center rounded-full border p-1" style={{ borderColor: Cores.borda, backgroundColor: Cores.clara }}>
                             <div className="planos-skeleton h-12 w-36 rounded-full" />
                             <div className="planos-skeleton h-12 w-36 rounded-full" />
                         </div>
@@ -110,7 +110,7 @@ export default function PaginaBaixar() {
         return (
             <div
                 className="p-8 flex justify-center w-full min-h-screen items-center font-bold text-xl"
-                style={{ color: Colors.primary }}
+                style={{ color: Cores.primaria }}
             >
                 {error}
             </div>
@@ -118,43 +118,43 @@ export default function PaginaBaixar() {
     }
 
     return (
-        <div className="w-full min-h-screen flex flex-col" style={{ fontFamily: Fonts.main, backgroundColor: Colors.primaryLight }}>
+        <div className="w-full min-h-screen flex flex-col" style={{ fontFamily: Fontes.principal, backgroundColor: Cores.primariaClara }}>
             <CabecalhoSite />
 
             <div className="flex-1 pt-28 pb-16 px-4">
                 <div className="max-w-3xl mx-auto">
 
                     {cadastroRealizado && (
-                        <div className="bg-white rounded-3xl p-8 md:p-10 text-center mb-6" style={{ boxShadow: Shadows.dashboardImage }}>
-                            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: Colors.primaryLight }}>
-                                <svg width="36" height="36" fill="none" stroke={Colors.primary} strokeWidth="2.5" viewBox="0 0 24 24">
+                        <div className="bg-white rounded-3xl p-8 md:p-10 text-center mb-6" style={{ boxShadow: Sombras.imagemPainel }}>
+                            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: Cores.primariaClara }}>
+                                <svg width="36" height="36" fill="none" stroke={Cores.primaria} strokeWidth="2.5" viewBox="0 0 24 24">
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-extrabold mb-2" style={{ color: Colors.dark }}>{Texts.baixar.successTitle}</h2>
-                            <p style={{ color: Colors.textMuted }}>
+                            <h2 className="text-2xl font-extrabold mb-2" style={{ color: Cores.escura }}>{Textos.baixar.tituloSucesso}</h2>
+                            <p style={{ color: Cores.textoSuave }}>
                                 {destinoEhWeb
                                     ? "Sua conta foi criada com sucesso. Redirecionando você para o sistema web em 5 segundos..."
-                                    : Texts.baixar.successSubtitle}
+                                    : Textos.baixar.subtituloSucesso}
                             </p>
                         </div>
                     )}
 
                     {destinoEhWeb ? (
-                        <div className="bg-white rounded-3xl p-8 md:p-10 text-center" style={{ boxShadow: Shadows.dashboardImage }}>
-                            <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: Colors.primaryLight }}>
-                                <svg width="26" height="26" fill="none" stroke={Colors.primary} strokeWidth="2.5" viewBox="0 0 24 24">
+                        <div className="bg-white rounded-3xl p-8 md:p-10 text-center" style={{ boxShadow: Sombras.imagemPainel }}>
+                            <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style={{ backgroundColor: Cores.primariaClara }}>
+                                <svg width="26" height="26" fill="none" stroke={Cores.primaria} strokeWidth="2.5" viewBox="0 0 24 24">
                                     <path d="M12 8v4l3 3" />
                                     <circle cx="12" cy="12" r="10" />
                                 </svg>
                             </div>
-                            <h2 className="text-xl font-extrabold mb-2" style={{ color: Colors.dark }}>
+                            <h2 className="text-xl font-extrabold mb-2" style={{ color: Cores.escura }}>
                                 {cadastroRealizado
                                     ? "Conta criada com sucesso! Redirecionando para o sistema web..."
                                     : "Redirecionando para o sistema web..."}
                             </h2>
-                            <a href={SiteConfig.links.webApp} className="text-sm font-semibold hover:underline" style={{ color: Colors.primary }}>
-                                {SiteConfig.links.webApp}
+                            <a href={ConfigSite.links.webApp} className="text-sm font-semibold hover:underline" style={{ color: Cores.primaria }}>
+                                {ConfigSite.links.webApp}
                             </a>
                         </div>
                     ) : destinoEhDesktopWeb ? (
@@ -178,14 +178,14 @@ export default function PaginaBaixar() {
 
                     <div className="mt-6 text-center">
                         <a
-                            href={SiteConfig.links.webApp}
+                            href={ConfigSite.links.webApp}
                             className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
-                            style={{ color: Colors.primary }}
+                            style={{ color: Cores.primaria }}
                         >
                             <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" />
                             </svg>
-                            {Texts.baixar.webAccessLabel} {new URL(SiteConfig.links.webApp).hostname}
+                            {Textos.baixar.rotuloAcessoWeb} {new URL(ConfigSite.links.webApp).hostname}
                         </a>
                     </div>
 

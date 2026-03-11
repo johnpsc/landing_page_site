@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Colors } from "../../lib/theme";
+import { Cores } from "../../lib/theme";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../../models/ModeloPlanos";
 import CardPlanosPainel from "../CardPlanosPainel";
 
@@ -97,7 +97,7 @@ export default function SliderPlanos({
                                 style={{
                                     width: currentIndex === i ? 28 : 8,
                                     height: 8,
-                                    backgroundColor: currentIndex === i ? Colors.primary : "#D1D5DB",
+                                    backgroundColor: currentIndex === i ? Cores.primaria : "#D1D5DB",
                                 }}
                             />
                         ))}
@@ -116,7 +116,7 @@ export default function SliderPlanos({
                 </div>
 
                 {/* contador textual */}
-                <p className="text-center text-sm mt-1" style={{ color: Colors.textMuted }}>
+                <p className="text-center text-sm mt-1" style={{ color: Cores.textoSuave }}>
                     {currentIndex + 1} de {planos.length}
                 </p>
             </div>

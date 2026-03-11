@@ -10,6 +10,9 @@ export const API_PATHS = {
   atualizacoes: {
     listar: "atualizacoes/listar.php",
   },
+  parceiros: {
+    inserir: "parceiros/inserir.php",
+  },
 };
 
 export const API_ENDPOINTS = {
@@ -21,5 +24,8 @@ export const API_ENDPOINTS = {
   },
   atualizacoes: {
     listar: `${API_CONFIG.BASE}${API_PATHS.atualizacoes.listar}`,
+  },
+  parceiros: {
+    inserir: `${API_CONFIG.BASE}${API_PATHS.parceiros.inserir}`,
   },
 };

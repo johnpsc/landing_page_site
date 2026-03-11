@@ -1,4 +1,4 @@
-import { Colors } from "../../lib/theme";
+import { Cores } from "../../lib/theme";
 import type { ModeloTipoDeMensalidade } from "../../models/ModeloPlanos";
 
 interface PlanTypeSelectorProps {
@@ -26,7 +26,7 @@ export default function PlanTypeSelector({
         <div className="mt-10 flex justify-center px-4 w-full">
             <div
                 className="flex flex-col gap-4 w-full max-w-sm md:w-auto md:max-w-none md:gap-0 md:inline-flex md:flex-row md:items-center md:rounded-full md:border md:p-1 md:bg-white"
-                style={{ borderColor: Colors.border }}
+                style={{ borderColor: Cores.borda }}
             >
                 {tipos.map((tipo) => {
                     const isSelected = selecionado?.id === tipo.id;
@@ -37,7 +37,7 @@ export default function PlanTypeSelector({
                             {hasDiscount && (
                                 <div
                                     className="absolute -top-3 left-1/2 -translate-x-1/2 text-white text-xs px-2 py-0.5 rounded-full font-bold shadow-sm z-10 whitespace-nowrap"
-                                    style={{ backgroundColor: Colors.primary }}
+                                    style={{ backgroundColor: Cores.primaria }}
                                 >
                                     -{formatDesconto(tipo.percentualdedesconto)}%
                                 </div>
@@ -47,9 +47,9 @@ export default function PlanTypeSelector({
                                 onClick={() => onChange(tipo)}
                                 className={`h-12 px-8 rounded-full text-[17px] font-bold uppercase leading-none transition-all duration-200 w-full md:w-auto md:min-w-36 cursor-pointer ${isSelected ? 'shadow-md md:shadow-none' : 'bg-white border md:border-0 md:bg-transparent shadow-sm md:shadow-none'}`}
                                 style={{
-                                    backgroundColor: isSelected ? Colors.primary : undefined,
-                                    color: isSelected ? "white" : Colors.primary,
-                                    borderColor: Colors.border
+                                    backgroundColor: isSelected ? Cores.primaria : undefined,
+                                    color: isSelected ? "white" : Cores.primaria,
+                                    borderColor: Cores.borda
                                 }}
                             >
                                 {tipo.nome}

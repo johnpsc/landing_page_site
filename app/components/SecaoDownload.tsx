@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import { SiteConfig, Texts, type DownloadCategoryKey, type DownloadPlatformKey } from "../lib/config";
+import { ConfigSite, Textos, type DownloadCategoryKey, type DownloadPlatformKey } from "../lib/config";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, type ClientOSKey } from "../lib/downloadUtils";
-import { Colors, Shadows } from "../lib/theme";
+import { Cores, Sombras } from "../lib/theme";
 
 // ─── Tipos e constantes ──────────────────────────────────────────────────────
 
 type PlataformaKey = ClientOSKey;
 
-type Plataforma = (typeof SiteConfig.download.items)[number] & {
+type Plataforma = (typeof ConfigSite.download.items)[number] & {
     icon: React.ReactNode;
-    category: (typeof SiteConfig.download.categories)[number];
+    category: (typeof ConfigSite.download.categories)[number];
 };
 
 const CLASSES_ICONES_PLATAFORMA: Record<DownloadPlatformKey, string> = {
@@ -21,9 +21,9 @@ const CLASSES_ICONES_PLATAFORMA: Record<DownloadPlatformKey, string> = {
     ios: "w-6 h-6",
 };
 
-const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(SiteConfig.download.categories);
+const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(ConfigSite.download.categories);
 
-const PLATAFORMAS: Plataforma[] = SiteConfig.download.items.map((downloadItem) => ({
+const PLATAFORMAS: Plataforma[] = ConfigSite.download.items.map((downloadItem) => ({
     ...downloadItem,
     icon: renderDownloadIcon(downloadItem.platformKey, CLASSES_ICONES_PLATAFORMA[downloadItem.platformKey]),
     category: DOWNLOAD_CATEGORY_MAP[downloadItem.categoryKey],
@@ -34,17 +34,17 @@ const PLATAFORMAS: Plataforma[] = SiteConfig.download.items.map((downloadItem) =
 function ReqRow({ label, min, rec }: { label: string; min: string; rec: string }) {
     return (
         <div className="rounded-xl overflow-hidden border border-gray-100">
-            <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider" style={{ backgroundColor: Colors.secondary, color: Colors.dark }}>
+            <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider" style={{ backgroundColor: Cores.secundaria, color: Cores.escura }}>
                 {label}
             </div>
             <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="px-3 py-2.5">
-                    <p className="text-xs font-semibold mb-0.5" style={{ color: Colors.textMuted }}>Mínimo</p>
-                    <p className="text-xs leading-snug" style={{ color: Colors.dark }}>{min}</p>
+                    <p className="text-xs font-semibold mb-0.5" style={{ color: Cores.textoSuave }}>Mínimo</p>
+                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{min}</p>
                 </div>
                 <div className="px-3 py-2.5" style={{ backgroundColor: "rgba(255,122,0,0.04)" }}>
-                    <p className="text-xs font-semibold mb-0.5" style={{ color: Colors.primary }}>Recomendado</p>
-                    <p className="text-xs leading-snug" style={{ color: Colors.dark }}>{rec}</p>
+                    <p className="text-xs font-semibold mb-0.5" style={{ color: Cores.primaria }}>Recomendado</p>
+                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{rec}</p>
                 </div>
             </div>
         </div>
@@ -86,19 +86,19 @@ export default function SecaoDownload({
         <div className="flex flex-col gap-6">
 
             {/* ─ Botão principal de download ─ */}
-            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Shadows.dashboardImage }}>
+            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Sombras.imagemPainel }}>
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: Colors.primaryLight, color: Colors.primary }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: Cores.primariaClara, color: Cores.primaria }}>
                         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                             <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                         </svg>
                     </div>
                     <div>
-                        <h3 className="font-extrabold text-lg leading-tight" style={{ color: Colors.dark }}>{Texts.download.sectionTitle}</h3>
-                        <p className="text-sm" style={{ color: Colors.textMuted }}>
+                        <h3 className="font-extrabold text-lg leading-tight" style={{ color: Cores.escura }}>{Textos.download.tituloSecao}</h3>
+                        <p className="text-sm" style={{ color: Cores.textoSuave }}>
                             {osDetectado !== "unknown"
-                                ? `${Texts.download.osDetectedPrefix} ${plataformaPrincipal.label} · ${plataformaPrincipal.category.label}`
-                                : Texts.download.osUnknown}
+                                ? `${Textos.download.prefixoOsDetectado} ${plataformaPrincipal.label} · ${plataformaPrincipal.category.label}`
+                                : Textos.download.osDesconhecido}
                         </p>
                     </div>
                 </div>
@@ -107,12 +107,12 @@ export default function SecaoDownload({
                 <a
                     href={downloadUrl ?? plataformaPrincipal.downloadUrl}
                     className="flex items-center justify-between w-full text-white rounded-2xl px-6 py-5 hover:-translate-y-0.5 transition-all duration-300 mb-4"
-                    style={{ backgroundColor: Colors.primary, boxShadow: Shadows.heroBtnPrimary }}
+                    style={{ backgroundColor: Cores.primaria, boxShadow: Sombras.botaoHeroiPrimario }}
                 >
                     <div className="flex items-center gap-4">
                         <span style={{ color: "rgba(255,255,255,0.85)" }}>{plataformaPrincipal.icon}</span>
                         <div className="text-left">
-                            <p className="font-extrabold text-lg leading-tight">{downloadPrimaryLabel ?? `${Texts.download.downloadBtnPrefix} ${plataformaPrincipal.label}`}</p>
+                            <p className="font-extrabold text-lg leading-tight">{downloadPrimaryLabel ?? `${Textos.download.prefixoBotaoDownload} ${plataformaPrincipal.label}`}</p>
                             {downloadPrimaryVersion && (
                                 <p className="text-xs text-white/90 font-semibold">Versão {downloadPrimaryVersion}</p>
                             )}
@@ -129,7 +129,7 @@ export default function SecaoDownload({
                     <a
                         href={downloadSecondaryUrl}
                         className="flex items-center justify-between w-full rounded-2xl px-6 py-4 border hover:-translate-y-0.5 transition-all duration-300 mb-4"
-                        style={{ borderColor: Colors.border, backgroundColor: Colors.light, color: Colors.primary }}
+                        style={{ borderColor: Cores.borda, backgroundColor: Cores.clara, color: Cores.primaria }}
                     >
                         <div className="flex items-center gap-3">
                             <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" className="shrink-0">
@@ -138,7 +138,7 @@ export default function SecaoDownload({
                             <div>
                                 <p className="font-bold text-sm">{downloadSecondaryLabel ?? "Baixar atualização"}</p>
                                 {downloadSecondaryVersion && (
-                                    <p className="text-xs" style={{ color: Colors.textMuted }}>Versão {downloadSecondaryVersion}</p>
+                                    <p className="text-xs" style={{ color: Cores.textoSuave }}>Versão {downloadSecondaryVersion}</p>
                                 )}
                             </div>
                         </div>
@@ -152,12 +152,12 @@ export default function SecaoDownload({
                 <button
                     onClick={() => setMostrarOutras((v) => !v)}
                     className="w-full text-sm font-semibold flex items-center justify-center gap-1.5 py-2 rounded-xl border border-gray-200 hover:border-(--color-primary) hover:text-(--color-primary) transition-all"
-                    style={{ color: Colors.textMuted }}
+                    style={{ color: Cores.textoSuave }}
                 >
                     <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                         <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" />
                     </svg>
-                    {Texts.download.otherPlatformsBtn}
+                    {Textos.download.botaoOutrasPlataformas}
                     <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" className="transition-transform duration-200" style={{ transform: mostrarOutras ? "rotate(180deg)" : "none" }}>
                         <path d="m6 9 6 6 6-6" />
                     </svg>
@@ -173,9 +173,9 @@ export default function SecaoDownload({
                             >
                                 <span className="text-gray-500 group-hover:scale-110 transition-transform shrink-0" style={{ color: p.corBadge }}>{p.icon}</span>
                                 <div>
-                                    <p className="font-bold text-sm" style={{ color: Colors.dark }}>{p.label}</p>
-                                    <p className="text-xs font-semibold" style={{ color: Colors.primary }}>{p.category.label}</p>
-                                    <p className="text-xs" style={{ color: Colors.textMuted }}>{p.tamanho}</p>
+                                    <p className="font-bold text-sm" style={{ color: Cores.escura }}>{p.label}</p>
+                                    <p className="text-xs font-semibold" style={{ color: Cores.primaria }}>{p.category.label}</p>
+                                    <p className="text-xs" style={{ color: Cores.textoSuave }}>{p.tamanho}</p>
                                 </div>
                                 <svg className="ml-auto w-4 h-4 text-gray-300 group-hover:text-(--color-primary) shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -187,17 +187,17 @@ export default function SecaoDownload({
             </div>
 
             {/* ─ Passo a passo ─ */}
-            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Shadows.dashboardImage }}>
-                <h3 className="font-extrabold text-lg mb-6" style={{ color: Colors.dark }}>{Texts.download.stepsTitle}</h3>
+            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Sombras.imagemPainel }}>
+                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{Textos.download.tituloPassos}</h3>
                 <div className="flex flex-col gap-5">
-                    {Texts.download.steps.map((paso, i) => (
+                    {Textos.download.passos.map((paso, i) => (
                         <div key={paso.titulo} className="flex items-start gap-4">
-                            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-base text-white shrink-0" style={{ backgroundColor: Colors.primary }}>
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-base text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>
                                 {i + 1}
                             </div>
                             <div>
-                                <p className="font-bold" style={{ color: Colors.dark }}>{paso.titulo}</p>
-                                <p className="text-sm mt-0.5 leading-relaxed" style={{ color: Colors.textMuted }}>{paso.desc}</p>
+                                <p className="font-bold" style={{ color: Cores.escura }}>{paso.titulo}</p>
+                                <p className="text-sm mt-0.5 leading-relaxed" style={{ color: Cores.textoSuave }}>{paso.descricao}</p>
                             </div>
                         </div>
                     ))}
@@ -205,20 +205,20 @@ export default function SecaoDownload({
             </div>
 
             {/* ─ Requisitos ─ */}
-            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Shadows.dashboardImage }}>
-                <h3 className="font-extrabold text-lg mb-6" style={{ color: Colors.dark }}>{Texts.download.requirementsTitle}</h3>
+            <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Sombras.imagemPainel }}>
+                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{Textos.download.tituloRequisitos}</h3>
                 <div className="grid md:grid-cols-2 gap-6">
 
                     {/* Computador */}
                     <div>
                         <div className="flex items-center gap-2 mb-4">
-                            <svg className="w-5 h-5 shrink-0" fill="none" stroke={Colors.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 shrink-0" fill="none" stroke={Cores.primaria} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" />
                             </svg>
-                            <span className="font-bold" style={{ color: Colors.dark }}>{Texts.download.desktopLabel}</span>
+                            <span className="font-bold" style={{ color: Cores.escura }}>{Textos.download.rotuloDesktop}</span>
                         </div>
                         <div className="flex flex-col gap-3">
-                            {SiteConfig.download.systemRequirements.desktop.map((r) => (
+                            {ConfigSite.download.systemRequirements.desktop.map((r) => (
                                 <ReqRow key={r.label} {...r} />
                             ))}
                         </div>
@@ -227,13 +227,13 @@ export default function SecaoDownload({
                     {/* Celular */}
                     <div>
                         <div className="flex items-center gap-2 mb-4">
-                            <svg className="w-5 h-5 shrink-0" fill="none" stroke={Colors.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5 shrink-0" fill="none" stroke={Cores.primaria} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
-                            <span className="font-bold" style={{ color: Colors.dark }}>{Texts.download.mobileLabel}</span>
+                            <span className="font-bold" style={{ color: Cores.escura }}>{Textos.download.rotuloMobile}</span>
                         </div>
                         <div className="flex flex-col gap-3">
-                            {SiteConfig.download.systemRequirements.mobile.map((r) => (
+                            {ConfigSite.download.systemRequirements.mobile.map((r) => (
                                 <ReqRow key={r.label} {...r} />
                             ))}
                         </div>
@@ -241,13 +241,13 @@ export default function SecaoDownload({
                 </div>
 
                 {/* Legenda */}
-                <div className="mt-6 pt-5 border-t border-gray-100 flex flex-wrap gap-x-6 gap-y-2 text-xs" style={{ color: Colors.textMuted }}>
+                <div className="mt-6 pt-5 border-t border-gray-100 flex flex-wrap gap-x-6 gap-y-2 text-xs" style={{ color: Cores.textoSuave }}>
                     <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: Colors.primaryLight, border: `1px solid ${Colors.primary}` }} />
+                        <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: Cores.primariaClara, border: `1px solid ${Cores.primaria}` }} />
                         Mínimo — o sistema funciona, porém pode ser mais lento
                     </span>
                     <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: Colors.primary }} />
+                        <span className="w-2.5 h-2.5 rounded-sm" style={{ backgroundColor: Cores.primaria }} />
                         Recomendado — experiência completa e fluida
                     </span>
                 </div>

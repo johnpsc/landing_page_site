@@ -1,6 +1,6 @@
 ﻿import React from "react";
 import { useCardPlano } from "../hooks/useCardPlano";
-import { Colors } from "../lib/theme";
+import { Cores } from "../lib/theme";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../models/ModeloPlanos";
 
 export type { ModeloPlanos, ModeloTipoDeMensalidade };
@@ -55,7 +55,7 @@ export default function CardPlanosPainel({
                 <div
                     className={`w-75 h-262.5 rounded-[10px] border ${isSelecionado ? "border-(--color-primary)" : "border-gray-200"
                         }`}
-                    style={isMaisVendido ? { backgroundColor: Colors.dark } : { backgroundColor: "white" }}
+                    style={isMaisVendido ? { backgroundColor: Cores.escura } : { backgroundColor: "white" }}
                 >
                     <div className="p-3.75 h-full flex flex-col relative">
                         {isSelecionado && <CheckmarkSelecionado />}
@@ -104,7 +104,7 @@ export default function CardPlanosPainel({
                                     className={`w-full h-full rounded-xl text-[16px] font-semibold transition-all flex items-center justify-center hover:-translate-y-0.5 ${isSelecionado ? "cursor-not-allowed opacity-70" : "cursor-pointer"
                                         }`}
                                     style={{
-                                        backgroundColor: isSelecionado ? Colors.textDisabled : Colors.primary,
+                                        backgroundColor: isSelecionado ? Cores.textoDesabilitado : Cores.primaria,
                                         color: "white",
                                     }}
                                 >
@@ -125,8 +125,8 @@ export default function CardPlanosPainel({
                             <div className="mt-3.75 w-full flex flex-col">
                                 {(item.modalidadedosplanos ?? []).map((mod) => (
                                     <div key={mod.id} className="flex items-center px-2 py-1">
-                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${isMaisVendido ? "bg-white/20" : ""}`} style={!isMaisVendido ? { backgroundColor: Colors.primaryLight } : {}}>
-                                            <svg className="w-3 h-3" fill="none" stroke={Colors.primary} strokeWidth="3" viewBox="0 0 24 24">
+                                        <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${isMaisVendido ? "bg-white/20" : ""}`} style={!isMaisVendido ? { backgroundColor: Cores.primariaClara } : {}}>
+                                            <svg className="w-3 h-3" fill="none" stroke={Cores.primaria} strokeWidth="3" viewBox="0 0 24 24">
                                                 <polyline points="20 6 9 17 4 12" />
                                             </svg>
                                         </div>
@@ -159,7 +159,7 @@ export default function CardPlanosPainel({
                                 onClick={rolarParaComparacao}
                                 className={`mt-2 mb-2 text-[13px] underline bg-transparent border-none cursor-pointer transition-colors ${isMaisVendido ? "text-white/60 hover:text-white" : "hover:text-(--color-primary)"
                                     }`}
-                                style={!isMaisVendido ? { color: Colors.primary } : {}}
+                                style={!isMaisVendido ? { color: Cores.primaria } : {}}
                             >
                                 Comparar os Planos
                             </button>
@@ -179,14 +179,14 @@ function BadgeMaisVendido() {
             <div className="relative w-full h-full">
                 <svg
                     className="absolute -top-px left-1/2 -translate-x-1/2 w-12.5 h-12.5 z-[-1]"
-                    fill={Colors.primary}
+                    fill={Cores.primaria}
                     viewBox="0 0 24 24"
                 >
                     <path d="M7 10l5 5 5-5z" />
                 </svg>
                 <div
                     className="w-30 rounded-[5px] px-2.5 py-0.5 text-white text-sm text-center -translate-x-2.5"
-                    style={{ backgroundColor: Colors.primary }}
+                    style={{ backgroundColor: Cores.primaria }}
                 >
                     Mais vendido
                 </div>
@@ -201,7 +201,7 @@ function CheckmarkSelecionado() {
             <svg
                 className="w-12.5 h-12.5"
                 fill="none"
-                stroke={Colors.primary}
+                stroke={Cores.primaria}
                 viewBox="0 0 24 24"
             >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -215,14 +215,14 @@ function BadgeEconomia({ texto }: { texto: string }) {
         <div className="mt-7.5 relative w-full flex justify-center items-center">
             <svg
                 className="absolute -top-3.75 w-12.5 h-12.5 z-0"
-                fill={Colors.primary}
+                fill={Cores.primaria}
                 viewBox="0 0 24 24"
             >
                 <path d="M7 10l5 5 5-5z" />
             </svg>
             <div
                 className="rounded-[5px] px-2.5 py-0.5 text-white text-sm font-medium z-10 whitespace-nowrap"
-                style={{ backgroundColor: Colors.primary }}
+                style={{ backgroundColor: Cores.primaria }}
             >
                 {texto}
             </div>
@@ -245,7 +245,7 @@ function FeaturesBox({
     const items: { icon: React.ReactNode; label: string }[] = [
         {
             icon: (
-                <svg className="w-4.5 h-4.5" fill={Colors.primary} viewBox="0 0 24 24">
+                <svg className="w-4.5 h-4.5" fill={Cores.primaria} viewBox="0 0 24 24">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
             ),
@@ -253,7 +253,7 @@ function FeaturesBox({
         },
         {
             icon: (
-                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Cores.primaria} strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
             ),
@@ -261,7 +261,7 @@ function FeaturesBox({
         },
         {
             icon: (
-                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Cores.primaria} strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
             ),
@@ -269,7 +269,7 @@ function FeaturesBox({
         },
         {
             icon: (
-                <svg className="w-4.5 h-4.5" fill="none" stroke={Colors.primary} strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-4.5 h-4.5" fill="none" stroke={Cores.primaria} strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
                 </svg>
             ),
@@ -278,7 +278,7 @@ function FeaturesBox({
     ];
 
     return (
-        <div className={`mt-3.75 rounded-xl p-2.5 w-full ${boxClass}`} style={!isMaisVendido ? { backgroundColor: Colors.primaryLight, border: `1px solid ${Colors.primary}22` } : {}}>
+        <div className={`mt-3.75 rounded-xl p-2.5 w-full ${boxClass}`} style={!isMaisVendido ? { backgroundColor: Cores.primariaClara, border: `1px solid ${Cores.primaria}22` } : {}}>
             {items.map(({ icon, label }) => (
                 <div key={label} className="flex items-center mb-1.25 last:mb-0">
                     <span className="mr-1.25">{icon}</span>

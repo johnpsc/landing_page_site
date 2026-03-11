@@ -50,7 +50,7 @@ export type SystemRequirementsRow = {
 
 // ─── Flavor ───────────────────────────────────────────────────────────────────
 
-/** Paleta de cores do flavor. Espelha app.css :root e theme.ts Colors. */
+/** Paleta de cores do flavor. Espelha app.css :root e theme.ts Cores. */
 export type FlavorColors = {
   primaria: string;
   primariaEscura: string;
@@ -248,6 +248,41 @@ export type FlavorTexts = {
     seloHeroi: string;
     tituloHeroi: string;
     subtituloHeroi: string;
+  };
+  // ── Páginas de funcionalidades (/funcionalidades/:slug) ──────────────────
+  paginasFuncionalidades: Record<string, {
+    titulo: string;
+    subtitulo: string;
+    descricao: string;
+    icone: string;
+    recursos: Array<{ titulo: string; descricao: string; icone: string }>;
+  }>;
+  // ── Páginas de segmentos (/segmentos/:slug) ──────────────────────────────
+  paginasSegmentos: Record<string, {
+    titulo: string;
+    subtitulo: string;
+    descricao: string;
+    icone: string;
+    beneficios: Array<{ titulo: string; descricao: string; icone: string }>;
+  }>;
+  // ── Página de parceiros (/parceiros) ─────────────────────────────────────
+  parceiros: {
+    seloPagina: string;
+    tituloPagina: string;
+    subtituloPagina: string;
+    seloSobre: string;
+    tituloSobre: string;
+    descricaoSobre: string;
+    descricaoEmpresa: string;
+    sede: string;
+    cnpjLabel: string;
+    atuacao: string;
+    numeros: Array<{ valor: string; rotulo: string; icone: string }>;
+    motivosParceiro: string[];
+    vantagens: Array<{ icone: string; titulo: string; descricao: string }>;
+    comoFunciona: Array<{ passo: string; titulo: string; descricao: string }>;
+    itensLateral: string[];
+    perfisIdeais: string[];
   };
 };
 

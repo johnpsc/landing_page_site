@@ -11,6 +11,7 @@ export type SignupPayload = {
   id_planos_painel?: string;
   id_tipo_de_mensalidade?: string;
   valor_da_mensalidade?: string;
+  id_afiliado?: string;
 };
 
 export async function fetchPlans() {
@@ -22,6 +23,33 @@ export async function fetchPlans() {
 export async function buscarLinksAtualizacoes() {
   const res = await fetch(API_ENDPOINTS.atualizacoes.listar, { method: "GET" });
   if (!res.ok) throw new Error(`Erro ao buscar atualizações: ${res.status}`);
+  return res.json();
+}
+
+export type ParceiroPayload = {
+  nome_completo: string;
+  empresa: string;
+  cnpj: string;
+  celular: string;
+  email: string;
+  cidade: string;
+  estado: string;
+  mensagem: string;
+  id_afiliado?: string;
+};
+
+export async function enviarFormularioParceiro(payload: ParceiroPayload) {
+  const res = await fetch(API_ENDPOINTS.parceiros.inserir, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Erro ao enviar formulário de parceiro: ${res.status} ${text}`);
+  }
+
   return res.json();
 }
 

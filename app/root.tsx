@@ -13,9 +13,9 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
-import { activeFlavor, buildCssVars } from "./lib/flavors/index";
+import { construirVariaveisCss, flavorAtivo } from "./lib/flavors/index";
 
-const flavorCssVars = buildCssVars(activeFlavor);
+const flavorCssVars = construirVariaveisCss(flavorAtivo);
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -58,13 +58,24 @@ export default function App() {
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     const destinoAtual = params.get("destino")?.trim();
-    const destinoOriginalAtual = params.get("destino_original")?.trim();
+    const plataformaAtual = params.get("plataforma")?.trim();
 
-    if (destinoOriginalAtual) return;
+    // ── Afiliado: captura ref da URL e persiste no localStorage ──
+    const refUrl = params.get("ref")?.trim();
+    if (refUrl) {
+      try { localStorage.setItem("ref_afiliado", refUrl); } catch { }
+    } else {
+      // Se não veio na URL, reinsere a partir do localStorage
+      try {
+        const refSalvo = localStorage.getItem("ref_afiliado");
+        if (refSalvo) params.set("ref", refSalvo);
+      } catch { }
+    }
 
-    const destinoOriginalFinal = destinoAtual || "desktop";
+    if (plataformaAtual && params.get("ref") === searchParams.get("ref")) return;
 
-    params.set("destino_original", destinoOriginalFinal);
+    const plataformaFinal = destinoAtual || plataformaAtual || "desktop-local";
+    params.set("plataforma", plataformaFinal);
 
     navigate(
       {

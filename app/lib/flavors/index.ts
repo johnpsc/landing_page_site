@@ -21,14 +21,13 @@ export type FlavorKey = keyof typeof FLAVORS;
  * Exemplo: VITE_FLAVOR=sagestart
  * Padrão: bigchef
  */
-export const FLAVOR_KEY = (import.meta.env.VITE_FLAVOR ?? "bigchef") as FlavorKey;
-export const activeFlavor: Flavor = FLAVORS[FLAVOR_KEY] ?? FLAVORS.bigchef;
+export const CHAVE_FLAVOR = (import.meta.env.VITE_FLAVOR ?? "bigchef") as FlavorKey;
+export const flavorAtivo: Flavor = FLAVORS[CHAVE_FLAVOR] ?? FLAVORS.bigchef;
 
 // ─── Exports compatíveis com config.ts e theme.ts ────────────────────────────
 
-export const SiteConfig = {
-  ...activeFlavor.configuracao,
-  trialDays: activeFlavor.configuracao.diasTeste,
+export const ConfigSite = {
+  ...flavorAtivo.configuracao,
 };
 
 /** Ordem padrão de seções quando o flavor não define `secoes` */
@@ -42,13 +41,13 @@ const SECOES_PADRAO: SecaoInicioId[] = [
   'chamadaFinal',
 ];
 
-const cfg = activeFlavor.configuracao;
+const cfg = flavorAtivo.configuracao;
 
 /**
  * Seções da página inicial — array ordenado.
- * `Sections.lista` dá a ordem; `Sections.tem(id)` verifica se existe.
+ * `Secoes.lista` dá a ordem; `Secoes.tem(id)` verifica se existe.
  */
-export const Sections = {
+export const Secoes = {
   /** Array ordenado de IDs de seção (define a ordem de renderização) */
   lista: cfg.secoes ?? SECOES_PADRAO,
   /** Verifica se uma seção está ativa */
@@ -59,165 +58,186 @@ export const Sections = {
   rodape: cfg.rodape !== false,
 };
 
-export const Colors = {
-  primary: activeFlavor.cores.primaria,
-  primaryDark: activeFlavor.cores.primariaEscura,
-  primaryLight: activeFlavor.cores.primariaClara,
-  accent: activeFlavor.cores.destaque,
-  dark: activeFlavor.cores.escura,
-  light: activeFlavor.cores.clara,
-  border: activeFlavor.cores.borda,
-  textMuted: activeFlavor.cores.textoSuave,
-  textDisabled: activeFlavor.cores.textoDesabilitado,
-  secondary: activeFlavor.cores.secundaria,
+export const Cores = {
+  primaria: flavorAtivo.cores.primaria,
+  primariaEscura: flavorAtivo.cores.primariaEscura,
+  primariaClara: flavorAtivo.cores.primariaClara,
+  destaque: flavorAtivo.cores.destaque,
+  escura: flavorAtivo.cores.escura,
+  clara: flavorAtivo.cores.clara,
+  borda: flavorAtivo.cores.borda,
+  textoSuave: flavorAtivo.cores.textoSuave,
+  textoDesabilitado: flavorAtivo.cores.textoDesabilitado,
+  secundaria: flavorAtivo.cores.secundaria,
 };
 
-export const Images = {
-  heroGif: activeFlavor.imagens.gifHeroi,
-  dashboardPreview: activeFlavor.imagens.preVisualizacaoPainel,
-  whatsappSim: activeFlavor.imagens.simulacaoWhatsapp,
-  testimonial1: activeFlavor.imagens.depoimento1,
-  aiqfome: activeFlavor.imagens.aiqfome,
-  ifood: activeFlavor.imagens.ifood,
+export const Imagens = {
+  gifHeroi: flavorAtivo.imagens.gifHeroi,
+  preVisualizacaoPainel: flavorAtivo.imagens.preVisualizacaoPainel,
+  simulacaoWhatsapp: flavorAtivo.imagens.simulacaoWhatsapp,
+  depoimento1: flavorAtivo.imagens.depoimento1,
+  aiqfome: flavorAtivo.imagens.aiqfome,
+  ifood: flavorAtivo.imagens.ifood,
 };
 
-export const Shadows = {
-  header: activeFlavor.sombras.cabecalho,
-  dashboardImage: activeFlavor.sombras.imagemPainel,
-  ctaNormal: activeFlavor.sombras.ctaPadrao,
-  ctaHover: activeFlavor.sombras.ctaHover,
-  heroBtnPrimary: activeFlavor.sombras.botaoHeroiPrimario,
-  pricingBtn: activeFlavor.sombras.botaoPreco,
-  pricingBtnHover: activeFlavor.sombras.botaoPrecoHover,
-  featureCard: activeFlavor.sombras.cardFuncionalidade,
-  planSelected: activeFlavor.sombras.planoSelecionado,
+export const Sombras = {
+  cabecalho: flavorAtivo.sombras.cabecalho,
+  imagemPainel: flavorAtivo.sombras.imagemPainel,
+  ctaPadrao: flavorAtivo.sombras.ctaPadrao,
+  ctaHover: flavorAtivo.sombras.ctaHover,
+  botaoHeroiPrimario: flavorAtivo.sombras.botaoHeroiPrimario,
+  botaoPreco: flavorAtivo.sombras.botaoPreco,
+  botaoPrecoHover: flavorAtivo.sombras.botaoPrecoHover,
+  cardFuncionalidade: flavorAtivo.sombras.cardFuncionalidade,
+  planoSelecionado: flavorAtivo.sombras.planoSelecionado,
 };
-export const Texts = {
-  hero: {
-    badge: activeFlavor.textos.heroi.selo,
-    titleBefore: activeFlavor.textos.heroi.tituloAntes,
-    titleHighlight: activeFlavor.textos.heroi.tituloDestaque,
-    subtitle: activeFlavor.textos.heroi.subtitulo,
-    ctaPrimary: activeFlavor.textos.heroi.ctaPrimario,
-    ctaSecondary: activeFlavor.textos.heroi.ctaSecundario,
+
+export const Textos = {
+  heroi: {
+    selo: flavorAtivo.textos.heroi.selo,
+    tituloAntes: flavorAtivo.textos.heroi.tituloAntes,
+    tituloDestaque: flavorAtivo.textos.heroi.tituloDestaque,
+    subtitulo: flavorAtivo.textos.heroi.subtitulo,
+    ctaPrimario: flavorAtivo.textos.heroi.ctaPrimario,
+    ctaSecundario: flavorAtivo.textos.heroi.ctaSecundario,
   },
   appGarcom: {
-    badge: activeFlavor.textos.appGarcom.selo,
-    title: activeFlavor.textos.appGarcom.titulo,
-    titleHighlight: activeFlavor.textos.appGarcom.tituloDestaque,
-    subtitle: activeFlavor.textos.appGarcom.subtitulo,
-    features: activeFlavor.textos.appGarcom.recursos.map((recurso) => ({
-      title: recurso.titulo,
-      desc: recurso.descricao,
+    selo: flavorAtivo.textos.appGarcom.selo,
+    titulo: flavorAtivo.textos.appGarcom.titulo,
+    tituloDestaque: flavorAtivo.textos.appGarcom.tituloDestaque,
+    subtitulo: flavorAtivo.textos.appGarcom.subtitulo,
+    recursos: flavorAtivo.textos.appGarcom.recursos.map((recurso) => ({
+      titulo: recurso.titulo,
+      descricao: recurso.descricao,
     })),
   },
   funcionalidades: {
-    title: activeFlavor.textos.funcionalidades.titulo,
-    subtitle: activeFlavor.textos.funcionalidades.subtitulo,
-    cards: activeFlavor.textos.funcionalidades.cartoes.map((cartao) => ({
-      icon: cartao.icone,
-      title: cartao.titulo,
-      desc: cartao.descricao,
+    titulo: flavorAtivo.textos.funcionalidades.titulo,
+    subtitulo: flavorAtivo.textos.funcionalidades.subtitulo,
+    cartoes: flavorAtivo.textos.funcionalidades.cartoes.map((cartao) => ({
+      icone: cartao.icone,
+      titulo: cartao.titulo,
+      descricao: cartao.descricao,
     })),
   },
-  stats: {
-    badge: activeFlavor.textos.estatisticas.selo,
-    title: activeFlavor.textos.estatisticas.titulo,
-    items: activeFlavor.textos.estatisticas.itens.map((item) => ({
-      value: item.valor,
-      label: item.rotulo,
-      icon: item.icone,
+  estatisticas: {
+    selo: flavorAtivo.textos.estatisticas.selo,
+    titulo: flavorAtivo.textos.estatisticas.titulo,
+    itens: flavorAtivo.textos.estatisticas.itens.map((item) => ({
+      valor: item.valor,
+      rotulo: item.rotulo,
+      icone: item.icone,
     })),
-    testimonials: activeFlavor.textos.estatisticas.depoimentos.map((depoimento) => ({
-      quote: depoimento.citacao,
-      name: depoimento.nome,
-      role: depoimento.papel,
-      initials: depoimento.iniciais,
+    depoimentos: flavorAtivo.textos.estatisticas.depoimentos.map((depoimento) => ({
+      citacao: depoimento.citacao,
+      nome: depoimento.nome,
+      papel: depoimento.papel,
+      iniciais: depoimento.iniciais,
     })),
   },
   suporte: {
-    badge: activeFlavor.textos.suporte.selo,
-    title: activeFlavor.textos.suporte.titulo,
-    subtitle: activeFlavor.textos.suporte.subtitulo,
-    cards: activeFlavor.textos.suporte.cartoes.map((cartao) => ({
-      icon: cartao.icone,
-      title: cartao.titulo,
-      desc: cartao.descricao,
+    selo: flavorAtivo.textos.suporte.selo,
+    titulo: flavorAtivo.textos.suporte.titulo,
+    subtitulo: flavorAtivo.textos.suporte.subtitulo,
+    cartoes: flavorAtivo.textos.suporte.cartoes.map((cartao) => ({
+      icone: cartao.icone,
+      titulo: cartao.titulo,
+      descricao: cartao.descricao,
       destaque: cartao.destaque,
-      destaqueLabel: cartao.rotuloDestaque,
+      rotuloDestaque: cartao.rotuloDestaque,
     })),
-    scheduleTitle: activeFlavor.textos.suporte.tituloHorario,
-    sundayLabel: activeFlavor.textos.suporte.rotuloDomingo,
-    sundayValue: activeFlavor.textos.suporte.valorDomingo,
-    sundayNote: activeFlavor.textos.suporte.notaDomingo,
-    fullSupportNote: activeFlavor.textos.suporte.notaSuporteCompleto,
+    tituloHorario: flavorAtivo.textos.suporte.tituloHorario,
+    rotuloDomingo: flavorAtivo.textos.suporte.rotuloDomingo,
+    valorDomingo: flavorAtivo.textos.suporte.valorDomingo,
+    notaDomingo: flavorAtivo.textos.suporte.notaDomingo,
+    notaSuporteCompleto: flavorAtivo.textos.suporte.notaSuporteCompleto,
   },
   contato: {
-    badge: activeFlavor.textos.contato.selo,
-    title: activeFlavor.textos.contato.titulo,
-    subtitle: activeFlavor.textos.contato.subtitulo,
-    whatsappLabel: activeFlavor.textos.contato.rotuloWhatsapp,
-    whatsappNote: activeFlavor.textos.contato.notaWhatsapp,
-    emailLabel: activeFlavor.textos.contato.rotuloEmail,
-    formBtnText: activeFlavor.textos.contato.textoBotaoFormulario,
-    formNote: activeFlavor.textos.contato.notaFormulario,
+    selo: flavorAtivo.textos.contato.selo,
+    titulo: flavorAtivo.textos.contato.titulo,
+    subtitulo: flavorAtivo.textos.contato.subtitulo,
+    rotuloWhatsapp: flavorAtivo.textos.contato.rotuloWhatsapp,
+    notaWhatsapp: flavorAtivo.textos.contato.notaWhatsapp,
+    rotuloEmail: flavorAtivo.textos.contato.rotuloEmail,
+    textoBotaoFormulario: flavorAtivo.textos.contato.textoBotaoFormulario,
+    notaFormulario: flavorAtivo.textos.contato.notaFormulario,
   },
-  ctaFinal: {
-    badge: activeFlavor.textos.chamadaFinal.selo,
-    title: activeFlavor.textos.chamadaFinal.titulo,
-    subtitle: activeFlavor.textos.chamadaFinal.subtitulo,
-    ctaPrimary: activeFlavor.textos.chamadaFinal.ctaPrimario,
-    ctaSecondary: activeFlavor.textos.chamadaFinal.ctaSecundario,
+  chamadaFinal: {
+    selo: flavorAtivo.textos.chamadaFinal.selo,
+    titulo: flavorAtivo.textos.chamadaFinal.titulo,
+    subtitulo: flavorAtivo.textos.chamadaFinal.subtitulo,
+    ctaPrimario: flavorAtivo.textos.chamadaFinal.ctaPrimario,
+    ctaSecundario: flavorAtivo.textos.chamadaFinal.ctaSecundario,
   },
   cadastro: {
-    trialBadge: activeFlavor.textos.cadastro.seloTeste,
-    formTitle: activeFlavor.textos.cadastro.tituloFormulario,
-    formSubtitle: activeFlavor.textos.cadastro.subtituloFormulario,
-    formFieldEstabelecimento: activeFlavor.textos.cadastro.campoEstabelecimento,
-    formFieldEstabelecimentoPlaceholder: activeFlavor.textos.cadastro.placeholderCampoEstabelecimento,
-    sidebarRiskBadge: activeFlavor.textos.cadastro.seloRiscoLateral,
-    sidebarTitle: activeFlavor.textos.cadastro.tituloLateral,
-    sidebarItems: activeFlavor.textos.cadastro.itensLateral,
-    sidebarModulesLabel: activeFlavor.textos.cadastro.rotuloModulosLateral,
-    sidebarModules: activeFlavor.textos.cadastro.modulosLateral,
+    seloTeste: flavorAtivo.textos.cadastro.seloTeste,
+    tituloFormulario: flavorAtivo.textos.cadastro.tituloFormulario,
+    subtituloFormulario: flavorAtivo.textos.cadastro.subtituloFormulario,
+    campoEstabelecimento: flavorAtivo.textos.cadastro.campoEstabelecimento,
+    placeholderCampoEstabelecimento: flavorAtivo.textos.cadastro.placeholderCampoEstabelecimento,
+    seloRiscoLateral: flavorAtivo.textos.cadastro.seloRiscoLateral,
+    tituloLateral: flavorAtivo.textos.cadastro.tituloLateral,
+    itensLateral: flavorAtivo.textos.cadastro.itensLateral,
+    rotuloModulosLateral: flavorAtivo.textos.cadastro.rotuloModulosLateral,
+    modulosLateral: flavorAtivo.textos.cadastro.modulosLateral,
   },
   baixar: {
-    successTitle: activeFlavor.textos.baixar.tituloSucesso,
-    successSubtitle: activeFlavor.textos.baixar.subtituloSucesso,
-    webAccessLabel: activeFlavor.textos.baixar.rotuloAcessoWeb,
+    tituloSucesso: flavorAtivo.textos.baixar.tituloSucesso,
+    subtituloSucesso: flavorAtivo.textos.baixar.subtituloSucesso,
+    rotuloAcessoWeb: flavorAtivo.textos.baixar.rotuloAcessoWeb,
   },
   download: {
-    sectionTitle: activeFlavor.textos.download.tituloSecao,
-    osDetectedPrefix: activeFlavor.textos.download.prefixoOsDetectado,
-    osUnknown: activeFlavor.textos.download.osDesconhecido,
-    downloadBtnPrefix: activeFlavor.textos.download.prefixoBotaoDownload,
-    otherPlatformsBtn: activeFlavor.textos.download.botaoOutrasPlataformas,
-    stepsTitle: activeFlavor.textos.download.tituloPassos,
-    steps: activeFlavor.textos.download.passos.map((passo) => ({
+    tituloSecao: flavorAtivo.textos.download.tituloSecao,
+    prefixoOsDetectado: flavorAtivo.textos.download.prefixoOsDetectado,
+    osDesconhecido: flavorAtivo.textos.download.osDesconhecido,
+    prefixoBotaoDownload: flavorAtivo.textos.download.prefixoBotaoDownload,
+    botaoOutrasPlataformas: flavorAtivo.textos.download.botaoOutrasPlataformas,
+    tituloPassos: flavorAtivo.textos.download.tituloPassos,
+    passos: flavorAtivo.textos.download.passos.map((passo) => ({
       titulo: passo.titulo,
-      desc: passo.descricao,
+      descricao: passo.descricao,
     })),
-    requirementsTitle: activeFlavor.textos.download.tituloRequisitos,
-    desktopLabel: activeFlavor.textos.download.rotuloDesktop,
-    mobileLabel: activeFlavor.textos.download.rotuloMobile,
+    tituloRequisitos: flavorAtivo.textos.download.tituloRequisitos,
+    rotuloDesktop: flavorAtivo.textos.download.rotuloDesktop,
+    rotuloMobile: flavorAtivo.textos.download.rotuloMobile,
   },
   planos: {
-    heroBadge: activeFlavor.textos.planos.seloHeroi,
-    heroTitle: activeFlavor.textos.planos.tituloHeroi,
-    heroSubtitle: activeFlavor.textos.planos.subtituloHeroi,
+    seloHeroi: flavorAtivo.textos.planos.seloHeroi,
+    tituloHeroi: flavorAtivo.textos.planos.tituloHeroi,
+    subtituloHeroi: flavorAtivo.textos.planos.subtituloHeroi,
+  },
+  paginasFuncionalidades: flavorAtivo.textos.paginasFuncionalidades,
+  paginasSegmentos: flavorAtivo.textos.paginasSegmentos,
+  parceiros: {
+    seloPagina: flavorAtivo.textos.parceiros.seloPagina,
+    tituloPagina: flavorAtivo.textos.parceiros.tituloPagina,
+    subtituloPagina: flavorAtivo.textos.parceiros.subtituloPagina,
+    seloSobre: flavorAtivo.textos.parceiros.seloSobre,
+    tituloSobre: flavorAtivo.textos.parceiros.tituloSobre,
+    descricaoSobre: flavorAtivo.textos.parceiros.descricaoSobre,
+    descricaoEmpresa: flavorAtivo.textos.parceiros.descricaoEmpresa,
+    sede: flavorAtivo.textos.parceiros.sede,
+    cnpjLabel: flavorAtivo.textos.parceiros.cnpjLabel,
+    atuacao: flavorAtivo.textos.parceiros.atuacao,
+    numeros: flavorAtivo.textos.parceiros.numeros,
+    motivosParceiro: flavorAtivo.textos.parceiros.motivosParceiro,
+    vantagens: flavorAtivo.textos.parceiros.vantagens,
+    comoFunciona: flavorAtivo.textos.parceiros.comoFunciona,
+    itensLateral: flavorAtivo.textos.parceiros.itensLateral,
+    perfisIdeais: flavorAtivo.textos.parceiros.perfisIdeais,
   },
 };
 
-export const Gradients = {
-  heroTitle: `linear-gradient(to right, ${activeFlavor.cores.primaria}, ${activeFlavor.cores.primariaEscura})`,
+export const Gradientes = {
+  tituloHeroi: `linear-gradient(to right, ${flavorAtivo.cores.primaria}, ${flavorAtivo.cores.primariaEscura})`,
 };
 
 /** Menus dropdown do cabeçalho configurados pelo flavor ativo */
-export const MenusCabecalhoConfig = activeFlavor.configuracao.menus ?? {};
+export const MenusCabecalhoConfig = flavorAtivo.configuracao.menus ?? {};
 
-export const Fonts = {
-  main: "'Inter', sans-serif",
-  heading: "'Inter', sans-serif",
+export const Fontes = {
+  principal: "'Inter', sans-serif",
+  titulo: "'Inter', sans-serif",
 };
 
 // ─── CSS Custom Properties ───────────────────────────────────────────────────
@@ -226,7 +246,7 @@ export const Fonts = {
  * Injete isso como <style> no <head> via root.tsx para que as classes
  * Tailwind que usam var(--color-primary) etc. funcionem com qualquer flavor.
  */
-export function buildCssVars(flavor: Flavor): string {
+export function construirVariaveisCss(flavor: Flavor): string {
   const c = flavor.cores;
   const s = flavor.sombras;
   return `:root {

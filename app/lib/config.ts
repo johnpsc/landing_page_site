@@ -6,6 +6,6 @@
  */
 export type { DownloadCategory, DownloadCategoryKey, DownloadItem, DownloadPlatformKey, Flavor, FlavorColors, FlavorConfig, FlavorImages, FlavorShadows, MenuDropdown, MenuDropdownItem, MenusCabecalho, SecaoInicioId, SystemRequirementsRow } from "./flavors/types";
 
-export { activeFlavor, FLAVOR_KEY, MenusCabecalhoConfig, Sections, SiteConfig, Texts } from "./flavors/index";
+export { CHAVE_FLAVOR, ConfigSite, MenusCabecalhoConfig, Secoes, Textos, flavorAtivo } from "./flavors/index";
 export type { FlavorKey } from "./flavors/index";
 

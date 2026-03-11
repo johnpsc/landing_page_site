@@ -1,19 +1,19 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router";
-import { MenusCabecalhoConfig, Sections, SiteConfig, type DownloadPlatformKey, type MenuDropdown } from "../lib/config";
-import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterDestinoOriginalDaSearchParams } from "../lib/downloadDestino";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
+import { ConfigSite, MenusCabecalhoConfig, Secoes, type DownloadPlatformKey, type MenuDropdown } from "../lib/config";
+import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../lib/downloadDestino";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, DOWNLOAD_BADGES, type ClientOSKey } from "../lib/downloadUtils";
-import { Colors, Shadows } from "../lib/theme";
+import { Cores, Sombras } from "../lib/theme";
 
 // ─── Downloads ───────────────────────────────────────────────────────────────
 
 type OSKey = ClientOSKey;
 
-type DownloadHeaderItem = (typeof SiteConfig.download.items)[number] & {
+type DownloadHeaderItem = (typeof ConfigSite.download.items)[number] & {
     badge: string;
     icon: React.ReactNode;
-    category: (typeof SiteConfig.download.categories)[number];
+    category: (typeof ConfigSite.download.categories)[number];
 };
 
 const CLASSES_ICONES_DOWNLOAD: Record<DownloadPlatformKey, string> = {
@@ -24,9 +24,9 @@ const CLASSES_ICONES_DOWNLOAD: Record<DownloadPlatformKey, string> = {
     ios: "w-4 h-4 shrink-0",
 };
 
-const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(SiteConfig.download.categories);
+const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(ConfigSite.download.categories);
 
-const DOWNLOADS_HEADER: DownloadHeaderItem[] = SiteConfig.download.items.map((downloadItem) => ({
+const DOWNLOADS_HEADER: DownloadHeaderItem[] = ConfigSite.download.items.map((downloadItem) => ({
     ...downloadItem,
     badge: DOWNLOAD_BADGES[downloadItem.platformKey],
     icon: renderDownloadIcon(downloadItem.platformKey, CLASSES_ICONES_DOWNLOAD[downloadItem.platformKey]),
@@ -37,12 +37,15 @@ const DOWNLOADS_HEADER: DownloadHeaderItem[] = SiteConfig.download.items.map((do
 
 type MenuDropdownKey = "funcionalidades" | "segmentos" | "plataformas";
 
-/** Array ordenado dos menus dropdown configurados no flavor ativo */
-const MENUS_DROPDOWN: { key: MenuDropdownKey; menu: MenuDropdown }[] = (
-    ["funcionalidades", "segmentos", "plataformas"] as const
+/** Menus de navegação (funcionalidades e segmentos) — abrem páginas */
+const MENUS_NAV_DROPDOWN: { key: MenuDropdownKey; menu: MenuDropdown }[] = (
+    ["funcionalidades", "segmentos"] as const
 )
     .filter((k) => MenusCabecalhoConfig[k] != null)
     .map((k) => ({ key: k, menu: MenusCabecalhoConfig[k]! }));
+
+/** Menu de plataformas — altera o param ?plataforma= na URL */
+const MENU_PLATAFORMAS = MenusCabecalhoConfig.plataformas ?? null;
 
 /**
  * Header compartilhado entre todas as páginas do site.
@@ -50,9 +53,10 @@ const MENUS_DROPDOWN: { key: MenuDropdownKey; menu: MenuDropdown }[] = (
  */
 export default function CabecalhoSite() {
     const { pathname } = useLocation();
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const destinoAtual = obterDestinoDownloadDaSearchParams(searchParams);
-    const destinoOriginalAtual = obterDestinoOriginalDaSearchParams(searchParams);
+    const plataformaAtual = obterPlataformaDaSearchParams(searchParams);
     const [menuAberto, setMenuAberto] = useState(false);
     const [downloadAberto, setDownloadAberto] = useState(false);
     const [navDropdownAberto, setNavDropdownAberto] = useState<MenuDropdownKey | null>(null);
@@ -62,7 +66,17 @@ export default function CabecalhoSite() {
     const navDropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
     function withDestino(url: string) {
-        return adicionarDestinoNaUrl(url, destinoAtual, destinoOriginalAtual);
+        return adicionarDestinoNaUrl(url, destinoAtual, plataformaAtual);
+    }
+
+    /** Ao clicar em uma plataforma, atualiza o param ?plataforma= na URL atual */
+    function selecionarPlataforma(slug: string) {
+        const params = new URLSearchParams(searchParams);
+        params.set("plataforma", slug);
+        navigate(`${pathname}?${params.toString()}`, { replace: true });
+        setNavDropdownAberto(null);
+        setMobileSubmenuAberto(null);
+        setMenuAberto(false);
     }
 
     useEffect(() => {
@@ -94,7 +108,7 @@ export default function CabecalhoSite() {
 
     function navStyle(path: string) {
         const isActive = pathname === path || (path !== "/" && pathname.startsWith(path));
-        return { color: isActive ? Colors.primary : Colors.textMuted };
+        return { color: isActive ? Cores.primaria : Cores.textoSuave };
     }
 
     function navClassMobile(path: string) {
@@ -106,20 +120,20 @@ export default function CabecalhoSite() {
 
     function navStyleMobile(path: string) {
         const isActive = pathname === path || (path !== "/" && pathname.startsWith(path));
-        return { color: isActive ? Colors.primary : Colors.textMuted, backgroundColor: isActive ? Colors.primaryLight : undefined };
+        return { color: isActive ? Cores.primaria : Cores.textoSuave, backgroundColor: isActive ? Cores.primariaClara : undefined };
     }
 
-    if (!Sections.cabecalho) return null;
+    if (!Secoes.cabecalho) return null;
 
     return (
         <header className="fixed w-full top-0 z-50 shadow-(--shadow-header) backdrop-blur-md bg-white/90 transition-all border-b border-(--color-primary-light)">
             <div className="py-4 px-6 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                     <Link to={withDestino("/")} className="flex items-center" onClick={() => setMenuAberto(false)}>
-                        <img src={SiteConfig.logo} alt={`${SiteConfig.name} Logo`} className="h-10 object-contain" />
+                        <img src={ConfigSite.logo} alt={`${ConfigSite.name} Logo`} className="h-10 object-contain" />
                     </Link>
                     {/* 
-                        {Sections.tem('appGarcom') && (
+                        {Secoes.tem('appGarcom') && (
                             <a href={withDestino("/#app-garcom")} style={navStyle("/#app-garcom")} className={navClass("/#app-garcom")}>
                                 App Garçom
                             </a>
@@ -134,7 +148,7 @@ export default function CabecalhoSite() {
                             Planos
                         </Link>
 
-                        {MENUS_DROPDOWN.map(({ key, menu }) => (
+                        {MENUS_NAV_DROPDOWN.map(({ key, menu }) => (
                             <div
                                 key={key}
                                 className="relative"
@@ -171,14 +185,14 @@ export default function CabecalhoSite() {
                                                     onClick={() => setNavDropdownAberto(null)}
                                                     className="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-all hover:bg-(--color-primary-light) relative"
                                                     style={{
-                                                        color: isActive ? Colors.primary : Colors.dark,
-                                                        backgroundColor: isActive ? Colors.primaryLight : undefined,
+                                                        color: isActive ? Cores.primaria : Cores.escura,
+                                                        backgroundColor: isActive ? Cores.primariaClara : undefined,
                                                     }}
                                                 >
                                                     {isActive && (
                                                         <span
                                                             className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full"
-                                                            style={{ backgroundColor: Colors.primary }}
+                                                            style={{ backgroundColor: Cores.primaria }}
                                                         />
                                                     )}
                                                     {item.rotulo}
@@ -189,6 +203,60 @@ export default function CabecalhoSite() {
                                 )}
                             </div>
                         ))}
+
+                        {/* Dropdown de Plataformas — altera ?plataforma= na URL */}
+                        {MENU_PLATAFORMAS && (
+                            <div
+                                className="relative"
+                                ref={(el) => { navDropdownRefs.current["plataformas"] = el; }}
+                            >
+                                <button
+                                    onClick={() => setNavDropdownAberto((prev) => (prev === "plataformas" ? null : "plataformas"))}
+                                    className="inline-flex items-center gap-1 cursor-pointer font-medium transition-colors hover:text-(--color-primary)"
+                                    style={{ color: Cores.textoSuave }}
+                                >
+                                    {MENU_PLATAFORMAS.rotulo}
+                                    <svg
+                                        width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2"
+                                        strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"
+                                        className="transition-transform duration-200"
+                                        style={{ transform: navDropdownAberto === "plataformas" ? "rotate(180deg)" : "none" }}
+                                    >
+                                        <path d="m6 9 6 6 6-6" />
+                                    </svg>
+                                </button>
+
+                                {navDropdownAberto === "plataformas" && (
+                                    <div
+                                        className="absolute left-0 mt-3 w-56 rounded-2xl bg-white border border-gray-100 overflow-hidden py-2"
+                                        style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)" }}
+                                    >
+                                        {MENU_PLATAFORMAS.itens.map((item) => {
+                                            const isActive = plataformaAtual === item.slug;
+                                            return (
+                                                <button
+                                                    key={item.slug}
+                                                    onClick={() => selecionarPlataforma(item.slug)}
+                                                    className="w-full text-left flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium transition-all hover:bg-(--color-primary-light) relative cursor-pointer"
+                                                    style={{
+                                                        color: isActive ? Cores.primaria : Cores.escura,
+                                                        backgroundColor: isActive ? Cores.primariaClara : undefined,
+                                                    }}
+                                                >
+                                                    {isActive && (
+                                                        <span
+                                                            className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full"
+                                                            style={{ backgroundColor: Cores.primaria }}
+                                                        />
+                                                    )}
+                                                    {item.rotulo}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </nav>
                 </div>
 
@@ -201,7 +269,7 @@ export default function CabecalhoSite() {
                         <button
                             onClick={() => setDownloadAberto((v) => !v)}
                             className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-semibold text-sm border bg-white hover:border-(--color-primary) hover:text-(--color-primary) transition-all duration-200 cursor-pointer"
-                            style={{ color: Colors.textMuted, borderColor: Colors.border }}
+                            style={{ color: Cores.textoSuave, borderColor: Cores.borda }}
                         >
                             <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
@@ -219,13 +287,13 @@ export default function CabecalhoSite() {
                                 style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)" }}
                             >
                                 <div className="py-2">
-                                    {SiteConfig.download.categories.map((cat, catIndex) => {
+                                    {ConfigSite.download.categories.map((cat, catIndex) => {
                                         const items = DOWNLOADS_HEADER.filter((d) => d.categoryKey === cat.key);
                                         if (items.length === 0) return null;
                                         return (
                                             <div key={cat.key}>
                                                 {catIndex > 0 && <div className="h-px mx-3 my-1.5 bg-gray-100" />}
-                                                <p className="px-4 pb-1 pt-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: Colors.textMuted }}>
+                                                <p className="px-4 pb-1 pt-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: Cores.textoSuave }}>
                                                     {cat.label}
                                                 </p>
                                                 {items.map((d) => {
@@ -237,18 +305,18 @@ export default function CabecalhoSite() {
                                                             href={downloadUrl}
                                                             onClick={() => setDownloadAberto(false)}
                                                             className="flex items-center gap-2.5 px-4 py-2 transition-all hover:bg-(--color-primary-light) relative"
-                                                            style={isRecomendado ? { backgroundColor: `${Colors.primary}10` } : {}}
+                                                            style={isRecomendado ? { backgroundColor: `${Cores.primaria}10` } : {}}
                                                         >
                                                             {isRecomendado && (
-                                                                <span className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full" style={{ backgroundColor: Colors.primary }} />
+                                                                <span className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full" style={{ backgroundColor: Cores.primaria }} />
                                                             )}
                                                             <span className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: d.corBadge }}>
                                                                 {d.icon}
                                                             </span>
-                                                            <span className="flex-1 text-sm font-medium" style={{ color: Colors.dark }}>{d.label}</span>
+                                                            <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.label}</span>
                                                             {isRecomendado
-                                                                ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Colors.primary }}>✦</span>
-                                                                : <span className="text-xs shrink-0" style={{ color: Colors.textMuted }}>{d.badge}</span>
+                                                                ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>✦</span>
+                                                                : <span className="text-xs shrink-0" style={{ color: Cores.textoSuave }}>{d.badge}</span>
                                                             }
                                                         </a>
                                                     );
@@ -258,15 +326,15 @@ export default function CabecalhoSite() {
                                     })}
                                 </div>
                                 <div className="px-4 py-2.5 border-t border-gray-100">
-                                    <p className="text-xs text-center" style={{ color: Colors.textMuted }}>{SiteConfig.trialDays} dias grátis em todos os planos</p>
+                                    <p className="text-xs text-center" style={{ color: Cores.textoSuave }}>{ConfigSite.diasTeste} dias grátis em todos os planos</p>
                                 </div>
                             </div>
                         )}
                     </div>
 
                     <a
-                        href={SiteConfig.links.webApp}
-                        style={{ color: Colors.textMuted, borderColor: Colors.border }}
+                        href={ConfigSite.links.webApp}
+                        style={{ color: Cores.textoSuave, borderColor: Cores.borda }}
                         className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-semibold border bg-white hover:border-(--color-primary) hover:text-(--color-primary) transition-all duration-200"
                     >
                         <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -277,7 +345,7 @@ export default function CabecalhoSite() {
 
                     <Link
                         to={withDestino("/cadastro")}
-                        style={{ backgroundColor: Colors.primary, color: Colors.light, boxShadow: Shadows.ctaNormal }}
+                        style={{ backgroundColor: Cores.primaria, color: Cores.clara, boxShadow: Sombras.ctaPadrao }}
                         className="px-6 py-2.5 rounded-xl font-semibold hover:shadow-(--shadow-cta-hover) hover:-translate-y-0.5 transition-all duration-300"
                     >
                         Teste Agora
@@ -291,15 +359,15 @@ export default function CabecalhoSite() {
                     >
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300 origin-center"
-                            style={{ backgroundColor: Colors.dark, transform: menuAberto ? "rotate(45deg) translate(3px, 3px)" : "none" }}
+                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(45deg) translate(3px, 3px)" : "none" }}
                         />
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300"
-                            style={{ backgroundColor: Colors.dark, opacity: menuAberto ? 0 : 1 }}
+                            style={{ backgroundColor: Cores.escura, opacity: menuAberto ? 0 : 1 }}
                         />
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300 origin-center"
-                            style={{ backgroundColor: Colors.dark, transform: menuAberto ? "rotate(-45deg) translate(3px, -3px)" : "none" }}
+                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(-45deg) translate(3px, -3px)" : "none" }}
                         />
                     </button>
                 </div>
@@ -315,16 +383,16 @@ export default function CabecalhoSite() {
                         Planos
                     </Link>
 
-                    {/* Menus dropdown mobile (funcionalidades, segmentos, plataformas) */}
-                    {MENUS_DROPDOWN.map(({ key, menu }) => (
+                    {/* Menus dropdown mobile (funcionalidades, segmentos) */}
+                    {MENUS_NAV_DROPDOWN.map(({ key, menu }) => (
                         <div key={key}>
                             <button
                                 onClick={() => setMobileSubmenuAberto((prev) => (prev === key ? null : key))}
                                 className={`w-full flex items-center justify-between px-4 py-3 rounded-xl font-medium text-sm transition-colors cursor-pointer ${pathname.startsWith(menu.prefixoRota) ? "font-semibold" : "hover:bg-(--color-primary-light)"
                                     }`}
                                 style={{
-                                    color: pathname.startsWith(menu.prefixoRota) ? Colors.primary : Colors.textMuted,
-                                    backgroundColor: pathname.startsWith(menu.prefixoRota) ? Colors.primaryLight : undefined,
+                                    color: pathname.startsWith(menu.prefixoRota) ? Cores.primaria : Cores.textoSuave,
+                                    backgroundColor: pathname.startsWith(menu.prefixoRota) ? Cores.primariaClara : undefined,
                                 }}
                             >
                                 {menu.rotulo}
@@ -349,8 +417,8 @@ export default function CabecalhoSite() {
                                                 onClick={() => { setMenuAberto(false); setMobileSubmenuAberto(null); }}
                                                 className="block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-(--color-primary-light)"
                                                 style={{
-                                                    color: isActive ? Colors.primary : Colors.textMuted,
-                                                    backgroundColor: isActive ? Colors.primaryLight : undefined,
+                                                    color: isActive ? Cores.primaria : Cores.textoSuave,
+                                                    backgroundColor: isActive ? Cores.primariaClara : undefined,
                                                 }}
                                             >
                                                 {item.rotulo}
@@ -362,14 +430,55 @@ export default function CabecalhoSite() {
                         </div>
                     ))}
 
+                    {/* Plataformas mobile — altera ?plataforma= na URL */}
+                    {MENU_PLATAFORMAS && (
+                        <div>
+                            <button
+                                onClick={() => setMobileSubmenuAberto((prev) => (prev === "plataformas" ? null : "plataformas"))}
+                                className="w-full flex items-center justify-between px-4 py-3 rounded-xl font-medium text-sm transition-colors cursor-pointer hover:bg-(--color-primary-light)"
+                                style={{ color: Cores.textoSuave }}
+                            >
+                                {MENU_PLATAFORMAS.rotulo}
+                                <svg
+                                    width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2"
+                                    strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"
+                                    className="transition-transform duration-200"
+                                    style={{ transform: mobileSubmenuAberto === "plataformas" ? "rotate(180deg)" : "none" }}
+                                >
+                                    <path d="m6 9 6 6 6-6" />
+                                </svg>
+                            </button>
+                            {mobileSubmenuAberto === "plataformas" && (
+                                <div className="ml-3 pl-3 border-l-2 border-gray-100 flex flex-col gap-0.5 mb-1">
+                                    {MENU_PLATAFORMAS.itens.map((item) => {
+                                        const isActive = plataformaAtual === item.slug;
+                                        return (
+                                            <button
+                                                key={item.slug}
+                                                onClick={() => selecionarPlataforma(item.slug)}
+                                                className="text-left block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-(--color-primary-light) cursor-pointer"
+                                                style={{
+                                                    color: isActive ? Cores.primaria : Cores.textoSuave,
+                                                    backgroundColor: isActive ? Cores.primariaClara : undefined,
+                                                }}
+                                            >
+                                                {item.rotulo}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {/* Downloads mobile */}
                     <div className="mt-1 rounded-xl overflow-hidden border border-gray-100">
-                        {SiteConfig.download.categories.map((cat, catIndex) => {
+                        {ConfigSite.download.categories.map((cat, catIndex) => {
                             const items = DOWNLOADS_HEADER.filter((d) => d.categoryKey === cat.key);
                             if (items.length === 0) return null;
                             return (
                                 <div key={cat.key}>
-                                    <p className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-gray-50${catIndex > 0 ? " border-t border-gray-100" : ""}`} style={{ color: Colors.textMuted }}>
+                                    <p className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-gray-50${catIndex > 0 ? " border-t border-gray-100" : ""}`} style={{ color: Cores.textoSuave }}>
                                         {cat.label}
                                     </p>
                                     {items.map((d) => {
@@ -381,15 +490,15 @@ export default function CabecalhoSite() {
                                                 href={downloadUrl}
                                                 onClick={() => setMenuAberto(false)}
                                                 className="flex items-center gap-2.5 px-4 py-2.5 border-t border-gray-50"
-                                                style={isRec ? { backgroundColor: `${Colors.primary}10` } : {}}
+                                                style={isRec ? { backgroundColor: `${Cores.primaria}10` } : {}}
                                             >
                                                 <span className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: d.corBadge }}>
                                                     {d.icon}
                                                 </span>
-                                                <span className="flex-1 text-sm font-medium" style={{ color: Colors.dark }}>{d.label}</span>
+                                                <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.label}</span>
                                                 {isRec
-                                                    ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Colors.primary }}>✦</span>
-                                                    : <span className="text-xs" style={{ color: Colors.textMuted }}>{d.badge}</span>
+                                                    ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>✦</span>
+                                                    : <span className="text-xs" style={{ color: Cores.textoSuave }}>{d.badge}</span>
                                                 }
                                             </a>
                                         );
@@ -401,9 +510,9 @@ export default function CabecalhoSite() {
 
                     <div className="mt-2 pt-3 border-t border-gray-100 flex flex-col gap-2">
                         <a
-                            href={SiteConfig.links.webApp}
+                            href={ConfigSite.links.webApp}
                             className="block px-4 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-center hover:border-(--color-primary) transition-colors"
-                            style={{ color: Colors.textMuted }}
+                            style={{ color: Cores.textoSuave }}
                             onClick={() => setMenuAberto(false)}
                         >
                             Já tenho conta

@@ -2,9 +2,10 @@
 import { useNavigate, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
 import RodapeSite from "../components/RodapeSite";
-import { SiteConfig, Texts } from "../lib/config";
+import { useAfiliado } from "../hooks/useAfiliado";
+import { ConfigSite, Textos } from "../lib/config";
 import { normalizarDestinoDownload } from "../lib/downloadDestino";
-import { Colors, Fonts, Shadows } from "../lib/theme";
+import { Cores, Fontes, Sombras } from "../lib/theme";
 import { signup } from "../services/ServicoApi";
 import { maskCNPJ, maskPhone } from "../utils/formatacao";
 
@@ -32,7 +33,7 @@ function CheckItem({ children }: { children: React.ReactNode }) {
           <polyline points="20 6 9 17 4 12" />
         </svg>
       </div>
-      <span className="text-sm leading-relaxed" style={{ color: `${Colors.primary}DD` }}>{children}</span>
+      <span className="text-sm leading-relaxed" style={{ color: `${Cores.primaria}DD` }}>{children}</span>
     </li>
   );
 }
@@ -41,8 +42,9 @@ function CheckItem({ children }: { children: React.ReactNode }) {
 
 export default function PaginaNovoCadastro() {
   const [searchParams] = useSearchParams();
-  const destinoCampanha = searchParams.get("destino_original")?.trim();
+  const destinoCampanha = searchParams.get("plataforma")?.trim();
   const destinoDownload = normalizarDestinoDownload(destinoCampanha);
+  const afiliado = useAfiliado();
 
   const [form, setForm] = useState({
     nome_da_empresa: "",
@@ -97,11 +99,11 @@ export default function PaginaNovoCadastro() {
     }
     setLoading(true);
     try {
-      const res = await signup(form as any);
+      const res = await signup({ ...(form as any), id_afiliado: afiliado });
       if (res.sucesso) {
         const params = new URLSearchParams();
         params.set("cadastro", "1");
-        params.set("destino_original", destinoDownload);
+        params.set("plataforma", destinoDownload);
         navigate(`/baixar?${params.toString()}`);
       } else {
         setSubmitError(res.mensagem || "Falha ao cadastrar. Tente novamente.");
@@ -115,31 +117,31 @@ export default function PaginaNovoCadastro() {
 
   // ── Formulário ────────────────────────────────────────────────────────────
   return (
-    <div className="w-full min-h-screen flex flex-col" style={{ fontFamily: Fonts.main, backgroundColor: Colors.primaryLight }}>
+    <div className="w-full min-h-screen flex flex-col" style={{ fontFamily: Fontes.principal, backgroundColor: Cores.primariaClara }}>
       <CabecalhoSite />
 
       {/* Body */}
       <div className="flex-1 flex items-start justify-center px-4 pt-28 pb-10">
         <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
           {/* ── Formulário (3/5) ─────────────────────────────────────────── */}
-          <div className="lg:col-span-3 bg-white rounded-3xl p-8 md:p-10" style={{ boxShadow: Shadows.dashboardImage }}>
+          <div className="lg:col-span-3 bg-white rounded-3xl p-8 md:p-10" style={{ boxShadow: Sombras.imagemPainel }}>
             <div className="mb-8">
-              <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3" style={{ backgroundColor: Colors.primaryLight, color: Colors.primary }}>
-                {SiteConfig.trialDays} {Texts.cadastro.trialBadge}
+              <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3" style={{ backgroundColor: Cores.primariaClara, color: Cores.primaria }}>
+                {ConfigSite.diasTeste} {Textos.cadastro.seloTeste}
               </span>
-              <h1 className="text-2xl md:text-3xl font-extrabold leading-tight" style={{ color: Colors.dark }}>
-                {Texts.cadastro.formTitle}
+              <h1 className="text-2xl md:text-3xl font-extrabold leading-tight" style={{ color: Cores.escura }}>
+                {Textos.cadastro.tituloFormulario}
               </h1>
-              <p className="text-sm mt-1.5" style={{ color: Colors.textMuted }}>
-                {Texts.cadastro.formSubtitle}
+              <p className="text-sm mt-1.5" style={{ color: Cores.textoSuave }}>
+                {Textos.cadastro.subtituloFormulario}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              <FormField label={Texts.cadastro.formFieldEstabelecimento} error={fieldErrors.nome_da_empresa} required>
+              <FormField label={Textos.cadastro.campoEstabelecimento} error={fieldErrors.nome_da_empresa} required>
                 <InputField
                   name="nome_da_empresa"
-                  placeholder={Texts.cadastro.formFieldEstabelecimentoPlaceholder}
+                  placeholder={Textos.cadastro.placeholderCampoEstabelecimento}
                   value={form.nome_da_empresa}
                   onChange={handleChange}
                   hasError={!!fieldErrors.nome_da_empresa}
@@ -280,8 +282,8 @@ export default function PaginaNovoCadastro() {
                     <div
                       className="w-5 h-5 rounded border-2 flex items-center justify-center transition-all"
                       style={{
-                        borderColor: fieldErrors.accepted ? "#EF4444" : accepted ? Colors.primary : Colors.border,
-                        backgroundColor: accepted ? Colors.primary : "white",
+                        borderColor: fieldErrors.accepted ? "#EF4444" : accepted ? Cores.primaria : Cores.borda,
+                        backgroundColor: accepted ? Cores.primaria : "white",
                       }}
                     >
                       {accepted && (
@@ -291,13 +293,13 @@ export default function PaginaNovoCadastro() {
                       )}
                     </div>
                   </div>
-                  <span className="text-sm leading-relaxed" style={{ color: Colors.textMuted }}>
+                  <span className="text-sm leading-relaxed" style={{ color: Cores.textoSuave }}>
                     Li e concordo com os{" "}
-                    <a href="#" className="font-semibold hover:underline" style={{ color: Colors.primary }}>
+                    <a href="#" className="font-semibold hover:underline" style={{ color: Cores.primaria }}>
                       Termos de Uso
                     </a>{" "}
                     e a{" "}
-                    <a href="#" className="font-semibold hover:underline" style={{ color: Colors.primary }}>
+                    <a href="#" className="font-semibold hover:underline" style={{ color: Cores.primaria }}>
                       Política de Privacidade
                     </a>
                   </span>
@@ -320,7 +322,7 @@ export default function PaginaNovoCadastro() {
                 type="submit"
                 disabled={loading}
                 className="w-full py-4 rounded-xl text-white font-bold text-base flex items-center justify-center gap-2 transition-all hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed"
-                style={{ backgroundColor: Colors.primary, boxShadow: Shadows.heroBtnPrimary }}
+                style={{ backgroundColor: Cores.primaria, boxShadow: Sombras.botaoHeroiPrimario }}
               >
                 {loading ? (
                   <>
@@ -329,7 +331,7 @@ export default function PaginaNovoCadastro() {
                   </>
                 ) : (
                   <>
-                    Começar {SiteConfig.trialDays} dias grátis
+                    Começar {ConfigSite.diasTeste} dias grátis
                     <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -340,19 +342,19 @@ export default function PaginaNovoCadastro() {
           </div>
 
           {/* ── Painel lateral (2/5) ──────────────────────────────────────── */}
-          <div className="lg:col-span-2 rounded-3xl p-8 text-white flex flex-col gap-6 relative overflow-hidden lg:sticky lg:top-8" style={{ backgroundColor: Colors.dark }}>
-            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full opacity-20" style={{ backgroundColor: Colors.primary, filter: "blur(60px)" }}></div>
-            <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full opacity-20" style={{ backgroundColor: Colors.accent, filter: "blur(60px)" }}></div>
+          <div className="lg:col-span-2 rounded-3xl p-8 text-white flex flex-col gap-6 relative overflow-hidden lg:sticky lg:top-8" style={{ backgroundColor: Cores.escura }}>
+            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full opacity-20" style={{ backgroundColor: Cores.primaria, filter: "blur(60px)" }}></div>
+            <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full opacity-20" style={{ backgroundColor: Cores.destaque, filter: "blur(60px)" }}></div>
 
             <div className="relative z-10">
               <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4" style={{ backgroundColor: "rgba(255,122,0,0.25)", color: "#FDBA74" }}>
-                {Texts.cadastro.sidebarRiskBadge}
+                {Textos.cadastro.seloRiscoLateral}
               </span>
-              <h2 className="text-xl font-extrabold leading-snug">{Texts.cadastro.sidebarTitle}</h2>
+              <h2 className="text-xl font-extrabold leading-snug">{Textos.cadastro.tituloLateral}</h2>
             </div>
 
             <ul className="relative z-10 space-y-3">
-              {Texts.cadastro.sidebarItems.map((item) => {
+              {Textos.cadastro.itensLateral.map((item) => {
                 const parts = item.split(/\*\*(.+?)\*\*/);
                 return (
                   <CheckItem key={item}>
@@ -364,19 +366,19 @@ export default function PaginaNovoCadastro() {
 
             <div className="relative z-10 pt-4 border-t border-white/10">
               <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#FDBA74" }}>
-                {Texts.cadastro.sidebarModulesLabel}
+                {Textos.cadastro.rotuloModulosLateral}
               </p>
               <div className="grid grid-cols-2 gap-y-2 gap-x-3">
-                {Texts.cadastro.sidebarModules.map((feat) => (
-                  <div key={feat} className="flex items-center gap-2 text-sm" style={{ color: `${Colors.primary}CC` }}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: Colors.primary }}></span>
+                {Textos.cadastro.modulosLateral.map((feat) => (
+                  <div key={feat} className="flex items-center gap-2 text-sm" style={{ color: `${Cores.primaria}CC` }}>
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: Cores.primaria }}></span>
                     {feat}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative z-10 pt-4 border-t border-white/10 text-xs text-white/30 leading-relaxed">© {SiteConfig.companyName}</div>
+            <div className="relative z-10 pt-4 border-t border-white/10 text-xs text-white/30 leading-relaxed">© {ConfigSite.companyName}</div>
           </div>
         </div>
       </div>
@@ -390,10 +392,10 @@ export default function PaginaNovoCadastro() {
 function FormField({ label, error, required, children }: { label: string; error?: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-sm font-semibold mb-1.5" style={{ color: Colors.dark }}>
+      <label className="block text-sm font-semibold mb-1.5" style={{ color: Cores.escura }}>
         {label}
         {required && (
-          <span className="ml-0.5" style={{ color: Colors.primary }}>
+          <span className="ml-0.5" style={{ color: Cores.primaria }}>
             {" "}
             *
           </span>
@@ -423,13 +425,13 @@ function InputField({
   hasError?: boolean;
 }) {
   return (
-    <div className="flex items-center rounded-xl border-2 bg-white transition-colors focus-within:border-(--color-primary)" style={{ borderColor: hasError ? "#EF4444" : Colors.border }}>
+    <div className="flex items-center rounded-xl border-2 bg-white transition-colors focus-within:border-(--color-primary)" style={{ borderColor: hasError ? "#EF4444" : Cores.borda }}>
       {icon && (
-        <span className="pl-3.5 shrink-0" style={{ color: Colors.textDisabled }}>
+        <span className="pl-3.5 shrink-0" style={{ color: Cores.textoDesabilitado }}>
           {icon}
         </span>
       )}
-      <input {...props} className="flex-1 bg-transparent px-3 py-3 text-sm outline-none placeholder-gray-300 min-w-0" style={{ color: Colors.dark }} />
+      <input {...props} className="flex-1 bg-transparent px-3 py-3 text-sm outline-none placeholder-gray-300 min-w-0" style={{ color: Cores.escura }} />
       {suffix && <span className="pr-2 shrink-0">{suffix}</span>}
     </div>
   );
