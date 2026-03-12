@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         brand: {
-          primary: "#E02041", // Main red GrandChef uses
+          primary: "#E02041",
           secondary: "#F5F5F5",
           dark: "#1A1A1A",
           light: "#FFFFFF",

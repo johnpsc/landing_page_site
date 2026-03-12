@@ -54,6 +54,255 @@ export const bigchef: Flavor = {
     cabecalho: true,
     rodape: true,
 
+    // Layout clássico centralizado do Big Chef
+    variantesInicio: {
+      heroi: 'lateral',
+      appGarcom: 'compacto',
+      funcionalidades: 'destaque',
+      estatisticas: 'claro',
+      suporte: 'padrao',
+      contato: 'padrao',
+      chamadaFinal: 'escuro',
+    },
+
+    // ── Configuração por plataforma (página inicial) ───────────────────────
+    // Cada plataforma sobrescreve APENAS textos (o design é único para todas).
+    // O que não for definido aqui herda do nível raiz acima.
+    plataformasInicio: {
+      // Desktop Local → herda tudo do padrão (nenhum override necessário)
+      'desktop-local': {},
+
+      // Desktop Online → textos voltados para acesso remoto
+      'desktop-online': {
+        nome: 'Big Chef Desktop Online',
+        slogan: 'Seu restaurante acessível de qualquer lugar',
+        descricao: 'Gerencie seu restaurante remotamente com o Big Chef Desktop Online. Acesse de qualquer computador com internet.',
+        textos: {
+          heroi: {
+            selo: 'Acesse de qualquer computador',
+            tituloAntes: 'Gerencie seu restaurante',
+            tituloDestaque: 'de qualquer lugar',
+            subtitulo: 'Com o Big Chef Desktop Online, você instala o sistema no seu computador e acessa seus dados na nuvem. Ideal para quem quer mobilidade sem abrir mão de performance.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver como funciona',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'Garçom anota, a cozinha',
+            tituloDestaque: 'recebe na hora.',
+            subtitulo: 'Com o Desktop Online, os pedidos do app são enviados via nuvem — sem depender de rede local. Funciona mesmo com terminais em locais diferentes.',
+            recursos: [
+              { titulo: 'Pedidos via nuvem', descricao: 'O pedido sai do celular do garçom e chega na cozinha pela internet, sem rede Wi-Fi local obrigatória.' },
+              { titulo: 'Fechamento sincronizado', descricao: 'Divida contas e registre gorjetas no celular, com tudo sincronizado automaticamente no caixa.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Tudo do Desktop, com a liberdade da nuvem',
+            subtitulo: 'O mesmo sistema poderoso, mas com seus dados sincronizados online para acessar de qualquer máquina.',
+            cartoes: [
+              { icone: '☁️', titulo: 'Dados na Nuvem', descricao: 'Seus dados ficam seguros na nuvem e acessíveis de qualquer computador com o sistema instalado.' },
+              { icone: '🔄', titulo: 'Sincronização Automática', descricao: 'Alterações em um terminal são refletidas em todos os outros em tempo real.' },
+              { icone: '🏪', titulo: 'PDV Completo', descricao: 'Frente de caixa com leitura de código de barras, balanças e operação ultrarrápida.' },
+              { icone: '🧾', titulo: 'Mesas e Comandas', descricao: 'Controle detalhado do salão com divisão de contas e acompanhamento por mesa.' },
+              { icone: '📑', titulo: 'Emissão Fiscal Integrada', descricao: 'NFC-e e NF-e geradas diretamente pelo sistema sem precisar de outro software.' },
+              { icone: '📊', titulo: 'Relatórios em Tempo Real', descricao: 'Acompanhe DRE, ticket médio e vendas de qualquer lugar com dashboards atualizados.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados reais',
+            titulo: 'Quem usa o Desktop Online já viu a diferença',
+            itens: [
+              { valor: '3.200+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '98%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '40%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '10 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              {
+                citacao: 'Tenho duas unidades em cidades diferentes e consigo acompanhar as duas pelo mesmo sistema. O Desktop Online resolveu minha vida.',
+                nome: 'Marcos Aurélio',
+                papel: 'Dono — Churrascaria do Marcos, SP',
+                iniciais: 'MA',
+              },
+              {
+                citacao: 'A sincronização é instantânea. Cadastro um prato na matriz e já aparece na filial. Não volto mais pro sistema antigo.',
+                nome: 'Sabrina Fonseca',
+                papel: 'Gerente — Bistrô da Villa, RJ',
+                iniciais: 'SF',
+              },
+              {
+                citacao: 'Acompanho as vendas do delivery pelo notebook em casa. O Desktop Online me deu liberdade que eu não tinha.',
+                nome: 'Rafael Teixeira',
+                papel: 'Sócio — Pizza da Hora, BH',
+                iniciais: 'RT',
+              },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte humanizado',
+            titulo: 'Suporte remoto e rápido, de qualquer lugar',
+            subtitulo: 'Nosso time se conecta ao seu computador remotamente para resolver problemas na hora — mesmo que você esteja longe do restaurante.',
+            cartoes: [
+              {
+                icone: '📞',
+                titulo: 'Suporte por WhatsApp',
+                descricao: 'Fale com um especialista via WhatsApp de qualquer lugar e receba respostas rápidas.',
+              },
+              {
+                icone: '💻',
+                titulo: 'Acesso Remoto',
+                descricao: 'Nosso time acessa seu computador remotamente para resolver qualquer problema na hora, esteja você onde estiver.',
+                destaque: true,
+                rotuloDestaque: 'exclusivo',
+              },
+              {
+                icone: '🎓',
+                titulo: 'Treinamento Online',
+                descricao: 'Onboarding por videochamada para você e sua equipe dominarem todas as funcionalidades remotamente.',
+              },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer saber mais sobre o Desktop Online?',
+            subtitulo: 'Tem dúvidas sobre sincronização, multi-terminais ou acesso remoto? Nossa equipe está pronta para explicar como funciona para o seu cenário.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem cartão de crédito',
+            titulo: 'Pronto para gerenciar de qualquer lugar?',
+            subtitulo: 'Teste o Big Chef Desktop Online por {trialDays} dias com todos os módulos, sem compromisso.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+        },
+      },
+
+      // Web → textos focados em acessar pelo navegador
+      'web': {
+        nome: 'Big Chef Web',
+        slogan: 'Seu restaurante direto no navegador',
+        descricao: 'Acesse o Big Chef pelo navegador, sem instalar nada. Ideal para quem quer praticidade total.',
+        textos: {
+          heroi: {
+            selo: 'Zero instalação — 100% no navegador',
+            tituloAntes: 'Seu restaurante no',
+            tituloDestaque: 'navegador',
+            subtitulo: 'Com o Big Chef Web você acessa o sistema completo direto pelo Chrome, Edge ou Safari. Sem downloads, sem atualizações manuais — sempre na última versão.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Acessar sistema web',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'Garçom anota no celular, a cozinha',
+            tituloDestaque: 'já visualiza.',
+            subtitulo: 'O app do garçom se conecta diretamente ao Big Chef Web pela internet. Pedidos chegam na cozinha instantaneamente, sem precisar de servidor local.',
+            recursos: [
+              { titulo: 'Conexão direta pela nuvem', descricao: 'O app envia pedidos direto para o painel web — sem precisar de servidor ou rede local.' },
+              { titulo: 'Fechamento pelo navegador', descricao: 'O caixa acompanha e fecha as mesas pelo navegador, com os pedidos do app já integrados.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Tudo pelo navegador, sem instalar nada',
+            subtitulo: 'Acesse de qualquer dispositivo com internet — computador, tablet ou celular.',
+            cartoes: [
+              { icone: '🌐', titulo: 'Acesso Universal', descricao: 'Funciona em qualquer dispositivo com navegador moderno: PC, Mac, Chromebook, tablet.' },
+              { icone: '🔒', titulo: 'Segurança na Nuvem', descricao: 'Seus dados são criptografados e armazenados com backups automáticos diários.' },
+              { icone: '⚡', titulo: 'Sempre Atualizado', descricao: 'Novas funcionalidades e correções chegam automaticamente, sem precisar baixar nada.' },
+              { icone: '🏪', titulo: 'PDV no Navegador', descricao: 'Frente de caixa completa rodando direto no browser, com suporte a impressoras térmicas.' },
+              { icone: '📱', titulo: 'Responsivo', descricao: 'Interface que se adapta ao tamanho da tela — use no notebook, monitor ou tablet.' },
+              { icone: '📊', titulo: 'Dashboards Online', descricao: 'Acompanhe seus indicadores de qualquer lugar, a qualquer hora.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados reais',
+            titulo: 'Quem usa o Big Chef Web já comprovou',
+            itens: [
+              { valor: '3.200+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '98%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '40%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '10 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              {
+                citacao: 'Abri o navegador, entrei no sistema e já comecei a vender. Não precisei instalar nada, nem chamar técnico. Incrível.',
+                nome: 'Marcos Aurélio',
+                papel: 'Dono — Churrascaria do Marcos, SP',
+                iniciais: 'MA',
+              },
+              {
+                citacao: 'Uso o Big Chef Web no tablet do caixa e no notebook de casa. Tudo sempre sincronizado e sem complicação.',
+                nome: 'Sabrina Fonseca',
+                papel: 'Gerente — Bistrô da Villa, RJ',
+                iniciais: 'SF',
+              },
+              {
+                citacao: 'A versão web é leve e rápida. Mesmo no Chromebook baratinho da loja, o sistema roda perfeitamente.',
+                nome: 'Rafael Teixeira',
+                papel: 'Sócio — Pizza da Hora, BH',
+                iniciais: 'RT',
+              },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte humanizado',
+            titulo: 'Ajuda rápida, direto no navegador',
+            subtitulo: 'Nosso time resolve tudo remotamente — sem precisar instalar programa de acesso remoto. Basta compartilhar a tela pelo navegador.',
+            cartoes: [
+              {
+                icone: '📞',
+                titulo: 'Suporte por WhatsApp',
+                descricao: 'Fale com um especialista via WhatsApp e receba orientação passo a passo para resolver no navegador.',
+              },
+              {
+                icone: '💻',
+                titulo: 'Suporte pelo Navegador',
+                descricao: 'Compartilhe sua tela direto pelo browser e nosso time resolve o problema em tempo real — sem instalar nada.',
+                destaque: true,
+                rotuloDestaque: 'sem instalação',
+              },
+              {
+                icone: '🎓',
+                titulo: 'Treinamento Online',
+                descricao: 'Onboarding por videochamada para você e sua equipe dominarem o sistema web desde o primeiro acesso.',
+              },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer experimentar o Big Chef Web?',
+            subtitulo: 'Tem dúvidas sobre compatibilidade, impressoras térmicas ou como funciona no navegador? Nossa equipe mostra tudo ao vivo.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem download necessário',
+            titulo: 'Comece agora mesmo, direto no navegador',
+            subtitulo: 'Teste o Big Chef Web por {trialDays} dias grátis. Basta criar a conta e acessar — sem instalar nada.',
+            ctaPrimario: 'Criar conta grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+        },
+      },
+    },
+
     menus: {
       funcionalidades: {
         rotulo: "Funcionalidades",
@@ -73,8 +322,6 @@ export const bigchef: Flavor = {
         itens: [
           { rotulo: "Restaurantes", slug: "restaurantes" },
           { rotulo: "Bares e Baladas", slug: "bares-e-baladas" },
-          { rotulo: "Cafeterias", slug: "cafeterias" },
-          { rotulo: "Dark Kitchens", slug: "dark-kitchens" },
           { rotulo: "Sistema para Delivery", slug: "sistema-para-delivery" },
         ],
       },
@@ -131,7 +378,7 @@ export const bigchef: Flavor = {
           label: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-web",
+          downloadUrl: "/baixar?destino=desktop-online",
           corBadge: "#0078D4",
         },
         {
@@ -177,7 +424,7 @@ export const bigchef: Flavor = {
   textos: {
     heroi: {
       selo: "A plataforma mais completa para o seu restaurante",
-      tituloAntes: "Automatize seu salão e venda",
+      tituloAntes: "Automatize seu restaurante e venda",
       tituloDestaque: "muito mais rápido",
       subtitulo: "Reduza erros, acelere o atendimento das mesas e tenha controle total do seu delivery no Big Chef.",
       ctaPrimario: "Começar {trialDays} dias grátis",

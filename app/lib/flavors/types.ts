@@ -94,6 +94,35 @@ export type FlavorShadows = {
 /** IDs de seção disponíveis para a página inicial */
 export type SecaoInicioId = 'heroi' | 'appGarcom' | 'funcionalidades' | 'estatisticas' | 'suporte' | 'contato' | 'chamadaFinal';
 
+/**
+ * Subconjunto de FlavorTexts referente às seções da página inicial.
+ * Usado para overrides por plataforma.
+ */
+export type TextosInicio = Pick<FlavorTexts, SecaoInicioId>;
+
+/**
+ * Configuração de uma plataforma específica para a página inicial.
+ * Todos os campos são opcionais — o que não for definido herda do flavor.
+ */
+export type PlataformaInicio = {
+  /** Override do título meta SEO (ex: "Big Chef Web") */
+  nome?: string;
+  /** Override do slogan para o meta tag */
+  slogan?: string;
+  /** Override da descrição meta SEO */
+  descricao?: string;
+  /** Variantes de layout por seção (sobrescreve variantesInicio do nível raiz) */
+  variantesInicio?: Partial<Record<SecaoInicioId, string>>;
+  /** Seções a exibir e em que ordem (sobrescreve secoes do nível raiz) */
+  secoes?: SecaoInicioId[];
+  /**
+   * Override parcial dos textos das seções da página inicial.
+   * Forneça somente as seções que quer sobrescrever.
+   * Cada seção fornecida substitui completamente a seção default do flavor.
+   */
+  textos?: Partial<TextosInicio>;
+};
+
 /** Configurações textuais e de dados do flavor */
 export type FlavorConfig = {
   name: string;
@@ -117,6 +146,34 @@ export type FlavorConfig = {
   cabecalho?: boolean;
   /** Ocultar o rodapé do site (default: true) */
   rodape?: boolean;
+
+  /**
+   * Variantes de layout para cada seção da página inicial.
+   * A chave é o ID da seção e o valor é o nome da variante.
+   * Se omitido, usa "padrao" para todas as seções.
+   *
+   * Variantes disponíveis:
+   *   heroi:            "padrao" | "lateral" | "minimalista" | "vidro" | "gradiente" | "cartoes"
+   *   appGarcom:        "padrao" | "compacto"
+   *   funcionalidades:  "padrao" | "listagem" | "destaque" | "icones"
+   *   estatisticas:     "padrao" | "claro" | "lateral"
+   *   suporte:          "padrao" | "simples"
+   *   contato:          "padrao" | "centralizado" | "cartoes"
+   *   chamadaFinal:     "padrao" | "escuro" | "gradiente"
+   */
+  variantesInicio?: Partial<Record<SecaoInicioId, string>>;
+
+  /**
+   * Configuração por plataforma para a página inicial.
+   * Cada chave é o slug da plataforma (ex: "desktop-local", "desktop-online", "web").
+   *
+   * Campos de PlataformaInicio sobrescrevem os padrões do flavor:
+   *   - `variantesInicio`: variantes de layout por seção (sobrescreve o do nível raiz)
+   *   - `secoes`: lista e ordem das seções (sobrescreve o do nível raiz)
+   *   - `textos`: override parcial dos textos das seções da página inicial
+   *   - `nome`, `slogan`, `descricao`: sobrescrevem meta SEO
+   */
+  plataformasInicio?: Record<string, PlataformaInicio>;
 
   /** Menus dropdown do cabeçalho (funcionalidades, segmentos, plataformas) */
   menus?: MenusCabecalho;

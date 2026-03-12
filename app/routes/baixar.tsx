@@ -13,7 +13,7 @@ import { Cores, Fontes, Sombras } from "../lib/theme";
  * Página única de downloads.
  *
  * - `/baixar?destino=web` → redireciona para o sistema web
- * - `/baixar?destino=desktop-web` → baixa instalador desktop web
+ * - `/baixar?destino=desktop-online` → baixa instalador desktop online
  * - `/baixar?destino=desktop-local` → baixa instalador desktop local
  * - `/baixar?cadastro=1`      → mostra card de confirmação
  */
@@ -30,7 +30,7 @@ export default function PaginaBaixar() {
 
     const destinoDownload = normalizarDestinoDownload(destinoBase);
     const destinoEhWeb = destinoDownload === "web";
-    const destinoEhDesktopWeb = destinoDownload === "desktop-web";
+    const destinoEhDesktopWeb = destinoDownload === "desktop-online";
 
     const {
         loading,

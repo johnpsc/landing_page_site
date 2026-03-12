@@ -58,6 +58,17 @@ export const mulherz: Flavor = {
     cabecalho: true,
     rodape: true,
 
+    // Visual minimalista e clean para público feminino
+    variantesInicio: {
+      heroi: 'minimalista',
+      appGarcom: 'compacto',
+      funcionalidades: 'padrao',
+      estatisticas: 'claro',
+      suporte: 'padrao',
+      contato: 'centralizado',
+      chamadaFinal: 'padrao',
+    },
+
     menus: {
       funcionalidades: {
         rotulo: "Funcionalidades",

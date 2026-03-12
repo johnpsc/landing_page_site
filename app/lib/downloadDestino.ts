@@ -1,33 +1,21 @@
-export type DestinoDownload = "web" | "desktop-web" | "desktop-local";
+export type DestinoDownload = "web" | "desktop-online" | "desktop-local";
 const PLATAFORMA_PADRAO = "desktop-local";
 
 const DESTINOS_WEB = new Set(["web"]);
 
 const DESTINOS_DESKTOP_WEB = new Set([
-    "desktop-web",
-    "desktop_web",
-    "desktop web",
-    "baixar-web",
-    "baixar_web",
-    "sistema_web",
+    "desktop-online",
 ]);
 
 const DESTINOS_DESKTOP_LOCAL = new Set([
     "desktop-local",
-    "desktop_local",
-    "desktop local",
-    "desktop",
-    "local",
-    "baixar-desktop",
-    "baixar_desktop",
-    "sistema_desktop",
 ]);
 
 export function normalizarDestinoDownload(destino?: string | null): DestinoDownload {
     const destinoNormalizado = (destino ?? "").trim().toLowerCase();
 
     if (DESTINOS_WEB.has(destinoNormalizado)) return "web";
-    if (DESTINOS_DESKTOP_WEB.has(destinoNormalizado)) return "desktop-web";
+    if (DESTINOS_DESKTOP_WEB.has(destinoNormalizado)) return "desktop-online";
     if (DESTINOS_DESKTOP_LOCAL.has(destinoNormalizado)) return "desktop-local";
 
     return "desktop-local";

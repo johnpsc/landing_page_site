@@ -48,12 +48,12 @@ export default function CardPlanosPainel({
     }
 
     return (
-        <div className="relative pt-2 pl-2 pr-2">
+        <div className="relative pt-2 px-0 md:pl-2 md:pr-2">
             {isMaisVendido && <BadgeMaisVendido />}
 
-            <div className="h-full px-5">
+            <div className="h-full px-4 md:px-5">
                 <div
-                    className={`w-75 h-262.5 rounded-[10px] border ${isSelecionado ? "border-(--color-primary)" : "border-gray-200"
+                    className={`w-full md:w-75 md:h-262.5 rounded-[10px] border ${isSelecionado ? "border-(--color-primary)" : "border-gray-200"
                         }`}
                     style={isMaisVendido ? { backgroundColor: Cores.escura } : { backgroundColor: "white" }}
                 >

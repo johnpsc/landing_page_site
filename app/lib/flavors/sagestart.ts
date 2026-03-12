@@ -56,6 +56,17 @@ export const sagestart: Flavor = {
     cabecalho: true,
     rodape: true,
 
+    // Visual profissional SaaS/ERP com hero lateral e fundo claro
+    variantesInicio: {
+      heroi: 'lateral',
+      appGarcom: 'compacto',
+      funcionalidades: 'destaque',
+      estatisticas: 'claro',
+      suporte: 'padrao',
+      contato: 'padrao',
+      chamadaFinal: 'escuro',
+    },
+
     menus: {
       funcionalidades: {
         rotulo: "Funcionalidades",
@@ -102,7 +113,7 @@ export const sagestart: Flavor = {
     },
 
     links: {
-      webApp: "https://eadsagestart.com.br/#/autenticacao/login",
+      webApp: "https://eadsagestart.com.br/painel/#/autenticacao/login",
       appStoreInfo: URL_APP_STORE,
       playStoreInfo: URL_PLAY_STORE,
     },
@@ -131,7 +142,7 @@ export const sagestart: Flavor = {
           label: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-web",
+          downloadUrl: "/baixar?destino=desktop-online",
           corBadge: "#0078D4",
         },
         {

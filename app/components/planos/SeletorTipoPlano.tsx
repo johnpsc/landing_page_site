@@ -23,9 +23,9 @@ export default function PlanTypeSelector({
     onChange,
 }: PlanTypeSelectorProps) {
     return (
-        <div className="mt-10 flex justify-center px-4 w-full">
+        <div className="mt-2 md:mt-10 flex justify-center px-4 w-full max-w-full">
             <div
-                className="flex flex-col gap-4 w-full max-w-sm md:w-auto md:max-w-none md:gap-0 md:inline-flex md:flex-row md:items-center md:rounded-full md:border md:p-1 md:bg-white"
+                className="grid grid-cols-2 gap-3 gap-y-6 md:gap-y-3 w-full max-w-sm pt-4 pb-1 md:pt-1 md:w-auto md:max-w-none md:gap-0 md:inline-flex md:flex-row md:items-center md:rounded-full md:border md:p-1 md:bg-white"
                 style={{ borderColor: Cores.borda }}
             >
                 {tipos.map((tipo) => {
@@ -33,7 +33,7 @@ export default function PlanTypeSelector({
                     const hasDiscount = parseFloat(tipo.percentualdedesconto) > 0;
 
                     return (
-                        <div key={tipo.id} className="relative w-full md:w-auto">
+                        <div key={tipo.id} className="relative md:shrink md:w-auto">
                             {hasDiscount && (
                                 <div
                                     className="absolute -top-3 left-1/2 -translate-x-1/2 text-white text-xs px-2 py-0.5 rounded-full font-bold shadow-sm z-10 whitespace-nowrap"
@@ -45,7 +45,7 @@ export default function PlanTypeSelector({
 
                             <button
                                 onClick={() => onChange(tipo)}
-                                className={`h-12 px-8 rounded-full text-[17px] font-bold uppercase leading-none transition-all duration-200 w-full md:w-auto md:min-w-36 cursor-pointer ${isSelected ? 'shadow-md md:shadow-none' : 'bg-white border md:border-0 md:bg-transparent shadow-sm md:shadow-none'}`}
+                                className={`h-12 md:px-8 rounded-full text-[14px] md:text-[14px] font-bold uppercase leading-none transition-all duration-200 w-full md:w-auto md:min-w-36 cursor-pointer ${isSelected ? 'shadow-md md:shadow-none' : 'bg-white border md:border-0 md:bg-transparent shadow-sm md:shadow-none'}`}
                                 style={{
                                     backgroundColor: isSelected ? Cores.primaria : undefined,
                                     color: isSelected ? "white" : Cores.primaria,

@@ -8,7 +8,7 @@ import { Cores } from "../../lib/theme";
 export default function PlansHero() {
   return (
     <div
-      className="w-full py-16 px-6 text-center relative overflow-hidden"
+      className="w-full py-6 px-6 text-center relative overflow-hidden"
       style={{ backgroundColor: Cores.escura }}
     >
       <div

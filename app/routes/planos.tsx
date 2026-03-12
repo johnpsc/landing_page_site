@@ -101,12 +101,12 @@ export default function PaginaPlanos({ mostrarPlanoCliente = false }: Props) {
     >
       <CabecalhoSite />
 
-      <div className="flex-1 flex flex-col items-center pt-28">
+      <div className="flex-1 flex flex-col items-center pt-19">
         <div className={classEnter(isPageVisible, "planos-delay-1 w-full")}>
           <HeroPlanos />
         </div>
 
-        <div className={classEnter(isPageVisible, "planos-delay-2")}>
+        <div className={classEnter(isPageVisible, "planos-delay-2 w-full overflow-hidden")}>
           <SeletorTipoPlano
             tipos={tiposMensalidade}
             selecionado={tipodemensalidadeSelecionado}

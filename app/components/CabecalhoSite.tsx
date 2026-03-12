@@ -353,13 +353,13 @@ export default function CabecalhoSite() {
 
                     {/* Botão hambúrguer — visível só em mobile */}
                     <button
-                        className="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg gap-1.5 hover:bg-gray-100 transition-colors"
+                        className="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-lg gap-1 hover:bg-gray-100 transition-colors"
                         onClick={() => setMenuAberto((v) => !v)}
                         aria-label="Abrir menu"
                     >
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300 origin-center"
-                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(45deg) translate(3px, 3px)" : "none" }}
+                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(45deg) translate(4px, 4px)" : "none" }}
                         />
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300"
@@ -367,7 +367,7 @@ export default function CabecalhoSite() {
                         />
                         <span
                             className="block h-0.5 w-5 rounded-full transition-all duration-300 origin-center"
-                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(-45deg) translate(3px, -3px)" : "none" }}
+                            style={{ backgroundColor: Cores.escura, transform: menuAberto ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }}
                         />
                     </button>
                 </div>

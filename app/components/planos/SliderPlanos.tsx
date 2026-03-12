@@ -1,5 +1,4 @@
-import React, { useRef, useState } from "react";
-import { Cores } from "../../lib/theme";
+import React from "react";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../../models/ModeloPlanos";
 import CardPlanosPainel from "../CardPlanosPainel";
 
@@ -14,7 +13,7 @@ interface PlanSliderProps {
 
 /**
  * Slider de cards de planos.
- * – Mobile: carrossel snap com indicadores de ponto e setas táteis.
+ * – Mobile: lista vertical ocupando as laterais.
  * – Desktop: slider horizontal com botões de navegação.
  */
 export default function SliderPlanos({
@@ -25,44 +24,14 @@ export default function SliderPlanos({
     tabelaComparacaoRef,
     onScroll,
 }: PlanSliderProps) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const mobileRef = useRef<HTMLDivElement>(null);
-
-    function handleMobileScroll() {
-        const el = mobileRef.current;
-        if (!el || planos.length === 0) return;
-        // cada item ocupa 85vw + gap de 5vw = ~90vw efetivos
-        const itemWidth = el.scrollWidth / planos.length;
-        const idx = Math.min(
-            Math.round(el.scrollLeft / itemWidth),
-            planos.length - 1
-        );
-        setCurrentIndex(idx);
-    }
-
-    function scrollToIndex(idx: number) {
-        const el = mobileRef.current;
-        if (!el) return;
-        const itemWidth = el.scrollWidth / planos.length;
-        el.scrollTo({ left: idx * itemWidth, behavior: "smooth" });
-        setCurrentIndex(idx);
-    }
 
     return (
         <>
             {/* ─── Mobile: carrossel snap ─────────────────────────────── */}
-            <div className="md:hidden w-full mt-8">
-                {/* faixa de scroll */}
-                <div
-                    ref={mobileRef}
-                    onScroll={handleMobileScroll}
-                    className="flex overflow-x-scroll snap-x snap-mandatory no-scrollbar"
-                >
+            <div className="md:hidden w-full mt-8 px-3">
+                <div className="flex flex-col gap-3">
                     {planos.map((item) => (
-                        <div
-                            key={item.id}
-                            className="snap-center shrink-0 w-screen flex items-center justify-center py-6 px-4"
-                        >
+                        <div key={item.id} className="w-full">
                             <CardPlanosPainel
                                 item={item}
                                 tipodemensalidadeSelecionado={tipodemensalidadeSelecionado}
@@ -72,53 +41,6 @@ export default function SliderPlanos({
                         </div>
                     ))}
                 </div>
-
-                {/* setas mobile */}
-                <div className="flex items-center justify-center gap-4 mt-2 px-4">
-                    <button
-                        onClick={() => scrollToIndex(Math.max(0, currentIndex - 1))}
-                        disabled={currentIndex === 0}
-                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-(--color-primary-light)"
-                        aria-label="Plano anterior"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="m15 18-6-6 6-6" />
-                        </svg>
-                    </button>
-
-                    {/* dots */}
-                    <div className="flex items-center gap-2">
-                        {planos.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => scrollToIndex(i)}
-                                aria-label={`Plano ${i + 1}`}
-                                className="rounded-full transition-all duration-300"
-                                style={{
-                                    width: currentIndex === i ? 28 : 8,
-                                    height: 8,
-                                    backgroundColor: currentIndex === i ? Cores.primaria : "#D1D5DB",
-                                }}
-                            />
-                        ))}
-                    </div>
-
-                    <button
-                        onClick={() => scrollToIndex(Math.min(planos.length - 1, currentIndex + 1))}
-                        disabled={currentIndex === planos.length - 1}
-                        className="w-10 h-10 flex items-center justify-center rounded-full border border-gray-200 disabled:opacity-30 transition-colors hover:bg-(--color-primary-light)"
-                        aria-label="Próximo plano"
-                    >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="m9 18 6-6-6-6" />
-                        </svg>
-                    </button>
-                </div>
-
-                {/* contador textual */}
-                <p className="text-center text-sm mt-1" style={{ color: Cores.textoSuave }}>
-                    {currentIndex + 1} de {planos.length}
-                </p>
             </div>
 
             {/* ─── Desktop: slider com setas ──────────────────────────── */}
