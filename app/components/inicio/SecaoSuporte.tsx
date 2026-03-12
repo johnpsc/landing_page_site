@@ -73,12 +73,12 @@ function SuportePadrao(_props: SecaoProps) {
                     <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x" style={{ '--tw-divide-opacity': 1, '--tw-divide-color': `${Cores.primaria}22` } as React.CSSProperties}>
                         <div className="px-8 py-6 flex flex-col gap-1">
                             <span className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: Cores.primaria }}>Segunda a sexta</span>
-                            <span className="text-2xl font-extrabold" style={{ color: Cores.escura }}>{ConfigSite.support.hours.weekdays}</span>
+                            <span className="text-2xl font-extrabold" style={{ color: Cores.escura }}>{ConfigSite.suporte.horarios.diasUteis}</span>
                             <span className="text-sm" style={{ color: Cores.textoSuave }}>{textos.suporte.notaSuporteCompleto}</span>
                         </div>
                         <div className="px-8 py-6 flex flex-col gap-1">
                             <span className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: Cores.primaria }}>Sábado</span>
-                            <span className="text-2xl font-extrabold" style={{ color: Cores.escura }}>{ConfigSite.support.hours.saturday}</span>
+                            <span className="text-2xl font-extrabold" style={{ color: Cores.escura }}>{ConfigSite.suporte.horarios.sabado}</span>
                             <span className="text-sm" style={{ color: Cores.textoSuave }}>{textos.suporte.notaSuporteCompleto}</span>
                         </div>
                         <div className="px-8 py-6 flex flex-col gap-1">

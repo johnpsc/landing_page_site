@@ -1,7 +1,8 @@
 import { Link, useParams, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
+import { usePlataforma } from "../components/inicio/PlataformaContext";
 import RodapeSite from "../components/RodapeSite";
-import { ConfigSite, MenusCabecalhoConfig, Textos } from "../lib/config";
+import { ConfigSite } from "../lib/config";
 import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../lib/downloadDestino";
 import { Cores, Fontes, Sombras } from "../lib/theme";
 
@@ -19,8 +20,8 @@ const DESIGN_SEGMENTO: Record<string, number> = {
 
 export function meta() {
     return [
-        { title: `Segmentos - ${ConfigSite.name}` },
-        { name: "description", content: `Conheça os segmentos atendidos pelo ${ConfigSite.name}.` },
+        { title: `Segmentos - ${ConfigSite.nome}` },
+        { name: "description", content: `Conheça os segmentos atendidos pelo ${ConfigSite.nome}.` },
     ];
 }
 
@@ -31,8 +32,12 @@ export default function PaginaSegmento() {
     const plataformaAtual = obterPlataformaDaSearchParams(searchParams);
     const withDestino = (url: string) => adicionarDestinoNaUrl(url, destinoAtual, plataformaAtual);
 
-    const pagina = slug ? Textos.paginasSegmentos[slug] : undefined;
-    const menuSegmentos = MenusCabecalhoConfig.segmentos;
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const textos = plat.textos;
+
+    const pagina = slug ? textos.paginasSegmentos[slug] : undefined;
+    const menuSegmentos = plat.menus.segmentos;
     const design = slug ? (DESIGN_SEGMENTO[slug] ?? 0) : 0;
 
     /* ─── 404 ─── */
@@ -63,7 +68,7 @@ export default function PaginaSegmento() {
                 style={{ backgroundColor: Cores.primaria, boxShadow: Sombras.botaoHeroiPrimario }}
                 className="text-white px-8 py-4 rounded-xl font-bold text-lg hover:-translate-y-1 transition-all duration-300 text-center"
             >
-                Começar {ConfigSite.diasTeste} dias grátis
+                Começar {configSite.diasTeste} dias grátis
             </Link>
             <Link
                 to={withDestino("/planos")}
@@ -244,7 +249,7 @@ export default function PaginaSegmento() {
                 return (
                     <section className="py-20 px-4 md:px-8">
                         <h2 className="text-3xl md:text-4xl font-bold text-center mb-4" style={{ color: Cores.escura }}>
-                            Por que escolher o {ConfigSite.name}
+                            Por que escolher o {configSite.nome}
                         </h2>
                         <p className="text-center text-lg mb-14 max-w-2xl mx-auto" style={{ color: Cores.textoSuave }}>
                             Ferramentas pensadas para o seu segmento.
@@ -430,7 +435,7 @@ export default function PaginaSegmento() {
             {renderBeneficios()}
 
             {/* Funcionalidades incluídas */}
-            {MenusCabecalhoConfig.funcionalidades && (
+            {plat.menus.funcionalidades && (
                 <section className="py-16 px-4 md:px-8" style={{ backgroundColor: Cores.primariaClara }}>
                     <div className="max-w-6xl mx-auto">
                         <h2 className="text-2xl font-bold text-center mb-4" style={{ color: Cores.escura }}>
@@ -440,8 +445,8 @@ export default function PaginaSegmento() {
                             Todos os recursos que você precisa, em um único sistema.
                         </p>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {MenusCabecalhoConfig.funcionalidades.itens.map((item) => {
-                                const funcData = Textos.paginasFuncionalidades[item.slug];
+                            {plat.menus.funcionalidades.itens.map((item) => {
+                                const funcData = textos.paginasFuncionalidades[item.slug];
                                 return (
                                     <Link
                                         key={item.slug}
@@ -469,7 +474,7 @@ export default function PaginaSegmento() {
                             {menuSegmentos.itens
                                 .filter((item) => item.slug !== slug)
                                 .map((item) => {
-                                    const segData = Textos.paginasSegmentos[item.slug];
+                                    const segData = textos.paginasSegmentos[item.slug];
                                     return (
                                         <Link
                                             key={item.slug}
@@ -493,7 +498,7 @@ export default function PaginaSegmento() {
                         Pronto para começar?
                     </h2>
                     <p className="text-lg mb-10" style={{ color: Cores.textoSuave }}>
-                        Experimente o {ConfigSite.name} por {ConfigSite.diasTeste} dias sem compromisso.
+                        Experimente o {configSite.nome} por {configSite.diasTeste} dias sem compromisso.
                     </p>
                     <Link
                         to={withDestino("/cadastro")}

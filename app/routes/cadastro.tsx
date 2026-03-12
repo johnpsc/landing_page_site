@@ -1,9 +1,9 @@
 ﻿import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
+import { usePlataforma } from "../components/inicio/PlataformaContext";
 import RodapeSite from "../components/RodapeSite";
 import { useAfiliado } from "../hooks/useAfiliado";
-import { ConfigSite, Textos } from "../lib/config";
 import { normalizarDestinoDownload } from "../lib/downloadDestino";
 import { Cores, Fontes, Sombras } from "../lib/theme";
 import { signup } from "../services/ServicoApi";
@@ -33,7 +33,7 @@ function CheckItem({ children }: { children: React.ReactNode }) {
           <polyline points="20 6 9 17 4 12" />
         </svg>
       </div>
-      <span className="text-sm leading-relaxed" style={{ color: `${Cores.primaria}DD` }}>{children}</span>
+      <span className="text-sm leading-relaxed" style={{ color: `${Cores.clara}DD` }}>{children}</span>
     </li>
   );
 }
@@ -45,6 +45,10 @@ export default function PaginaNovoCadastro() {
   const destinoCampanha = searchParams.get("plataforma")?.trim();
   const destinoDownload = normalizarDestinoDownload(destinoCampanha);
   const afiliado = useAfiliado();
+
+  const plat = usePlataforma();
+  const configSite = plat.config;
+  const textos = plat.textos;
 
   const [form, setForm] = useState({
     nome_da_empresa: "",
@@ -127,21 +131,21 @@ export default function PaginaNovoCadastro() {
           <div className="lg:col-span-3 bg-white rounded-3xl p-8 md:p-10" style={{ boxShadow: Sombras.imagemPainel }}>
             <div className="mb-8">
               <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-3" style={{ backgroundColor: Cores.primariaClara, color: Cores.primaria }}>
-                {ConfigSite.diasTeste} {Textos.cadastro.seloTeste}
+                {configSite.diasTeste} {textos.cadastro.seloTeste}
               </span>
               <h1 className="text-2xl md:text-3xl font-extrabold leading-tight" style={{ color: Cores.escura }}>
-                {Textos.cadastro.tituloFormulario}
+                {textos.cadastro.tituloFormulario}
               </h1>
               <p className="text-sm mt-1.5" style={{ color: Cores.textoSuave }}>
-                {Textos.cadastro.subtituloFormulario}
+                {textos.cadastro.subtituloFormulario}
               </p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
-              <FormField label={Textos.cadastro.campoEstabelecimento} error={fieldErrors.nome_da_empresa} required>
+              <FormField label={textos.cadastro.campoEstabelecimento} error={fieldErrors.nome_da_empresa} required>
                 <InputField
                   name="nome_da_empresa"
-                  placeholder={Textos.cadastro.placeholderCampoEstabelecimento}
+                  placeholder={textos.cadastro.placeholderCampoEstabelecimento}
                   value={form.nome_da_empresa}
                   onChange={handleChange}
                   hasError={!!fieldErrors.nome_da_empresa}
@@ -331,7 +335,7 @@ export default function PaginaNovoCadastro() {
                   </>
                 ) : (
                   <>
-                    Começar {ConfigSite.diasTeste} dias grátis
+                    Começar {configSite.diasTeste} dias grátis
                     <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2.5" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
@@ -348,13 +352,13 @@ export default function PaginaNovoCadastro() {
 
             <div className="relative z-10">
               <span className="inline-block text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full mb-4" style={{ backgroundColor: "rgba(255,122,0,0.25)", color: "#FDBA74" }}>
-                {Textos.cadastro.seloRiscoLateral}
+                {textos.cadastro.seloRiscoLateral}
               </span>
-              <h2 className="text-xl font-extrabold leading-snug">{Textos.cadastro.tituloLateral}</h2>
+              <h2 className="text-xl font-extrabold leading-snug">{textos.cadastro.tituloLateral}</h2>
             </div>
 
             <ul className="relative z-10 space-y-3">
-              {Textos.cadastro.itensLateral.map((item) => {
+              {textos.cadastro.itensLateral.map((item) => {
                 const parts = item.split(/\*\*(.+?)\*\*/);
                 return (
                   <CheckItem key={item}>
@@ -366,19 +370,19 @@ export default function PaginaNovoCadastro() {
 
             <div className="relative z-10 pt-4 border-t border-white/10">
               <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#FDBA74" }}>
-                {Textos.cadastro.rotuloModulosLateral}
+                {textos.cadastro.rotuloModulosLateral}
               </p>
               <div className="grid grid-cols-2 gap-y-2 gap-x-3">
-                {Textos.cadastro.modulosLateral.map((feat) => (
-                  <div key={feat} className="flex items-center gap-2 text-sm" style={{ color: `${Cores.primaria}CC` }}>
-                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: Cores.primaria }}></span>
+                {textos.cadastro.modulosLateral.map((feat) => (
+                  <div key={feat} className="flex items-center gap-2 text-sm" style={{ color: `${Cores.clara}CC` }}>
+                    <span className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: Cores.clara }}></span>
                     {feat}
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="relative z-10 pt-4 border-t border-white/10 text-xs text-white/30 leading-relaxed">© {ConfigSite.companyName}</div>
+            <div className="relative z-10 pt-4 border-t border-white/10 text-xs text-white/30 leading-relaxed">© {configSite.nomeEmpresa}</div>
           </div>
         </div>
       </div>

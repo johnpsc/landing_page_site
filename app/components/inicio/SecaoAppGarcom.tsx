@@ -67,7 +67,7 @@ function AppGarcomPadrao(_props: SecaoProps) {
 
                     <div className="mt-12 flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                         <a
-                            href={ConfigSite.links.appStoreInfo}
+                            href={ConfigSite.links.appStore}
                             target="_blank"
                             rel="noreferrer"
                             className="bg-black text-white px-6 py-3 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors"
@@ -82,7 +82,7 @@ function AppGarcomPadrao(_props: SecaoProps) {
                         </a>
 
                         <a
-                            href={ConfigSite.links.playStoreInfo}
+                            href={ConfigSite.links.playStore}
                             target="_blank"
                             rel="noreferrer"
                             className="bg-black text-white px-6 py-3 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors"
@@ -126,11 +126,11 @@ function AppGarcomCompacto(_props: SecaoProps) {
 
                     {/* Badges */}
                     <div className="flex flex-col gap-3">
-                        <a href={ConfigSite.links.appStoreInfo} target="_blank" rel="noreferrer" className="bg-black text-white px-5 py-2.5 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors">
+                        <a href={ConfigSite.links.appStore} target="_blank" rel="noreferrer" className="bg-black text-white px-5 py-2.5 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors">
                             <svg className="w-6 h-6 mr-2 fill-current" viewBox="0 0 24 24"><path d="M16.365 21.444c-1.127.876-2.316.945-3.528.058-.456-.376-.906-.723-1.428-.737-.533 0-1.026.38-1.503.743-1.2.909-2.35 1.01-3.618.06-2.585-2.028-5.328-7.393-4.108-11.233.72-2.148 2.274-3.575 4.542-3.666 1.055-.04 2.128.618 2.76.657.653.045 1.838-.707 3.093-.687 1.8.03 3.328.773 4.254 2.125-3.324 1.868-2.737 6.136.574 7.4-1.135 2.185-3.313 5.435-1.038 5.28M15.42 5.09c.07.03.11.08.15.11-1.02 1.48-2.61 2.27-4.17 1.96.11-1.44.83-2.81 2.11-3.63.85-.56 1.83-.93 2.82-.93-.05 1.01-.4 2.01-.91 2.49" /></svg>
                             <div className="text-left"><span className="block text-[10px] text-gray-300">Baixar na</span><span className="block text-sm font-bold">App Store</span></div>
                         </a>
-                        <a href={ConfigSite.links.playStoreInfo} target="_blank" rel="noreferrer" className="bg-black text-white px-5 py-2.5 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors">
+                        <a href={ConfigSite.links.playStore} target="_blank" rel="noreferrer" className="bg-black text-white px-5 py-2.5 rounded-xl flex items-center shadow-lg hover:bg-gray-900 transition-colors">
                             <svg className="w-6 h-6 mr-2 fill-current" viewBox="0 0 24 24"><path d="M4 2.5v19l15-9.5L4 2.5zm1.5 2.365L16.29 12 5.5 19.135V4.865z" /></svg>
                             <div className="text-left"><span className="block text-[10px] text-gray-300">DISPONÍVEL NO</span><span className="block text-sm font-bold">Google Play</span></div>
                         </a>

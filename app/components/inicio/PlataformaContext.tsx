@@ -1,38 +1,28 @@
 /**
- * PlataformaContext — fornece textos resolvidos por plataforma para as seções da página inicial.
+ * PlataformaContext — fornece a configuração resolvida por plataforma para TODAS as páginas.
  *
  * ┌──────────────────────────────────────────────────────────────────────────────┐
  * │  COMO FUNCIONA                                                               │
  * │                                                                              │
- * │  1. O <PlataformaProvider> recebe o slug da plataforma ativa (ex: "web").    │
- * │  2. Ele verifica se o flavor tem overrides para essa plataforma em           │
- * │     `configuracao.plataformasInicio[slug].textos`.                           │
- * │  3. Mescla (seção-a-seção) com os textos padrão do flavor.                  │
- * │  4. Os componentes de seção usam `useTextosInicio()` em vez de importar     │
- * │     `Textos` diretamente, recebendo assim os textos corretos da plataforma. │
+ * │  1. O <PlataformaProvider> é montado no root.tsx e recebe o ?plataforma=.   │
+ * │  2. Ele chama resolverPlataforma(slug) que mescla o flavor raiz com os      │
+ * │     overrides da plataforma (config, textos, menus, download, tudo).        │
+ * │  3. Qualquer componente usa usePlataforma() para obter o snapshot completo. │
+ * │  4. useTextosInicio() é atalho para os textos da home page.                 │
  * │                                                                              │
- * │  PARA SOBRESCREVER TEXTOS DE UMA PLATAFORMA:                                │
- * │  → No arquivo do flavor, adicione `plataformasInicio.SLUG.textos.SECAO`     │
- * │  → Forneça o objeto completo da seção — ele substitui tudo da seção padrão. │
+ * │  PARA SOBRESCREVER ALGO POR PLATAFORMA:                                     │
+ * │  → No arquivo do flavor, em `plataformas.SLUG`, adicione os campos.         │
+ * │  → O que não for definido herda automaticamente do flavor raiz.             │
  * └──────────────────────────────────────────────────────────────────────────────┘
  */
 
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import type { TextosInicio } from "../../lib/config";
-import { flavorAtivo, Textos } from "../../lib/config";
-
-// ─── Tipos internos ───────────────────────────────────────────────────────────
-
-type PlataformaContextValue = {
-    /** Textos resolvidos (padrão do flavor, com overrides da plataforma aplicados) */
-    textos: TextosInicio;
-    /** Slug da plataforma ativa */
-    plataforma: string;
-};
+import { resolverPlataforma, type PlataformaResolvida } from "../../lib/config";
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
-const PlataformaCtx = createContext<PlataformaContextValue | null>(null);
+const PlataformaCtx = createContext<PlataformaResolvida | null>(null);
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
@@ -42,64 +32,59 @@ type ProviderProps = {
 };
 
 /**
- * Envolve a página inicial e resolve os textos corretos para a plataforma ativa.
+ * Envolve TODA a aplicação e resolve a config completa para a plataforma ativa.
+ * Deve ser montado em root.tsx.
  *
  * ```tsx
  * <PlataformaProvider plataforma={plataformaAtual}>
- *   <SecaoHeroi ... />
+ *   <Outlet />
  * </PlataformaProvider>
  * ```
  */
 export function PlataformaProvider({ plataforma, children }: ProviderProps) {
-    const value = useMemo<PlataformaContextValue>(() => {
-        const cfgPlataforma = flavorAtivo.configuracao.plataformasInicio?.[plataforma];
-        const textosOverride = cfgPlataforma?.textos;
-
-        // Mescla seção-a-seção: se a plataforma define uma seção, ela substitui integralmente
-        const textosMesclados: TextosInicio = {
-            heroi: textosOverride?.heroi ?? Textos.heroi,
-            appGarcom: textosOverride?.appGarcom ?? Textos.appGarcom,
-            funcionalidades: textosOverride?.funcionalidades ?? Textos.funcionalidades,
-            estatisticas: textosOverride?.estatisticas ?? Textos.estatisticas,
-            suporte: textosOverride?.suporte ?? Textos.suporte,
-            contato: textosOverride?.contato ?? Textos.contato,
-            chamadaFinal: textosOverride?.chamadaFinal ?? Textos.chamadaFinal,
-        };
-
-        return { textos: textosMesclados, plataforma };
-    }, [plataforma]);
+    const value = useMemo<PlataformaResolvida>(
+        () => resolverPlataforma(plataforma),
+        [plataforma],
+    );
 
     return <PlataformaCtx.Provider value={value}>{children}</PlataformaCtx.Provider>;
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// ─── Hooks ────────────────────────────────────────────────────────────────────
+
+/**
+ * Retorna o snapshot completo da plataforma resolvida (config + textos + menus + seções).
+ * Deve ser usado dentro de <PlataformaProvider>.
+ *
+ * Se chamado fora do provider (ex: em testes), retorna a resolução padrão (sem plataforma).
+ */
+export function usePlataforma(): PlataformaResolvida {
+    const ctx = useContext(PlataformaCtx);
+    if (ctx) return ctx;
+    // Fallback: resolução sem plataforma
+    return resolverPlataforma("");
+}
 
 /**
  * Retorna os textos das seções da página inicial, já resolvidos para a plataforma ativa.
- * Deve ser usado dentro de <PlataformaProvider>.
- *
- * Se chamado fora do provider (ex: em testes), retorna os textos padrão do flavor.
+ * Atalho para `usePlataforma().textos` filtrado pelas chaves da home.
  */
 export function useTextosInicio(): TextosInicio {
-    const ctx = useContext(PlataformaCtx);
-    if (ctx) return ctx.textos;
-
-    // Fallback: textos padrão do flavor (sem override de plataforma)
+    const { textos } = usePlataforma();
     return {
-        heroi: Textos.heroi,
-        appGarcom: Textos.appGarcom,
-        funcionalidades: Textos.funcionalidades,
-        estatisticas: Textos.estatisticas,
-        suporte: Textos.suporte,
-        contato: Textos.contato,
-        chamadaFinal: Textos.chamadaFinal,
+        heroi: textos.heroi,
+        appGarcom: textos.appGarcom,
+        funcionalidades: textos.funcionalidades,
+        estatisticas: textos.estatisticas,
+        suporte: textos.suporte,
+        contato: textos.contato,
+        chamadaFinal: textos.chamadaFinal,
     };
 }
 
 /**
- * Retorna o slug da plataforma ativa ("desktop-local", "desktop-online" ou "web").
+ * Retorna o slug da plataforma ativa ("desktop-local", "desktop-online", "web" ou "" se geral).
  */
 export function usePlataformaAtiva(): string {
-    const ctx = useContext(PlataformaCtx);
-    return ctx?.plataforma ?? "desktop-local";
+    return usePlataforma().slug;
 }

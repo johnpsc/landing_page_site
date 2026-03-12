@@ -1,13 +1,23 @@
+// ╔════════════════════════════════════════════════════════════════════════════╗
+// ║  SAGE START — Definição do Flavor                                         ║
+// ║                                                                           ║
+// ║  Cores, imagens, sombras, configuração e textos do sistema Sage Start.    ║
+// ║  TODO: substituir URLs de logo, links, contatos e downloads.              ║
+// ╚════════════════════════════════════════════════════════════════════════════╝
+
 import type { Flavor } from "./types";
 
-// TODO: substitua os valores abaixo pelos dados reais do Sage Start
-// TODO: atualize as URLs de logo, links, contatos e downloads
+// ── URLs externas ───────────────────────────────────────────────────────────
 
 const URL_APP_STORE = "https://apps.apple.com/br/app/TODO-sagestart";
 const URL_PLAY_STORE = "https://play.google.com/store/apps/details?id=br.com.TODO.sagestart";
 
 export const sagestart: Flavor = {
   id: "sagestart",
+
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  CORES                                                                   │
+  // └──────────────────────────────────────────────────────────────────────────┘
   cores: {
     primaria: "#6B2D8B",
     primariaEscura: "#4A1D6B",
@@ -21,6 +31,9 @@ export const sagestart: Flavor = {
     secundaria: "#F3EAF8",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  IMAGENS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   imagens: {
     gifHeroi: "https://via.placeholder.com/800x500?text=Sage+Start+Preview",
     preVisualizacaoPainel: "https://www.grandchef.com.br/img/home/dashboard-sistema-grandchef.webp",
@@ -30,6 +43,9 @@ export const sagestart: Flavor = {
     ifood: "https://www.ifood.com.br/static/images/logo.svg",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  SOMBRAS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   sombras: {
     cabecalho: "0 4px 30px rgba(0,0,0,0.05)",
     imagemPainel: "0 20px 50px rgba(0,0,0,0.1)",
@@ -42,14 +58,17 @@ export const sagestart: Flavor = {
     planoSelecionado: "0 6px 20px rgba(107,45,139,0.3)",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  CONFIGURAÇÃO                                                              │
+  // └──────────────────────────────────────────────────────────────────────────┘
   configuracao: {
-    name: "Sage Start",
-    namePro: "Sage Start Pro",
+    nome: "Sage Start",
+    nomePro: "Sage Start Pro",
     slogan: "ERP para Restaurantes",
-    companyName: "Word System Desenvolvimento de Sistemas LTDA",
-    description: "Sistema de gestão inteligente para bares, restaurantes e delivery.",
+    nomeEmpresa: "Word System Desenvolvimento de Sistemas LTDA",
+    descricao: "Sistema de gestão inteligente para bares, restaurantes e delivery.",
     logo: "https://eadsagestart.com.br/sistema/apis_restaurantes/imagens/logo.png",
-    logoColored: "https://via.placeholder.com/200x60?text=Sage+Start",
+    logoColorida: "https://via.placeholder.com/200x60?text=Sage+Start",
     diasTeste: 10,
 
     secoes: ['heroi', 'appGarcom', 'funcionalidades', 'estatisticas', 'suporte', 'contato', 'chamadaFinal'],
@@ -65,6 +84,846 @@ export const sagestart: Flavor = {
       suporte: 'padrao',
       contato: 'padrao',
       chamadaFinal: 'escuro',
+    },
+
+    // ── Configuração por plataforma ──────────────────────────────────────────
+    plataformas: {
+      // ── Desktop Local ────────────────────────────────────────────────────
+      'desktop-local': {
+        nome: 'Sage Start Desktop',
+        slogan: 'Performance máxima instalado no seu computador',
+        descricao: 'Instale o Sage Start no seu computador e tenha o sistema mais rápido e completo para a operação do seu restaurante.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+        },
+        textos: {
+          heroi: {
+            selo: 'Sistema instalado no seu computador',
+            tituloAntes: 'O sistema mais rápido para',
+            tituloDestaque: 'o seu restaurante',
+            subtitulo: 'Instale o Sage Start no seu computador e tenha a operação mais rápida e estável do mercado. PDV, mesas, delivery e fiscal — tudo nativo e sem depender de internet.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver sistema funcionando',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'O garçom anota, a cozinha',
+            tituloDestaque: 'já prepara.',
+            subtitulo: 'O app do garçom se conecta ao sistema instalado no computador pela rede Wi-Fi local. Pedidos chegam instantaneamente na impressora da cozinha.',
+            recursos: [
+              { titulo: 'Pedidos pela rede local', descricao: 'Envio direto pela Wi-Fi do restaurante — ultra-rápido e sem depender de internet.' },
+              { titulo: 'Fechamento no caixa', descricao: 'Divida contas e registre gorjetas com os pedidos já integrados na máquina do caixa.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Performance nativa para sua operação',
+            subtitulo: 'Sistema instalado no computador com velocidade máxima e funcionamento offline.',
+            cartoes: [
+              { icone: '⚡', titulo: 'Velocidade Nativa', descricao: 'O sistema roda direto no seu computador — sem lentidão de navegador ou dependência de internet.' },
+              { icone: '🏪', titulo: 'PDV Ultra-Rápido', descricao: 'Frente de caixa com leitura de código de barras, balanças e operação instantânea.' },
+              { icone: '💰', titulo: 'Financeiro', descricao: 'Controle completo de receitas, despesas e fluxo de caixa em tempo real.' },
+              { icone: '📑', titulo: 'Emissão Fiscal Integrada', descricao: 'NFC-e e NF-e geradas diretamente pelo sistema, sem precisar de outro software.' },
+              { icone: '📊', titulo: 'Relatórios Completos', descricao: 'DRE, ticket médio, pratos mais vendidos e dashboards atualizados na sua tela.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados comprovados',
+            titulo: 'Quem instala o Sage Start não volta atrás',
+            itens: [
+              { valor: '1.500+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '97%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '35%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '5 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              { citacao: 'Depois de instalar o Sage Start, o atendimento ficou muito mais rápido. O sistema no computador é incrivelmente estável.', nome: 'Ana Lúcia', papel: 'Proprietária — Café Gourmet, SP', iniciais: 'AL' },
+              { citacao: 'A emissão fiscal integrada economiza horas do meu contador. Recomendo a versão desktop para quem quer velocidade.', nome: 'Bruno Costa', papel: 'Gerente — Pizzaria Nova Era, RJ', iniciais: 'BC' },
+              { citacao: 'Mesmo sem internet o sistema funciona perfeitamente. Para meu restaurante em zona rural, foi a solução ideal.', nome: 'Carla Mendes', papel: 'Sócia — Lanchonete Vitória, BH', iniciais: 'CM' },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte dedicado',
+            titulo: 'Instalação e suporte completo',
+            subtitulo: 'Nossa equipe instala o sistema no seu computador e oferece suporte remoto sempre que precisar.',
+            cartoes: [
+              { icone: '📞', titulo: 'Suporte por WhatsApp', descricao: 'Atendimento direto com especialistas via WhatsApp, sem filas de espera.' },
+              { icone: '💻', titulo: 'Acesso Remoto', descricao: 'Nossa equipe acessa seu computador remotamente para resolver qualquer problema na hora.', destaque: true, rotuloDestaque: 'exclusivo' },
+              { icone: '🎓', titulo: 'Instalação Guiada', descricao: 'Acompanhamento completo na instalação e implantação do sistema no seu computador.' },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer instalar o Sage Start no seu computador?',
+            subtitulo: 'Tem dúvidas sobre instalação, requisitos ou como funciona o sistema desktop? Nossa equipe mostra tudo ao vivo.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem cartão de crédito',
+            titulo: 'Pronto para instalar o Sage Start?',
+            subtitulo: 'Baixe agora e teste por {trialDays} dias grátis com todos os módulos ativados, sem compromisso.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Sage Start Desktop',
+            subtituloFormulario: 'Preencha os dados e baixe o sistema para instalar no seu computador.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Performance máxima no seu computador!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** durante o teste',
+              'Sistema nativo com **performance máxima**',
+              'Funciona **mesmo sem internet**',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Mesas', 'Delivery', 'Comandas', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          download: {
+            tituloSecao: 'Baixar o Sage Start Desktop',
+            prefixoOsDetectado: 'Detectamos que você usa',
+            osDesconhecido: 'Escolha sua plataforma abaixo',
+            prefixoBotaoDownload: 'Baixar para',
+            botaoOutrasPlataformas: 'Baixar para outra plataforma',
+            tituloPassos: 'Como começar em 3 passos',
+            passos: [
+              { titulo: 'Baixe e instale', descricao: 'Clique no botão acima, baixe o instalador e execute. A instalação leva menos de 2 minutos.' },
+              { titulo: 'Faça login', descricao: 'Abra o sistema e entre com o e-mail e senha que acabou de cadastrar.' },
+              { titulo: 'Configure seu negócio', descricao: 'Siga o assistente inicial: cadastre produtos, mesas e configure o delivery.' },
+            ],
+            tituloRequisitos: 'Requisitos do sistema',
+            rotuloDesktop: 'Computador (PDV / Painel)',
+            rotuloMobile: 'Celular (App Garçom / Delivery)',
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Sage Start Desktop: o plano certo para o seu restaurante',
+            subtituloHeroi: 'Experimente por {trialDays} dias grátis o sistema instalado no seu computador, com performance nativa e todos os módulos liberados.',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Desktop',
+              subtitulo: 'Velocidade nativa no atendimento',
+              descricao: 'O PDV do Sage Start Desktop opera diretamente no seu computador, com leitura de código de barras, integração com balanças e impressoras térmicas. Funciona mesmo sem internet.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Leitura de código de barras', descricao: 'Escaneie produtos com leitores USB conectados diretamente ao computador.', icone: '📷' },
+                { titulo: 'Integração com balanças', descricao: 'Peso automático direto no PDV via conexão serial ou USB.', icone: '⚖️' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Modo offline', descricao: 'Continue vendendo sem internet — o sistema sincroniza quando a conexão voltar.', icone: '📶' },
+              ],
+            },
+            'mesas-e-comandas': {
+              titulo: 'Mesas e Comandas — Desktop',
+              subtitulo: 'Gestão do salão com performance nativa',
+              descricao: 'Controle mesas, comandas e divisão de contas com a estabilidade do sistema instalado. Operação ultrarrápida pela rede local.',
+              icone: '🧾',
+              recursos: [
+                { titulo: 'Mapa de mesas', descricao: 'Visualize o status de cada mesa em tempo real, direto no computador.', icone: '🗺️' },
+                { titulo: 'Comandas individuais', descricao: 'Cada cliente com sua comanda separada, processada localmente.', icone: '📝' },
+                { titulo: 'Divisão de conta', descricao: 'Divida por igual ou por consumo com cálculo instantâneo.', icone: '➗' },
+                { titulo: 'Transferência de mesa', descricao: 'Mova clientes entre mesas sem perder pedidos.', icone: '🔄' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Desktop',
+              subtitulo: 'Controle financeiro com dados locais',
+              descricao: 'Receitas, despesas e fluxo de caixa armazenados no seu computador com acesso instantâneo e segurança total.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa', descricao: 'Acompanhe entradas e saídas com processamento local ultrarrápido.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Organize vencimentos e cobranças sem depender de internet.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos com o extrato bancário.', icone: '🏦' },
+                { titulo: 'DRE automático', descricao: 'Demonstrativo de resultados gerado localmente pelo sistema.', icone: '📈' },
+              ],
+            },
+            'emissao-fiscal': {
+              titulo: 'Emissão Fiscal — Desktop',
+              subtitulo: 'NFC-e e NF-e com integração nativa',
+              descricao: 'Emissão fiscal integrada diretamente ao sistema instalado. Certificado digital configurado localmente para máxima segurança.',
+              icone: '📑',
+              recursos: [
+                { titulo: 'NFC-e automática', descricao: 'Nota fiscal de consumidor emitida a cada venda, direto do PDV.', icone: '🧾' },
+                { titulo: 'NF-e completa', descricao: 'Nota fiscal eletrônica para fornecedores com validação local.', icone: '📄' },
+                { titulo: 'Cancelamento e inutilização', descricao: 'Gerencie notas canceladas sem burocracia.', icone: '❌' },
+                { titulo: 'Relatório fiscal', descricao: 'Consulte notas emitidas com filtros avançados, processados localmente.', icone: '🔍' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Desktop',
+              subtitulo: 'Análises rápidas com processamento local',
+              descricao: 'Dashboards com ticket médio, ranking de produtos e DRE processados diretamente no seu computador, sem depender de internet.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard em tempo real', descricao: 'Indicadores atualizados automaticamente com dados locais.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Valor médio das vendas por período, calculado instantaneamente.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Saiba o que mais vende e otimize o cardápio.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Performance individual de cada atendente.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Desktop para Restaurantes',
+              subtitulo: 'Performance nativa para sua operação',
+              descricao: 'O Sage Start Desktop entrega velocidade e estabilidade para restaurantes que não podem parar. PDV, mesas, fiscal e financeiro — tudo instalado no seu computador.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'Gestão de mesas e comandas', descricao: 'Mapa visual do salão com resposta instantânea.', icone: '🗺️' },
+                { titulo: 'PDV ultrarrápido', descricao: 'Atendimento no caixa com velocidade nativa.', icone: '🏪' },
+                { titulo: 'Funciona offline', descricao: 'Sua operação não para mesmo sem internet.', icone: '📶' },
+                { titulo: 'Emissão fiscal integrada', descricao: 'NFC-e e NF-e direto do sistema instalado.', icone: '📑' },
+              ],
+            },
+            'bares-e-baladas': {
+              titulo: 'Sistema Desktop para Bares e Baladas',
+              subtitulo: 'Velocidade máxima para operações noturnas',
+              descricao: 'Comandas rápidas, controle de estoque de bebidas e atendimento em alta velocidade. O sistema instalado garante estabilidade mesmo nos horários de pico.',
+              icone: '🍺',
+              beneficios: [
+                { titulo: 'Comandas instantâneas', descricao: 'Abertura e fechamento com velocidade nativa.', icone: '⚡' },
+                { titulo: 'Controle de estoque', descricao: 'Monitore bebidas e insumos localmente em tempo real.', icone: '📦' },
+                { titulo: 'Divisão de conta', descricao: 'Divida por igual ou por consumo com cálculo instantâneo.', icone: '➗' },
+                { titulo: 'Estabilidade total', descricao: 'Sem depender de internet nos horários mais movimentados.', icone: '🔒' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Delivery no Sistema Desktop',
+              subtitulo: 'Delivery integrado ao seu PDV local',
+              descricao: 'Receba pedidos online e gerencie entregas diretamente no sistema instalado no seu computador. Integração com marketplaces e cardápio digital.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Cardápio digital', descricao: 'Cardápio online atualizado pelo sistema desktop.', icone: '🌐' },
+                { titulo: 'Integração com marketplaces', descricao: 'Receba pedidos de iFood e outros no mesmo sistema.', icone: '🔗' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Gestão de entregadores', descricao: 'Controle rotas e atribuições direto do seu computador.', icone: '🏍️' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Sage Start Desktop',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o sistema desktop com performance nativa para restaurantes.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções inteligentes de gestão para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema desktop com performance nativa — diferencial competitivo',
+              'Funciona offline, ideal para regiões com internet instável',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão e retenção de clientes',
+              'Suporte completo com instalação remota',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Acesso a materiais de marketing, apresentações e conteúdos exclusivos.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o ERP desktop para vender com confiança.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para tirar dúvidas e fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe suas indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Basta se cadastrar e começar.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Sage Start Desktop.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
+        },
+      },
+
+      // ── Desktop Online ───────────────────────────────────────────────────
+      'desktop-online': {
+        nome: 'Sage Start Online',
+        slogan: 'Seu restaurante acessível de qualquer computador',
+        descricao: 'Gerencie seu restaurante remotamente com o Sage Start Online. Dados na nuvem acessíveis de qualquer máquina.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+              { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+        },
+        textos: {
+          heroi: {
+            selo: 'Acesse de qualquer computador',
+            tituloAntes: 'Gerencie seu restaurante',
+            tituloDestaque: 'de qualquer lugar',
+            subtitulo: 'Com o Sage Start Online, seus dados ficam na nuvem e você acessa de qualquer máquina com internet. Performance de desktop com mobilidade de nuvem.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver como funciona',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'Garçom anota, a cozinha',
+            tituloDestaque: 'recebe na hora.',
+            subtitulo: 'Com o Online, os pedidos do app são enviados via nuvem — sem depender de rede local. Funciona em terminais diferentes.',
+            recursos: [
+              { titulo: 'Pedidos via nuvem', descricao: 'O pedido sai do celular do garçom e chega na cozinha pela internet.' },
+              { titulo: 'Fechamento sincronizado', descricao: 'Divida contas no celular, com tudo sincronizado automaticamente no caixa.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Tudo do Desktop, com a liberdade da nuvem',
+            subtitulo: 'O mesmo sistema poderoso, com dados sincronizados online para acessar de qualquer máquina.',
+            cartoes: [
+              { icone: '☁️', titulo: 'Dados na Nuvem', descricao: 'Seus dados ficam seguros na nuvem e acessíveis de qualquer computador.' },
+              { icone: '🔄', titulo: 'Sincronização Automática', descricao: 'Alterações em um terminal são refletidas em todos os outros em tempo real.' },
+              { icone: '🏪', titulo: 'PDV Completo', descricao: 'Frente de caixa com leitura de código de barras e operação veloz.' },
+              { icone: '📑', titulo: 'Emissão Fiscal Integrada', descricao: 'NFC-e e NF-e geradas diretamente pelo sistema.' },
+              { icone: '📊', titulo: 'Relatórios em Tempo Real', descricao: 'Acompanhe DRE e vendas de qualquer lugar com dashboards atualizados.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados comprovados',
+            titulo: 'Quem usa o Sage Start Online já viu a diferença',
+            itens: [
+              { valor: '1.500+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '97%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '35%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '5 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              { citacao: 'Tenho duas unidades e consigo acompanhar as duas pelo mesmo sistema. O Online resolveu minha vida.', nome: 'Ana Lúcia', papel: 'Proprietária — Café Gourmet, SP', iniciais: 'AL' },
+              { citacao: 'A sincronização é instantânea. Cadastro um prato na matriz e já aparece na filial.', nome: 'Bruno Costa', papel: 'Gerente — Pizzaria Nova Era, RJ', iniciais: 'BC' },
+              { citacao: 'Acompanho as vendas pelo notebook em casa. O Online me deu liberdade que eu não tinha.', nome: 'Carla Mendes', papel: 'Sócia — Lanchonete Vitória, BH', iniciais: 'CM' },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte dedicado',
+            titulo: 'Suporte remoto e rápido',
+            subtitulo: 'Nosso time se conecta ao seu computador remotamente para resolver problemas na hora — de qualquer lugar.',
+            cartoes: [
+              { icone: '📞', titulo: 'Suporte por WhatsApp', descricao: 'Fale com um especialista via WhatsApp de qualquer lugar.' },
+              { icone: '💻', titulo: 'Acesso Remoto', descricao: 'Nosso time acessa seu computador remotamente para resolver qualquer problema.', destaque: true, rotuloDestaque: 'exclusivo' },
+              { icone: '🎓', titulo: 'Treinamento Online', descricao: 'Onboarding por videochamada para você e sua equipe dominarem as funcionalidades.' },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer saber mais sobre o Sage Start Online?',
+            subtitulo: 'Dúvidas sobre sincronização, multi-terminais ou acesso remoto? Nossa equipe mostra como funciona.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem cartão de crédito',
+            titulo: 'Pronto para gerenciar de qualquer lugar?',
+            subtitulo: 'Teste o Sage Start Online por {trialDays} dias com todos os módulos, sem compromisso.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Sage Start Online',
+            subtituloFormulario: 'Preencha os dados e acesse o sistema de qualquer computador.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Acesse de qualquer lugar!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** durante o teste',
+              'Dados **sincronizados na nuvem**',
+              'Acesse de **qualquer computador**',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Mesas', 'Delivery', 'Comandas', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Sage Start Online: o plano ideal para gestão remota',
+            subtituloHeroi: 'Teste gratuitamente por {trialDays} dias com dados na nuvem, acesso multi-terminal e sincronização em tempo real.',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Online',
+              subtitulo: 'PDV sincronizado na nuvem',
+              descricao: 'O PDV do Sage Start Online opera com dados sincronizados em tempo real. Utilize múltiplos terminais de caixa com informações sempre atualizadas entre todas as máquinas.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Leitura de código de barras', descricao: 'Escaneie produtos com leitores USB em qualquer terminal.', icone: '📷' },
+                { titulo: 'Multi-terminal', descricao: 'Vários caixas operando simultaneamente com estoque sincronizado.', icone: '🔄' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Sincronização em tempo real', descricao: 'Cada venda é refletida em todos os terminais automaticamente.', icone: '☁️' },
+              ],
+            },
+            'mesas-e-comandas': {
+              titulo: 'Mesas e Comandas — Online',
+              subtitulo: 'Gestão do salão sincronizada',
+              descricao: 'Controle mesas e comandas com dados atualizados em tempo real entre todos os terminais. Ideal para operações com múltiplos pontos de atendimento.',
+              icone: '🧾',
+              recursos: [
+                { titulo: 'Mapa de mesas sincronizado', descricao: 'Status de cada mesa visível em qualquer terminal conectado.', icone: '🗺️' },
+                { titulo: 'Comandas em tempo real', descricao: 'Pedidos adicionados em qualquer ponto refletem instantaneamente.', icone: '📝' },
+                { titulo: 'Divisão de conta', descricao: 'Divida por igual ou por consumo com dados sincronizados.', icone: '➗' },
+                { titulo: 'Acesso remoto ao salão', descricao: 'Acompanhe o status das mesas de qualquer lugar.', icone: '🌐' },
+              ],
+            },
+            'chatbot-para-delivery': {
+              titulo: 'Chatbot para Delivery — Online',
+              subtitulo: 'Delivery com sincronização multi-loja',
+              descricao: 'Automatize pedidos pelo WhatsApp com dados sincronizados na nuvem. Gerencie o delivery de múltiplas unidades em um único painel.',
+              icone: '🛵',
+              recursos: [
+                { titulo: 'Cardápio digital sincronizado', descricao: 'Atualize o cardápio em uma unidade e reflita em todas.', icone: '📱' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Atendimento automático 24h com pedidos integrados à nuvem.', icone: '🤖' },
+                { titulo: 'Acompanhamento multi-loja', descricao: 'Monitore pedidos de todas as unidades em tempo real.', icone: '📍' },
+                { titulo: 'Integração com marketplaces', descricao: 'iFood e outros marketplaces centralizados no mesmo sistema.', icone: '🔗' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Online',
+              subtitulo: 'Finanças acessíveis de qualquer lugar',
+              descricao: 'Receitas, despesas e fluxo de caixa na nuvem. Acompanhe a saúde financeira do seu negócio de qualquer computador com internet.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa na nuvem', descricao: 'Acompanhe entradas e saídas de qualquer lugar.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Organize vencimentos com alertas sincronizados.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos com o extrato de qualquer terminal.', icone: '🏦' },
+                { titulo: 'DRE consolidado', descricao: 'Demonstrativo de resultados com dados de todas as unidades.', icone: '📈' },
+              ],
+            },
+            'emissao-fiscal': {
+              titulo: 'Emissão Fiscal — Online',
+              subtitulo: 'NFC-e e NF-e sincronizadas na nuvem',
+              descricao: 'Emissão fiscal integrada com dados centralizados. Consulte e gerencie notas de qualquer terminal conectado.',
+              icone: '📑',
+              recursos: [
+                { titulo: 'NFC-e automática', descricao: 'Nota fiscal de consumidor emitida a cada venda em qualquer terminal.', icone: '🧾' },
+                { titulo: 'NF-e completa', descricao: 'Nota fiscal eletrônica com dados sincronizados na nuvem.', icone: '📄' },
+                { titulo: 'Cancelamento e inutilização', descricao: 'Gerencie notas canceladas de qualquer computador.', icone: '❌' },
+                { titulo: 'Relatório fiscal centralizado', descricao: 'Consulte notas de todas as unidades em um único painel.', icone: '🔍' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Online',
+              subtitulo: 'Dados consolidados de qualquer lugar',
+              descricao: 'Dashboards com ticket médio, ranking de produtos e DRE acessíveis remotamente. Acompanhe todas as unidades de onde estiver.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard remoto', descricao: 'Indicadores atualizados em tempo real, acessíveis de qualquer máquina.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Valor médio por unidade e consolidado.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Compare vendas entre filiais e otimize o cardápio.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Performance individual de cada atendente em qualquer unidade.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Online para Restaurantes',
+              subtitulo: 'Gestão remota e sincronizada',
+              descricao: 'O Sage Start Online permite gerenciar seu restaurante de qualquer computador. Dados na nuvem, múltiplos terminais e acesso remoto para donos e gerentes.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'Gestão de mesas sincronizada', descricao: 'Mapa do salão visível em qualquer terminal.', icone: '🗺️' },
+                { titulo: 'Multi-terminal', descricao: 'Vários caixas e terminais operando ao mesmo tempo.', icone: '🔄' },
+                { titulo: 'Acesso remoto', descricao: 'Acompanhe a operação de casa ou de outra unidade.', icone: '🌐' },
+                { titulo: 'Emissão fiscal sincronizada', descricao: 'NFC-e e NF-e com dados centralizados na nuvem.', icone: '📑' },
+              ],
+            },
+            'bares-e-baladas': {
+              titulo: 'Sistema Online para Bares e Baladas',
+              subtitulo: 'Operação noturna com sincronização em tempo real',
+              descricao: 'Comandas, estoque de bebidas e múltiplos terminais sincronizados na nuvem. Ideal para bares com vários pontos de atendimento.',
+              icone: '🍺',
+              beneficios: [
+                { titulo: 'Comandas sincronizadas', descricao: 'Pedidos visíveis em todos os terminais instantaneamente.', icone: '⚡' },
+                { titulo: 'Estoque em tempo real', descricao: 'Monitore bebidas com atualização automática entre pontos.', icone: '📦' },
+                { titulo: 'Múltiplos pontos de venda', descricao: 'Opere vários caixas com dados unificados.', icone: '🏪' },
+                { titulo: 'Gestão remota', descricao: 'Acompanhe faturamento e estoque de qualquer lugar.', icone: '📱' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Delivery Online Sincronizado',
+              subtitulo: 'Delivery multi-loja na nuvem',
+              descricao: 'Gerencie o delivery de múltiplas unidades com cardápio digital, chatbot e integração com marketplaces — tudo sincronizado na nuvem.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Cardápio centralizado', descricao: 'Atualize o cardápio e reflita em todas as unidades.', icone: '🌐' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Pedidos automáticos integrados à nuvem.', icone: '💬' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Gestão multi-unidade', descricao: 'Controle entregadores e rotas de todas as lojas.', icone: '🏍️' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Sage Start Online',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o sistema com sincronização na nuvem e acesso remoto para restaurantes.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções inteligentes de gestão para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema com sincronização na nuvem — ideal para redes e franquias',
+              'Acesso remoto de qualquer computador com internet',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão e retenção de clientes',
+              'Multi-terminal: vários caixas operando simultaneamente',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Acesso a materiais de marketing, apresentações e conteúdos exclusivos.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o ERP Online para vender com confiança.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para tirar dúvidas e fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe suas indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Basta se cadastrar e começar.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Sage Start Online.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
+        },
+      },
+
+      // ── Web ──────────────────────────────────────────────────────────────
+      'web': {
+        nome: 'Sage Start Web',
+        slogan: 'Seu restaurante direto no navegador',
+        descricao: 'Acesse o Sage Start pelo navegador, sem instalar nada. Ideal para quem quer praticidade total.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+          segmentos: {
+            rotulo: "Segmentos",
+            prefixoRota: "/segmentos",
+            itens: [
+              { rotulo: "Restaurantes", slug: "restaurantes" },
+              { rotulo: "Sistema para Delivery", slug: "sistema-para-delivery" },
+            ],
+          },
+        },
+        textos: {
+          heroi: {
+            selo: 'Zero instalação — 100% no navegador',
+            tituloAntes: 'Seu restaurante no',
+            tituloDestaque: 'navegador',
+            subtitulo: 'Com o Sage Start Web você acessa o sistema completo direto pelo Chrome, Edge ou Safari. Sem downloads, sem atualizações manuais — sempre na última versão.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Acessar sistema web',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'Garçom anota no celular, a cozinha',
+            tituloDestaque: 'já visualiza.',
+            subtitulo: 'O app do garçom se conecta diretamente ao Sage Start Web pela internet. Pedidos chegam na cozinha instantaneamente.',
+            recursos: [
+              { titulo: 'Conexão direta pela nuvem', descricao: 'O app envia pedidos direto para o painel web — sem precisar de servidor local.' },
+              { titulo: 'Fechamento pelo navegador', descricao: 'O caixa acompanha e fecha as mesas pelo navegador, com os pedidos do app já integrados.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Tudo pelo navegador, sem instalar nada',
+            subtitulo: 'Acesse de qualquer dispositivo com internet — computador, tablet ou celular.',
+            cartoes: [
+              { icone: '🌐', titulo: 'Acesso Universal', descricao: 'Funciona em qualquer dispositivo com navegador moderno.' },
+              { icone: '🔒', titulo: 'Segurança na Nuvem', descricao: 'Dados criptografados com backups automáticos diários.' },
+              { icone: '⚡', titulo: 'Sempre Atualizado', descricao: 'Novas funcionalidades chegam automaticamente, sem downloads.' },
+              { icone: '📊', titulo: 'Dashboards Online', descricao: 'Acompanhe indicadores de qualquer lugar, a qualquer hora.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados comprovados',
+            titulo: 'Quem usa o Sage Start Web já comprovou',
+            itens: [
+              { valor: '1.500+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '97%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '35%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '5 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              { citacao: 'Abri o navegador, entrei no sistema e já comecei a vender. Não precisei instalar nada.', nome: 'Ana Lúcia', papel: 'Proprietária — Café Gourmet, SP', iniciais: 'AL' },
+              { citacao: 'Uso o Sage Start Web no tablet do caixa e no notebook de casa. Tudo sempre sincronizado.', nome: 'Bruno Costa', papel: 'Gerente — Pizzaria Nova Era, RJ', iniciais: 'BC' },
+              { citacao: 'A versão web é leve e rápida. Roda bem até no Chromebook mais simples.', nome: 'Carla Mendes', papel: 'Sócia — Lanchonete Vitória, BH', iniciais: 'CM' },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte dedicado',
+            titulo: 'Ajuda rápida, direto no navegador',
+            subtitulo: 'Nosso time resolve tudo remotamente — basta compartilhar a tela pelo navegador.',
+            cartoes: [
+              { icone: '📞', titulo: 'Suporte por WhatsApp', descricao: 'Fale com um especialista e receba orientação para resolver no navegador.' },
+              { icone: '💻', titulo: 'Suporte pelo Navegador', descricao: 'Compartilhe sua tela direto pelo browser e nosso time resolve em tempo real.', destaque: true, rotuloDestaque: 'sem instalação' },
+              { icone: '🎓', titulo: 'Treinamento Online', descricao: 'Onboarding por videochamada para dominar o sistema desde o primeiro acesso.' },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer experimentar o Sage Start Web?',
+            subtitulo: 'Dúvidas sobre compatibilidade ou como funciona no navegador? Nossa equipe mostra tudo ao vivo.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem download necessário',
+            titulo: 'Comece agora mesmo, direto no navegador',
+            subtitulo: 'Teste o Sage Start Web por {trialDays} dias grátis. Basta criar a conta e acessar — sem instalar nada.',
+            ctaPrimario: 'Criar conta grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Sage Start Web',
+            subtituloFormulario: 'Preencha os dados e acesse o sistema direto pelo navegador.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Zero instalação, 100% online!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** pelo navegador',
+              '**Sem instalar nada** no computador',
+              'Funciona em **qualquer dispositivo**',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Delivery', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          download: {
+            tituloSecao: 'Acessar o Sage Start Web',
+            prefixoOsDetectado: 'Detectamos que você usa',
+            osDesconhecido: 'Acesse por qualquer navegador moderno',
+            prefixoBotaoDownload: 'Acessar pelo',
+            botaoOutrasPlataformas: 'Outras opções de acesso',
+            tituloPassos: 'Como começar em 3 passos',
+            passos: [
+              { titulo: 'Crie sua conta', descricao: 'Cadastre-se gratuitamente e receba seus dados de acesso por e-mail.' },
+              { titulo: 'Acesse pelo navegador', descricao: 'Abra Chrome, Edge ou Safari e entre com seu e-mail e senha.' },
+              { titulo: 'Configure e venda', descricao: 'Siga o assistente inicial e comece a vender em minutos.' },
+            ],
+            tituloRequisitos: 'Requisitos do sistema',
+            rotuloDesktop: 'Computador (navegador)',
+            rotuloMobile: 'Celular (App Garçom / Delivery)',
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Sage Start Web: o plano certo direto no navegador',
+            subtituloHeroi: 'Comece gratuitamente por {trialDays} dias sem instalar nada. Acesse todos os módulos pelo navegador.',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Web',
+              subtitulo: 'PDV direto no navegador',
+              descricao: 'O PDV do Sage Start Web funciona diretamente no navegador, sem instalar nada. Abra o Chrome, Edge ou Safari e comece a vender.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Acesso pelo navegador', descricao: 'Abra o sistema em qualquer computador com navegador moderno.', icone: '🌐' },
+                { titulo: 'Sempre atualizado', descricao: 'Novas funcionalidades do PDV chegam automaticamente.', icone: '🔄' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Zero instalação', descricao: 'Sem downloads, sem configurações — basta acessar e vender.', icone: '⚡' },
+              ],
+            },
+            'chatbot-para-delivery': {
+              titulo: 'Chatbot para Delivery — Web',
+              subtitulo: 'Delivery gerenciado pelo navegador',
+              descricao: 'Automatize pedidos pelo WhatsApp e gerencie todo o delivery direto no navegador. Sem instalar nada, sempre na versão mais recente.',
+              icone: '🛵',
+              recursos: [
+                { titulo: 'Cardápio digital', descricao: 'Cardápio online atualizado automaticamente pelo navegador.', icone: '📱' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Atendimento automático 24h sem nenhum software extra.', icone: '🤖' },
+                { titulo: 'Acompanhamento de pedido', descricao: 'Status do pedido em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Integração com marketplaces', descricao: 'iFood e outros centralizados no mesmo painel web.', icone: '🔗' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Web',
+              subtitulo: 'Controle financeiro pelo navegador',
+              descricao: 'Receitas, despesas e fluxo de caixa acessíveis de qualquer dispositivo com navegador. Acompanhe a saúde financeira do seu negócio sem instalar nada.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa online', descricao: 'Acompanhe entradas e saídas de qualquer dispositivo.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Organize vencimentos acessíveis pelo navegador.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos com o extrato de qualquer lugar.', icone: '🏦' },
+                { titulo: 'DRE automático', descricao: 'Demonstrativo de resultados sempre atualizado na nuvem.', icone: '📈' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Web',
+              subtitulo: 'Análises acessíveis de qualquer dispositivo',
+              descricao: 'Dashboards com ticket médio, ranking de produtos e DRE acessíveis pelo navegador em qualquer dispositivo — computador, tablet ou celular.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard no navegador', descricao: 'Indicadores atualizados automaticamente, sem instalar nada.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Valor médio das vendas por período, acessível de qualquer lugar.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Saiba o que mais vende e otimize o cardápio.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Performance individual acessível pelo navegador.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Web para Restaurantes',
+              subtitulo: 'Gestão completa pelo navegador',
+              descricao: 'O Sage Start Web oferece tudo que seu restaurante precisa direto no navegador. Sem downloads, sem atualizações manuais — sempre na última versão.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'PDV no navegador', descricao: 'Atendimento no caixa direto pelo Chrome, Edge ou Safari.', icone: '🏪' },
+                { titulo: 'Zero instalação', descricao: 'Abra o navegador e comece a operar.', icone: '⚡' },
+                { titulo: 'Sempre atualizado', descricao: 'Novas funcionalidades chegam automaticamente.', icone: '🔄' },
+                { titulo: 'Acesso universal', descricao: 'Funciona em qualquer dispositivo com navegador moderno.', icone: '🌐' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Delivery pelo Navegador',
+              subtitulo: 'Delivery sem instalar nada',
+              descricao: 'Gerencie cardápio digital, chatbot e delivery diretamente pelo navegador. Acesse de qualquer dispositivo e mantenha tudo atualizado automaticamente.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Cardápio digital', descricao: 'Cardápio online gerenciado pelo navegador.', icone: '🌐' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Pedidos automáticos sem nenhum software extra.', icone: '💬' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Atualizações automáticas', descricao: 'Sempre na última versão sem precisar baixar nada.', icone: '🔄' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Sage Start Web',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o sistema 100% web, sem instalação, para restaurantes.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções inteligentes de gestão para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema 100% web — zero instalação para o cliente',
+              'Acesso pelo navegador em qualquer dispositivo',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão — demonstração instantânea pelo browser',
+              'Atualizações automáticas sem intervenção do cliente',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Acesso a materiais de marketing, apresentações e conteúdos exclusivos.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o ERP Web para vender com confiança.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para tirar dúvidas e fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe suas indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Basta se cadastrar e começar.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Sage Start Web.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
+        },
+      },
     },
 
     menus: {
@@ -100,92 +959,96 @@ export const sagestart: Flavor = {
       },
     },
 
-    contact: {
-      whatsappUrl: "https://wa.me/5500000000001",
+    contato: {
+      urlWhatsapp: "https://wa.me/5500000000001",
       email: "contato@sagestart.com.br",
     },
 
-    support: {
-      hours: {
-        weekdays: "07:30h – 17:30h",
-        saturday: "09h – 12h",
+    suporte: {
+      horarios: {
+        diasUteis: "07:30h – 17:30h",
+        sabado: "09h – 12h",
       },
     },
 
     links: {
-      webApp: "https://eadsagestart.com.br/painel/#/autenticacao/login",
-      appStoreInfo: URL_APP_STORE,
-      playStoreInfo: URL_PLAY_STORE,
+      sistemaWeb: "https://eadsagestart.com.br/painel/#/autenticacao/login",
+      appStore: URL_APP_STORE,
+      playStore: URL_PLAY_STORE,
     },
 
     download: {
-      categories: [
-        { key: "sistema_desktop", label: "Sistema Desktop", descricao: "Desktop (PDV / Painel)" },
-        { key: "sistema_web", label: "Sistema Web", descricao: "Web (PDV / Painel)" },
-        { key: "app_garcom", label: "App do Garçom", descricao: "Android / iPhone" },
+      categorias: [
+        { chave: "sistema_desktop", rotulo: "Sistema Desktop", descricao: "Desktop (PDV / Painel)" },
+        { chave: "sistema_web", rotulo: "Sistema Web", descricao: "Web (PDV / Painel)" },
+        { chave: "app_garcom", rotulo: "App do Garçom", descricao: "Android / iPhone" },
       ],
-      items: [
+      itens: [
         {
           id: "sistema_desktop-windows",
-          platformKey: "windows",
-          categoryKey: "sistema_desktop",
-          label: "Windows",
+          chavePlataforma: "windows",
+          chaveCategoria: "sistema_desktop",
+          rotulo: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-local",
+          urlDownload: "/baixar?destino=desktop-local",
           corBadge: "#0078D4",
         },
         {
           id: "sistema_web-windows",
-          platformKey: "windows",
-          categoryKey: "sistema_web",
-          label: "Windows",
+          chavePlataforma: "windows",
+          chaveCategoria: "sistema_web",
+          rotulo: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-online",
+          urlDownload: "/baixar?destino=desktop-online",
           corBadge: "#0078D4",
         },
         {
           id: "app-garcom-android",
-          platformKey: "android",
-          categoryKey: "app_garcom",
-          label: "Android",
+          chavePlataforma: "android",
+          chaveCategoria: "app_garcom",
+          rotulo: "Android",
           versao: "Android 8.0 ou superior",
           tamanho: "TODO MB",
-          downloadUrl: URL_PLAY_STORE,
+          urlDownload: URL_PLAY_STORE,
           corBadge: "#34A853",
         },
         {
           id: "app-garcom-ios",
-          platformKey: "ios",
-          categoryKey: "app_garcom",
-          label: "iPhone / iPad",
+          chavePlataforma: "ios",
+          chaveCategoria: "app_garcom",
+          rotulo: "iPhone / iPad",
           versao: "iOS 15 ou superior",
           tamanho: "TODO MB",
-          downloadUrl: URL_APP_STORE,
+          urlDownload: URL_APP_STORE,
           corBadge: "#000000",
         },
       ],
-      systemRequirements: {
+      requisitos: {
         desktop: [
-          { label: "Sistema operacional", min: "Windows 10 / macOS 12", rec: "Windows 11 / macOS 14" },
-          { label: "Processador", min: "Intel i3 / AMD Ryzen 3", rec: "Intel i5 / AMD Ryzen 5 ou superior" },
-          { label: "Memória RAM", min: "4 GB", rec: "8 GB ou mais" },
-          { label: "Armazenamento", min: "5 GB livres", rec: "20 GB livres (SSD)" },
-          { label: "Conexão", min: "2 Mbps", rec: "10 Mbps ou mais" },
+          { rotulo: "Sistema operacional", minimo: "Windows 10 / macOS 12", recomendado: "Windows 11 / macOS 14" },
+          { rotulo: "Processador", minimo: "Intel i3 / AMD Ryzen 3", recomendado: "Intel i5 / AMD Ryzen 5 ou superior" },
+          { rotulo: "Memória RAM", minimo: "4 GB", recomendado: "8 GB ou mais" },
+          { rotulo: "Armazenamento", minimo: "5 GB livres", recomendado: "20 GB livres (SSD)" },
+          { rotulo: "Conexão", minimo: "2 Mbps", recomendado: "10 Mbps ou mais" },
         ],
-        mobile: [
-          { label: "Sistema operacional", min: "Android 8.0 / iOS 15", rec: "Android 12+ / iOS 17+" },
-          { label: "Processador", min: "Quad-core 1.6 GHz", rec: "Octa-core 2.0 GHz ou superior" },
-          { label: "Memória RAM", min: "2 GB", rec: "4 GB ou mais" },
-          { label: "Armazenamento", min: "200 MB livres", rec: "1 GB livres" },
-          { label: "Conexão", min: "Wi-Fi 2.4 GHz / 4G", rec: "Wi-Fi 5 GHz / 4G+ ou 5G" },
+        celular: [
+          { rotulo: "Sistema operacional", minimo: "Android 8.0 / iOS 15", recomendado: "Android 12+ / iOS 17+" },
+          { rotulo: "Processador", minimo: "Quad-core 1.6 GHz", recomendado: "Octa-core 2.0 GHz ou superior" },
+          { rotulo: "Memória RAM", minimo: "2 GB", recomendado: "4 GB ou mais" },
+          { rotulo: "Armazenamento", minimo: "200 MB livres", recomendado: "1 GB livres" },
+          { rotulo: "Conexão", minimo: "Wi-Fi 2.4 GHz / 4G", recomendado: "Wi-Fi 5 GHz / 4G+ ou 5G" },
         ],
       },
     },
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  TEXTOS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   textos: {
+    // ── Página Inicial ─────────────────────────────────────────────────────
     heroi: {
       selo: "A plataforma mais completa para restaurantes modernos",
       tituloAntes: "Gerencie seu negócio com",

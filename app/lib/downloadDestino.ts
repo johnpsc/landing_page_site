@@ -18,7 +18,7 @@ export function normalizarDestinoDownload(destino?: string | null): DestinoDownl
     if (DESTINOS_DESKTOP_WEB.has(destinoNormalizado)) return "desktop-online";
     if (DESTINOS_DESKTOP_LOCAL.has(destinoNormalizado)) return "desktop-local";
 
-    return "desktop-local";
+    return "web";
 }
 
 export function obterDestinoDownloadDaSearchParams(searchParams: URLSearchParams): DestinoDownload | undefined {
@@ -28,8 +28,7 @@ export function obterDestinoDownloadDaSearchParams(searchParams: URLSearchParams
 }
 
 export function obterPlataformaDaSearchParams(searchParams: URLSearchParams): string {
-    const plataforma = searchParams.get("plataforma")?.trim();
-    return plataforma || PLATAFORMA_PADRAO;
+    return searchParams.get("plataforma")?.trim() || "";
 }
 
 export function adicionarDestinoNaUrl(url: string, destino?: DestinoDownload, plataforma?: string): string {
@@ -41,9 +40,9 @@ export function adicionarDestinoNaUrl(url: string, destino?: DestinoDownload, pl
         plataforma?.trim()
         || destino?.trim()
         || destinoUrl
-        || PLATAFORMA_PADRAO;
+        || "";
 
-    if (!normalizedUrl.searchParams.get("plataforma")) {
+    if (plataformaFinal && !normalizedUrl.searchParams.get("plataforma")) {
         normalizedUrl.searchParams.set("plataforma", plataformaFinal);
     }
 

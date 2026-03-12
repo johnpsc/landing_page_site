@@ -79,7 +79,7 @@ function HeroiPadrao({ cadastroUrl }: SecaoProps) {
 
             <div className="w-full max-w-350 rounded-4xl overflow-hidden border border-gray-100 relative group" style={{ boxShadow: Sombras.imagemPainel }}>
                 <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity z-10"></div>
-                <img src={Imagens.preVisualizacaoPainel} alt={`Dashboard ${ConfigSite.name}`} className="w-full h-auto object-cover transform transition-transform duration-700 hover:scale-[1.02]" />
+                <img src={Imagens.preVisualizacaoPainel} alt={`Dashboard ${ConfigSite.nome}`} className="w-full h-auto object-cover transform transition-transform duration-700 hover:scale-[1.02]" />
             </div>
         </section>
     );
@@ -146,7 +146,7 @@ function HeroiLateral({ cadastroUrl }: SecaoProps) {
                         >
                             <img
                                 src={Imagens.preVisualizacaoPainel}
-                                alt={`Dashboard ${ConfigSite.name}`}
+                                alt={`Dashboard ${ConfigSite.nome}`}
                                 className="w-full h-auto object-cover"
                             />
                         </div>
@@ -336,7 +336,7 @@ function HeroiGradiente({ cadastroUrl }: SecaoProps) {
 
                 {/* Dashboard com moldura branca */}
                 <div className="w-full max-w-5xl mx-auto rounded-2xl overflow-hidden border-2 border-white/20 shadow-2xl">
-                    <img src={Imagens.preVisualizacaoPainel} alt={`Dashboard ${ConfigSite.name}`} className="w-full h-auto object-cover" />
+                    <img src={Imagens.preVisualizacaoPainel} alt={`Dashboard ${ConfigSite.nome}`} className="w-full h-auto object-cover" />
                 </div>
             </div>
         </section>

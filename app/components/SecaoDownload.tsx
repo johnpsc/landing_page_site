@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import { ConfigSite, Textos, type DownloadCategoryKey, type DownloadPlatformKey } from "../lib/config";
+import { useEffect, useMemo, useState } from "react";
+import type { CategoriaDownload, ChaveCategoriaDownload, ChavePlataformaDownload, ItemDownload } from "../lib/config";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, type ClientOSKey } from "../lib/downloadUtils";
 import { Cores, Sombras } from "../lib/theme";
+import { usePlataforma } from "./inicio/PlataformaContext";
 
 // ─── Tipos e constantes ──────────────────────────────────────────────────────
 
 type PlataformaKey = ClientOSKey;
 
-type Plataforma = (typeof ConfigSite.download.items)[number] & {
+type Plataforma = ItemDownload & {
     icon: React.ReactNode;
-    category: (typeof ConfigSite.download.categories)[number];
+    categoria: CategoriaDownload;
 };
 
-const CLASSES_ICONES_PLATAFORMA: Record<DownloadPlatformKey, string> = {
+const CLASSES_ICONES_PLATAFORMA: Record<ChavePlataformaDownload, string> = {
     windows: "w-8 h-8",
     mac: "w-7 h-7",
     linux: "w-7 h-7",
@@ -21,30 +22,22 @@ const CLASSES_ICONES_PLATAFORMA: Record<DownloadPlatformKey, string> = {
     ios: "w-6 h-6",
 };
 
-const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(ConfigSite.download.categories);
-
-const PLATAFORMAS: Plataforma[] = ConfigSite.download.items.map((downloadItem) => ({
-    ...downloadItem,
-    icon: renderDownloadIcon(downloadItem.platformKey, CLASSES_ICONES_PLATAFORMA[downloadItem.platformKey]),
-    category: DOWNLOAD_CATEGORY_MAP[downloadItem.categoryKey],
-}));
-
 // ─── Componentes auxiliares ──────────────────────────────────────────────────
 
-function ReqRow({ label, min, rec }: { label: string; min: string; rec: string }) {
+function ReqRow({ rotulo, minimo, recomendado }: { rotulo: string; minimo: string; recomendado: string }) {
     return (
         <div className="rounded-xl overflow-hidden border border-gray-100">
             <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wider" style={{ backgroundColor: Cores.secundaria, color: Cores.escura }}>
-                {label}
+                {rotulo}
             </div>
             <div className="grid grid-cols-2 divide-x divide-gray-100">
                 <div className="px-3 py-2.5">
                     <p className="text-xs font-semibold mb-0.5" style={{ color: Cores.textoSuave }}>Mínimo</p>
-                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{min}</p>
+                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{minimo}</p>
                 </div>
                 <div className="px-3 py-2.5" style={{ backgroundColor: "rgba(255,122,0,0.04)" }}>
                     <p className="text-xs font-semibold mb-0.5" style={{ color: Cores.primaria }}>Recomendado</p>
-                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{rec}</p>
+                    <p className="text-xs leading-snug" style={{ color: Cores.escura }}>{recomendado}</p>
                 </div>
             </div>
         </div>
@@ -54,7 +47,7 @@ function ReqRow({ label, min, rec }: { label: string; min: string; rec: string }
 // ─── SecaoDownload ────────────────────────────────────────────────────────────
 
 type SecaoDownloadProps = {
-    tipo: DownloadCategoryKey[];
+    tipo: ChaveCategoriaDownload[];
     downloadUrl?: string;
     downloadPrimaryLabel?: string;
     downloadPrimaryVersion?: string;
@@ -75,11 +68,24 @@ export default function SecaoDownload({
     const [osDetectado, setOsDetectado] = useState<PlataformaKey>("unknown");
     const [mostrarOutras, setMostrarOutras] = useState(false);
 
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const textos = plat.textos;
+
+    const PLATAFORMAS = useMemo<Plataforma[]>(() => {
+        const catMap = createDownloadCategoryMap(configSite.download.categorias);
+        return configSite.download.itens.map((downloadItem) => ({
+            ...downloadItem,
+            icon: renderDownloadIcon(downloadItem.chavePlataforma, CLASSES_ICONES_PLATAFORMA[downloadItem.chavePlataforma]),
+            categoria: catMap[downloadItem.chaveCategoria],
+        }));
+    }, [configSite.download]);
+
     useEffect(() => {
         setOsDetectado(detectClientOS());
     }, []);
 
-    const plataformaPrincipal = PLATAFORMAS.filter((item) => tipo.includes(item.categoryKey)).find((p) => p.platformKey === osDetectado) ?? PLATAFORMAS[0];
+    const plataformaPrincipal = PLATAFORMAS.filter((item) => tipo.includes(item.chaveCategoria)).find((p) => p.chavePlataforma === osDetectado) ?? PLATAFORMAS[0];
     const outras = PLATAFORMAS.filter((p) => p.id !== plataformaPrincipal.id);
 
     return (
@@ -94,29 +100,29 @@ export default function SecaoDownload({
                         </svg>
                     </div>
                     <div>
-                        <h3 className="font-extrabold text-lg leading-tight" style={{ color: Cores.escura }}>{Textos.download.tituloSecao}</h3>
+                        <h3 className="font-extrabold text-lg leading-tight" style={{ color: Cores.escura }}>{textos.download.tituloSecao}</h3>
                         <p className="text-sm" style={{ color: Cores.textoSuave }}>
                             {osDetectado !== "unknown"
-                                ? `${Textos.download.prefixoOsDetectado} ${plataformaPrincipal.label} · ${plataformaPrincipal.category.label}`
-                                : Textos.download.osDesconhecido}
+                                ? `${textos.download.prefixoOsDetectado} ${plataformaPrincipal.rotulo} · ${plataformaPrincipal.categoria.rotulo}`
+                                : textos.download.osDesconhecido}
                         </p>
                     </div>
                 </div>
 
                 {/* Botão principal */}
                 <a
-                    href={downloadUrl ?? plataformaPrincipal.downloadUrl}
+                    href={downloadUrl ?? plataformaPrincipal.urlDownload}
                     className="flex items-center justify-between w-full text-white rounded-2xl px-6 py-5 hover:-translate-y-0.5 transition-all duration-300 mb-4"
                     style={{ backgroundColor: Cores.primaria, boxShadow: Sombras.botaoHeroiPrimario }}
                 >
                     <div className="flex items-center gap-4">
                         <span style={{ color: "rgba(255,255,255,0.85)" }}>{plataformaPrincipal.icon}</span>
                         <div className="text-left">
-                            <p className="font-extrabold text-lg leading-tight">{downloadPrimaryLabel ?? `${Textos.download.prefixoBotaoDownload} ${plataformaPrincipal.label}`}</p>
+                            <p className="font-extrabold text-lg leading-tight">{downloadPrimaryLabel ?? `${textos.download.prefixoBotaoDownload} ${plataformaPrincipal.rotulo}`}</p>
                             {downloadPrimaryVersion && (
                                 <p className="text-xs text-white/90 font-semibold">Versão {downloadPrimaryVersion}</p>
                             )}
-                            <p className="text-xs text-white/80 font-semibold">{plataformaPrincipal.category.label} · {plataformaPrincipal.category.descricao}</p>
+                            <p className="text-xs text-white/80 font-semibold">{plataformaPrincipal.categoria.rotulo} · {plataformaPrincipal.categoria.descricao}</p>
                             <p className="text-sm text-white/70">{plataformaPrincipal.versao} · {plataformaPrincipal.tamanho}</p>
                         </div>
                     </div>
@@ -157,7 +163,7 @@ export default function SecaoDownload({
                     <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                         <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" />
                     </svg>
-                    {Textos.download.botaoOutrasPlataformas}
+                    {textos.download.botaoOutrasPlataformas}
                     <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" className="transition-transform duration-200" style={{ transform: mostrarOutras ? "rotate(180deg)" : "none" }}>
                         <path d="m6 9 6 6 6-6" />
                     </svg>
@@ -165,16 +171,16 @@ export default function SecaoDownload({
 
                 {mostrarOutras && (
                     <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {outras.filter((p) => tipo.includes(p.categoryKey)).map((p) => (
+                        {outras.filter((p) => tipo.includes(p.chaveCategoria)).map((p) => (
                             <a
                                 key={p.id}
-                                href={p.downloadUrl}
+                                href={p.urlDownload}
                                 className="flex items-center gap-3 p-4 rounded-xl border border-gray-100 hover:border-(--color-primary-light) hover:shadow-md transition-all group"
                             >
                                 <span className="text-gray-500 group-hover:scale-110 transition-transform shrink-0" style={{ color: p.corBadge }}>{p.icon}</span>
                                 <div>
-                                    <p className="font-bold text-sm" style={{ color: Cores.escura }}>{p.label}</p>
-                                    <p className="text-xs font-semibold" style={{ color: Cores.primaria }}>{p.category.label}</p>
+                                    <p className="font-bold text-sm" style={{ color: Cores.escura }}>{p.rotulo}</p>
+                                    <p className="text-xs font-semibold" style={{ color: Cores.primaria }}>{p.categoria.rotulo}</p>
                                     <p className="text-xs" style={{ color: Cores.textoSuave }}>{p.tamanho}</p>
                                 </div>
                                 <svg className="ml-auto w-4 h-4 text-gray-300 group-hover:text-(--color-primary) shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -188,9 +194,9 @@ export default function SecaoDownload({
 
             {/* ─ Passo a passo ─ */}
             <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Sombras.imagemPainel }}>
-                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{Textos.download.tituloPassos}</h3>
+                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{textos.download.tituloPassos}</h3>
                 <div className="flex flex-col gap-5">
-                    {Textos.download.passos.map((paso, i) => (
+                    {textos.download.passos.map((paso, i) => (
                         <div key={paso.titulo} className="flex items-start gap-4">
                             <div className="w-10 h-10 rounded-xl flex items-center justify-center font-extrabold text-base text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>
                                 {i + 1}
@@ -206,7 +212,7 @@ export default function SecaoDownload({
 
             {/* ─ Requisitos ─ */}
             <div className="bg-white rounded-3xl p-8" style={{ boxShadow: Sombras.imagemPainel }}>
-                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{Textos.download.tituloRequisitos}</h3>
+                <h3 className="font-extrabold text-lg mb-6" style={{ color: Cores.escura }}>{textos.download.tituloRequisitos}</h3>
                 <div className="grid md:grid-cols-2 gap-6">
 
                     {/* Computador */}
@@ -215,11 +221,11 @@ export default function SecaoDownload({
                             <svg className="w-5 h-5 shrink-0" fill="none" stroke={Cores.primaria} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 21h8m-4-4v4" />
                             </svg>
-                            <span className="font-bold" style={{ color: Cores.escura }}>{Textos.download.rotuloDesktop}</span>
+                            <span className="font-bold" style={{ color: Cores.escura }}>{textos.download.rotuloDesktop}</span>
                         </div>
                         <div className="flex flex-col gap-3">
-                            {ConfigSite.download.systemRequirements.desktop.map((r) => (
-                                <ReqRow key={r.label} {...r} />
+                            {configSite.download.requisitos.desktop.map((r) => (
+                                <ReqRow key={r.rotulo} {...r} />
                             ))}
                         </div>
                     </div>
@@ -230,11 +236,11 @@ export default function SecaoDownload({
                             <svg className="w-5 h-5 shrink-0" fill="none" stroke={Cores.primaria} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
-                            <span className="font-bold" style={{ color: Cores.escura }}>{Textos.download.rotuloMobile}</span>
+                            <span className="font-bold" style={{ color: Cores.escura }}>{textos.download.rotuloMobile}</span>
                         </div>
                         <div className="flex flex-col gap-3">
-                            {ConfigSite.download.systemRequirements.mobile.map((r) => (
-                                <ReqRow key={r.label} {...r} />
+                            {configSite.download.requisitos.celular.map((r) => (
+                                <ReqRow key={r.rotulo} {...r} />
                             ))}
                         </div>
                     </div>

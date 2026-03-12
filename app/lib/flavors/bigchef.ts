@@ -1,10 +1,23 @@
+// ╔════════════════════════════════════════════════════════════════════════════╗
+// ║  BIG CHEF — Definição do Flavor                                           ║
+// ║                                                                           ║
+// ║  Cores, imagens, sombras, configuração e textos do sistema Big Chef.      ║
+// ║  Inclui overrides por plataforma (desktop-local, desktop-online, web).    ║
+// ╚════════════════════════════════════════════════════════════════════════════╝
+
 import type { Flavor } from "./types";
+
+// ── URLs externas ───────────────────────────────────────────────────────────
 
 const URL_APP_STORE = "https://apps.apple.com/br/app/grandchef-2-0-para-atendentes/id1548121357";
 const URL_PLAY_STORE = "https://play.google.com/store/apps/details?id=br.com.grandchef.app";
 
 export const bigchef: Flavor = {
   id: "bigchef",
+
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  CORES                                                                   │
+  // └──────────────────────────────────────────────────────────────────────────┘
 
   cores: {
     primaria: "#FF7A00",
@@ -19,6 +32,9 @@ export const bigchef: Flavor = {
     secundaria: "#FFF1E6",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  IMAGENS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   imagens: {
     gifHeroi: "https://gcsite-assets.grandchef.com.br/images/gerenciamento_conteudo/68de835d93888.gif",
     preVisualizacaoPainel: "https://www.grandchef.com.br/img/home/dashboard-sistema-grandchef.webp",
@@ -28,6 +44,9 @@ export const bigchef: Flavor = {
     ifood: "https://www.ifood.com.br/static/images/logo.svg",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  SOMBRAS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   sombras: {
     cabecalho: "0 4px 30px rgba(0,0,0,0.05)",
     imagemPainel: "0 20px 50px rgba(0,0,0,0.1)",
@@ -40,14 +59,17 @@ export const bigchef: Flavor = {
     planoSelecionado: "0 6px 20px rgba(255,122,0,0.3)",
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  CONFIGURAÇÃO                                                              │
+  // └──────────────────────────────────────────────────────────────────────────┘
   configuracao: {
-    name: "Big Chef",
-    namePro: "Big Chef Pro",
+    nome: "Big Chef",
+    nomePro: "Big Chef Pro",
     slogan: "Sistema para Restaurantes",
-    companyName: "Word System Desenvolvimento de Sistemas LTDA",
-    description: "Sistema de gestão completo para bares, restaurantes, lanchonetes e delivery.",
+    nomeEmpresa: "Word System Desenvolvimento de Sistemas LTDA",
+    descricao: "Sistema de gestão completo para bares, restaurantes, lanchonetes e delivery.",
     logo: "https://bigchef.com.br/sistema/apis_restaurantes/imagens/logo_big_chef.png",
-    logoColored: "https://bigchef.com.br/sistema/apis_restaurantes/imagens/logo_big_chef.png",
+    logoColorida: "https://bigchef.com.br/sistema/apis_restaurantes/imagens/logo_big_chef.png",
     diasTeste: 10,
 
     secoes: ['heroi', 'appGarcom', 'funcionalidades', 'estatisticas', 'suporte', 'contato', 'chamadaFinal'],
@@ -68,15 +90,366 @@ export const bigchef: Flavor = {
     // ── Configuração por plataforma (página inicial) ───────────────────────
     // Cada plataforma sobrescreve APENAS textos (o design é único para todas).
     // O que não for definido aqui herda do nível raiz acima.
-    plataformasInicio: {
-      // Desktop Local → herda tudo do padrão (nenhum override necessário)
-      'desktop-local': {},
+    plataformas: {
+      // Desktop Local → textos focados na instalação local e performance nativa
+      'desktop-local': {
+        nome: 'Big Chef Desktop',
+        slogan: 'Performance máxima instalado no seu computador',
+        descricao: 'Instale o Big Chef no seu computador e tenha o sistema mais rápido e completo para a operação do seu restaurante.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+        },
+        textos: {
+          heroi: {
+            selo: 'Sistema instalado no seu computador',
+            tituloAntes: 'O sistema mais rápido para',
+            tituloDestaque: 'o seu restaurante',
+            subtitulo: 'Instale o Big Chef no seu computador e tenha a operação mais rápida e estável do mercado. PDV, mesas, delivery e fiscal — tudo nativo e sem depender de internet.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver sistema funcionando',
+          },
+          appGarcom: {
+            selo: 'Aplicativo Nativo',
+            titulo: 'O garçom anota, a cozinha',
+            tituloDestaque: 'já prepara.',
+            subtitulo: 'O app do garçom se conecta ao sistema instalado no computador pela rede Wi-Fi local. Pedidos chegam instantaneamente na impressora da cozinha.',
+            recursos: [
+              { titulo: 'Pedidos pela rede local', descricao: 'Envio direto pela Wi-Fi do restaurante — ultra-rápido e sem depender de internet.' },
+              { titulo: 'Fechamento no caixa', descricao: 'Divida contas e registre gorjetas com os pedidos já integrados na máquina do caixa.' },
+            ],
+          },
+          funcionalidades: {
+            titulo: 'Performance nativa para sua operação',
+            subtitulo: 'Sistema instalado no computador com velocidade máxima e funcionamento offline.',
+            cartoes: [
+              { icone: '⚡', titulo: 'Velocidade Nativa', descricao: 'O sistema roda direto no seu computador — sem lentidão de navegador ou dependência de internet.' },
+              { icone: '🏪', titulo: 'PDV Ultra-Rápido', descricao: 'Frente de caixa com leitura de código de barras, balanças e operação instantânea.' },
+              { icone: '🧾', titulo: 'Mesas e Comandas', descricao: 'Controle detalhado do salão com comandas individuais e divisão de contas ágil.' },
+              { icone: '🛵', titulo: 'Delivery Integrado', descricao: 'Receba pedidos no seu site próprio e no chatbot — tudo integrado ao caixa.' },
+              { icone: '📑', titulo: 'Emissão Fiscal Integrada', descricao: 'NFC-e e NF-e geradas diretamente pelo sistema, sem precisar de outro software.' },
+              { icone: '📊', titulo: 'Relatórios Completos', descricao: 'DRE, ticket médio, pratos mais vendidos e dashboards atualizados na sua tela.' },
+            ],
+          },
+          estatisticas: {
+            selo: 'Resultados reais',
+            titulo: 'Quem instala o Big Chef não volta atrás',
+            itens: [
+              { valor: '3.200+', rotulo: 'Restaurantes ativos', icone: '🏪' },
+              { valor: '98%', rotulo: 'Taxa de satisfação', icone: '⭐' },
+              { valor: '40%', rotulo: 'Redução de erros', icone: '📉' },
+              { valor: '10 anos', rotulo: 'No mercado', icone: '🏆' },
+            ],
+            depoimentos: [
+              {
+                citacao: 'Antes eu perdia pedido toda sexta à noite. Com o Big Chef instalado, a cozinha já recebe tudo na hora e o caixa fecha sozinho.',
+                nome: 'Marcos Aurélio',
+                papel: 'Dono — Churrascaria do Marcos, SP',
+                iniciais: 'MA',
+              },
+              {
+                citacao: 'A emissão de NFC-e integrada economizou horas do meu contador. E o sistema é muito rápido por rodar direto na máquina.',
+                nome: 'Sabrina Fonseca',
+                papel: 'Gerente — Bistrô da Villa, RJ',
+                iniciais: 'SF',
+              },
+              {
+                citacao: 'Mesmo quando a internet cai, o Big Chef continua funcionando. Para delivery pesado, não tem igual.',
+                nome: 'Rafael Teixeira',
+                papel: 'Sócio — Pizza da Hora, BH',
+                iniciais: 'RT',
+              },
+            ],
+          },
+          suporte: {
+            selo: 'Suporte humanizado',
+            titulo: 'Você nunca fica sozinho',
+            subtitulo: 'Nosso time acessa seu computador remotamente para resolver qualquer problema na hora — sem você precisar explicar nada.',
+            cartoes: [
+              {
+                icone: '📞',
+                titulo: 'Suporte por WhatsApp',
+                descricao: 'Fale com um especialista via WhatsApp sem burocracia e receba respostas rápidas no seu celular.',
+              },
+              {
+                icone: '💻',
+                titulo: 'Acesso Remoto',
+                descricao: 'Nosso time acessa seu computador remotamente para resolver qualquer problema na hora.',
+                destaque: true,
+                rotuloDestaque: 'exclusivo',
+              },
+              {
+                icone: '🎓',
+                titulo: 'Treinamento Presencial',
+                descricao: 'Onboarding completo com a equipe de implantação para você e sua equipe dominarem o sistema desde o dia 1.',
+              },
+            ],
+            tituloHorario: 'Horário de atendimento',
+            rotuloDomingo: 'Domingo e feriados',
+            valorDomingo: 'Plantão',
+            notaDomingo: 'Urgências via WhatsApp',
+            notaSuporteCompleto: 'Suporte completo',
+          },
+          contato: {
+            selo: 'Fale com a gente',
+            titulo: 'Quer instalar o Big Chef no seu restaurante?',
+            subtitulo: 'Tem dúvidas sobre instalação, requisitos do computador ou como funciona o sistema desktop? Nossa equipe mostra tudo ao vivo.',
+            rotuloWhatsapp: 'WhatsApp Comercial',
+            notaWhatsapp: 'Resposta em minutos no horário de atendimento',
+            rotuloEmail: 'E-mail',
+            textoBotaoFormulario: 'Enviar mensagem via WhatsApp',
+            notaFormulario: 'Ao enviar, você será redirecionado ao WhatsApp com os dados preenchidos.',
+          },
+          chamadaFinal: {
+            selo: 'Sem cartão de crédito',
+            titulo: 'Pronto para instalar o Big Chef?',
+            subtitulo: 'Baixe agora e teste por {trialDays} dias grátis com todos os módulos ativados, sem compromisso.',
+            ctaPrimario: 'Começar {trialDays} dias grátis',
+            ctaSecundario: 'Ver planos e preços',
+          },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Big Chef Desktop',
+            subtituloFormulario: 'Preencha os dados e baixe o sistema para instalar no seu computador.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Performance máxima no seu computador!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** durante o teste',
+              'Sistema nativo com **performance máxima**',
+              'Funciona **mesmo sem internet**',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Mesas', 'Delivery', 'Comandas', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          download: {
+            tituloSecao: 'Baixar o Big Chef Desktop',
+            prefixoOsDetectado: 'Detectamos que você usa',
+            osDesconhecido: 'Escolha sua plataforma abaixo',
+            prefixoBotaoDownload: 'Baixar para',
+            botaoOutrasPlataformas: 'Baixar para outra plataforma',
+            tituloPassos: 'Como começar em 3 passos',
+            passos: [
+              { titulo: 'Baixe e instale', descricao: 'Clique no botão acima, baixe o instalador e execute. A instalação leva menos de 2 minutos.' },
+              { titulo: 'Faça login', descricao: 'Abra o sistema e entre com seu e-mail e senha. Seus módulos já estão liberados.' },
+              { titulo: 'Configure seu restaurante', descricao: 'Cadastre produtos, mesas, impressoras e comece a vender.' },
+            ],
+            tituloRequisitos: 'Requisitos do sistema',
+            rotuloDesktop: 'Computador (PDV / Painel)',
+            rotuloMobile: 'Celular (App Garçom)',
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Big Chef Desktop: o plano ideal para seu restaurante',
+            subtituloHeroi: 'Instale no computador e teste por {trialDays} dias grátis, sem cadastro de cartão. Performance nativa com todos os módulos liberados!',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Desktop',
+              subtitulo: 'Velocidade nativa no atendimento presencial',
+              descricao: 'O PDV do Big Chef Desktop opera direto no seu computador com leitura de código de barras, integração com balanças e impressoras térmicas. Funciona mesmo sem internet.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Leitura de código de barras', descricao: 'Escaneie produtos instantaneamente sem depender de conexão.', icone: '📷' },
+                { titulo: 'Integração com balanças', descricao: 'Peso capturado automaticamente direto no sistema local.', icone: '⚖️' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Modo offline completo', descricao: 'Venda normalmente sem internet — tudo sincroniza depois.', icone: '📶' },
+              ],
+            },
+            'mesas-e-comandas': {
+              titulo: 'Mesas e Comandas — Desktop',
+              subtitulo: 'Controle total do salão com performance nativa',
+              descricao: 'Gerencie mesas, comandas individuais e divisão de contas com velocidade máxima. O sistema instalado garante resposta instantânea mesmo nos horários de pico.',
+              icone: '🧾',
+              recursos: [
+                { titulo: 'Mapa de mesas visual', descricao: 'Veja o status de cada mesa em tempo real no seu monitor.', icone: '🗺️' },
+                { titulo: 'Comandas individuais', descricao: 'Cada cliente com sua comanda, sem risco de erro.', icone: '📝' },
+                { titulo: 'Divisão de conta', descricao: 'Divida por igual ou por consumo individual com agilidade.', icone: '➗' },
+                { titulo: 'Transferência de mesa', descricao: 'Troque clientes de mesa sem perder pedidos registrados.', icone: '🔄' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Desktop',
+              subtitulo: 'Gestão financeira completa instalada no seu computador',
+              descricao: 'Controle receitas, despesas, contas a pagar e receber localmente. Seus dados financeiros seguros no seu próprio computador com acesso instantâneo.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa local', descricao: 'Entradas e saídas atualizadas em tempo real no seu computador.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Organize vencimentos e evite inadimplência com alertas locais.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos do sistema com o extrato do banco.', icone: '🏦' },
+                { titulo: 'DRE automático', descricao: 'Demonstrativo de resultados gerado localmente sem latência.', icone: '📈' },
+              ],
+            },
+            'emissao-fiscal': {
+              titulo: 'Emissão Fiscal — Desktop',
+              subtitulo: 'NFC-e e NF-e com máxima velocidade e estabilidade',
+              descricao: 'Emita notas fiscais direto do sistema instalado, com comunicação direta à SEFAZ. Sem depender de navegador ou conexão instável.',
+              icone: '📑',
+              recursos: [
+                { titulo: 'NFC-e automática', descricao: 'Nota de consumidor emitida instantaneamente a cada venda.', icone: '🧾' },
+                { titulo: 'NF-e completa', descricao: 'Emissão de nota fiscal eletrônica para fornecedores e clientes.', icone: '📄' },
+                { titulo: 'Cancelamento e inutilização', descricao: 'Gerencie notas canceladas e inutilizadas sem burocracia.', icone: '❌' },
+                { titulo: 'Relatório fiscal', descricao: 'Consulte todas as notas emitidas com filtros avançados.', icone: '🔍' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Desktop',
+              subtitulo: 'Dados estratégicos com velocidade nativa',
+              descricao: 'Dashboards e relatórios detalhados processados localmente no seu computador. Ticket médio, produtos mais vendidos, DRE — tudo instantâneo.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard em tempo real', descricao: 'Indicadores do dia atualizados sem depender de internet.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Acompanhe o valor médio das vendas por período.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Saiba quais itens mais vendem e otimize seu cardápio.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Meça a performance de cada atendente da sua equipe.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Desktop para Restaurantes',
+              subtitulo: 'Performance nativa para a operação do seu restaurante',
+              descricao: 'Com o Big Chef Desktop instalado, seu restaurante opera com velocidade máxima. Do atendimento no salão à gestão financeira, tudo funciona mesmo sem internet.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'Gestão de mesas e comandas', descricao: 'Organize o salão com mapa visual e comandas individuais sem lentidão.', icone: '🗺️' },
+                { titulo: 'PDV ultra-rápido', descricao: 'Atendimento no caixa instantâneo com código de barras e balanças.', icone: '🏪' },
+                { titulo: 'Funcionamento offline', descricao: 'Continue operando normalmente mesmo sem internet.', icone: '📶' },
+                { titulo: 'Emissão fiscal integrada', descricao: 'NFC-e e NF-e emitidas direto do sistema local.', icone: '📑' },
+              ],
+            },
+            'bares-e-baladas': {
+              titulo: 'Sistema Desktop para Bares e Baladas',
+              subtitulo: 'Velocidade máxima para operações noturnas',
+              descricao: 'Gerencie comandas e mesas em alta velocidade com o Big Chef Desktop. Performance nativa ideal para bares, pubs e casas noturnas com grande volume.',
+              icone: '🍺',
+              beneficios: [
+                { titulo: 'Comandas instantâneas', descricao: 'Abertura e fechamento de comandas sem travamentos.', icone: '⚡' },
+                { titulo: 'Controle de estoque local', descricao: 'Monitore bebidas e insumos com dados no seu computador.', icone: '📦' },
+                { titulo: 'Divisão de conta ágil', descricao: 'Divida por igual ou por consumo com velocidade nativa.', icone: '➗' },
+                { titulo: 'App do garçom integrado', descricao: 'Pedidos do celular direto para o bar instantaneamente.', icone: '📱' },
+              ],
+            },
+            'cafeterias': {
+              titulo: 'Sistema Desktop para Cafeterias',
+              subtitulo: 'Agilidade nativa para o seu café',
+              descricao: 'PDV rápido no balcão, controle de insumos e relatórios completos — tudo instalado no seu computador com resposta instantânea.',
+              icone: '☕',
+              beneficios: [
+                { titulo: 'PDV de balcão nativo', descricao: 'Atendimento ultra-rápido no caixa sem depender de internet.', icone: '🏪' },
+                { titulo: 'Programa de fidelidade', descricao: 'Fidelize clientes com cartão digital de pontos.', icone: '⭐' },
+                { titulo: 'Controle de insumos', descricao: 'Saiba exatamente quanto gasta em cada receita.', icone: '📊' },
+                { titulo: 'Relatórios locais', descricao: 'Identifique campeões de venda com relatórios processados na máquina.', icone: '📈' },
+              ],
+            },
+            'dark-kitchens': {
+              titulo: 'Sistema Desktop para Dark Kitchens',
+              subtitulo: 'Gestão de delivery com performance nativa',
+              descricao: 'Automatize pedidos, integre com marketplaces e organize a cozinha com o Big Chef Desktop. Processamento local garante estabilidade total.',
+              icone: '🏭',
+              beneficios: [
+                { titulo: 'Integração com iFood e AiqFome', descricao: 'Receba pedidos de todos os canais direto no seu computador.', icone: '🔗' },
+                { titulo: 'Painel de produção local', descricao: 'Organize pedidos por prioridade com velocidade nativa.', icone: '📋' },
+                { titulo: 'Operação offline', descricao: 'Continue recebendo e processando pedidos sem internet.', icone: '📶' },
+                { titulo: 'Relatório de performance', descricao: 'Tempo de preparo, cancelamentos e mais — processados localmente.', icone: '📊' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Sistema Desktop para Delivery',
+              subtitulo: 'Delivery profissional com estabilidade nativa',
+              descricao: 'Monte seu canal de delivery com cardápio digital e chatbot no WhatsApp. O Big Chef Desktop processa tudo localmente com máxima estabilidade.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Site próprio de delivery', descricao: 'Cardápio online com seu domínio e sua marca.', icone: '🌐' },
+                { titulo: 'Chatbot para WhatsApp', descricao: 'Pedidos automáticos pelo WhatsApp integrados ao sistema local.', icone: '💬' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Gestão de entregadores', descricao: 'Controle rotas e atribuições direto do computador.', icone: '🏍️' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Big Chef Desktop',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o ERP desktop com performance nativa para restaurantes.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções de gestão com performance nativa para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs instalados localmente para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema desktop com performance nativa — diferencial competitivo',
+              'Funciona offline, ideal para regiões com internet instável',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão e retenção de clientes',
+              'Suporte completo com instalação remota inclusa',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Materiais de marketing e apresentações prontas sobre o ERP desktop.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o sistema instalado para vender com confiança.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Cadastre-se e comece.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Big Chef Desktop.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto desktop',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
+        },
+      },
 
       // Desktop Online → textos voltados para acesso remoto
       'desktop-online': {
         nome: 'Big Chef Desktop Online',
         slogan: 'Seu restaurante acessível de qualquer lugar',
         descricao: 'Gerencie seu restaurante remotamente com o Big Chef Desktop Online. Acesse de qualquer computador com internet.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Mesas e Comandas", slug: "mesas-e-comandas" },
+              { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Emissão Fiscal", slug: "emissao-fiscal" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+        },
         textos: {
           heroi: {
             selo: 'Acesse de qualquer computador',
@@ -184,6 +557,230 @@ export const bigchef: Flavor = {
             ctaPrimario: 'Começar {trialDays} dias grátis',
             ctaSecundario: 'Ver planos e preços',
           },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Big Chef Online',
+            subtituloFormulario: 'Preencha os dados e acesse o sistema de qualquer computador com internet.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Acesse de qualquer lugar!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** durante o teste',
+              'Dados na nuvem com **sincronização automática**',
+              'Acesse de **qualquer computador** com internet',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Mesas', 'Delivery', 'Comandas', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          download: {
+            tituloSecao: 'Baixar o Big Chef Desktop Online',
+            prefixoOsDetectado: 'Detectamos que você usa',
+            osDesconhecido: 'Escolha sua plataforma abaixo',
+            prefixoBotaoDownload: 'Baixar para',
+            botaoOutrasPlataformas: 'Baixar para outra plataforma',
+            tituloPassos: 'Como começar em 3 passos',
+            passos: [
+              { titulo: 'Baixe e instale', descricao: 'Clique no botão acima e execute o instalador. A instalação leva menos de 2 minutos.' },
+              { titulo: 'Faça login', descricao: 'Entre com seu e-mail e senha. Seus dados já estarão sincronizados na nuvem.' },
+              { titulo: 'Configure e sincronize', descricao: 'Configure seu restaurante e acesse de qualquer terminal conectado.' },
+            ],
+            tituloRequisitos: 'Requisitos do sistema',
+            rotuloDesktop: 'Computador (PDV / Painel)',
+            rotuloMobile: 'Celular (App Garçom / Delivery)',
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Big Chef Desktop Online: gerencie de qualquer lugar',
+            subtituloHeroi: 'Teste por {trialDays} dias grátis, sem cartão de crédito. Dados na nuvem com acesso remoto de qualquer computador conectado!',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Online',
+              subtitulo: 'PDV sincronizado na nuvem em todos os terminais',
+              descricao: 'O PDV do Big Chef Desktop Online mantém todas as vendas sincronizadas em tempo real. Opere em múltiplos caixas com dados unificados na nuvem.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Sincronização em tempo real', descricao: 'Vendas registradas em um terminal aparecem instantaneamente nos demais.', icone: '🔄' },
+                { titulo: 'Múltiplos caixas', descricao: 'Opere vários PDVs simultâneos com estoque e financeiro unificados.', icone: '🖥️' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Backup automático na nuvem', descricao: 'Seus dados de vendas protegidos automaticamente na nuvem.', icone: '☁️' },
+              ],
+            },
+            'mesas-e-comandas': {
+              titulo: 'Mesas e Comandas — Online',
+              subtitulo: 'Salão e cozinha sincronizados em tempo real',
+              descricao: 'Gerencie mesas e comandas com sincronização instantânea entre terminais. Pedidos feitos no salão chegam à cozinha em tempo real via nuvem.',
+              icone: '🧾',
+              recursos: [
+                { titulo: 'Mapa de mesas sincronizado', descricao: 'Status de cada mesa atualizado em todos os terminais simultaneamente.', icone: '🗺️' },
+                { titulo: 'Comandas multi-terminal', descricao: 'Qualquer atendente pode lançar pedidos de qualquer computador.', icone: '📝' },
+                { titulo: 'Divisão de conta', descricao: 'Divida por igual ou por consumo com dados unificados.', icone: '➗' },
+                { titulo: 'Transferência de mesa', descricao: 'Troque clientes de mesa e a informação atualiza em todos os pontos.', icone: '🔄' },
+              ],
+            },
+            'chatbot-para-delivery': {
+              titulo: 'Chatbot para Delivery — Online',
+              subtitulo: 'Pedidos online integrados à nuvem em tempo real',
+              descricao: 'Receba pedidos pelo WhatsApp e site próprio com sincronização automática na nuvem. Acompanhe tudo de qualquer terminal conectado.',
+              icone: '🛵',
+              recursos: [
+                { titulo: 'Cardápio digital na nuvem', descricao: 'Cardápio sempre atualizado e sincronizado em todos os canais.', icone: '📱' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Atendimento automático 24h com pedidos sincronizados na nuvem.', icone: '🤖' },
+                { titulo: 'Acompanhamento multi-terminal', descricao: 'Monitore pedidos de delivery de qualquer computador conectado.', icone: '📍' },
+                { titulo: 'Integração com iFood e AiqFome', descricao: 'Pedidos de marketplaces sincronizados automaticamente.', icone: '🔗' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Online',
+              subtitulo: 'Gestão financeira acessível de qualquer lugar',
+              descricao: 'Controle receitas, despesas e fluxo de caixa de qualquer computador conectado. Dados financeiros sempre sincronizados e acessíveis remotamente.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa na nuvem', descricao: 'Entradas e saídas atualizadas e acessíveis de qualquer terminal.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Gerencie vencimentos remotamente com alertas sincronizados.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos com o extrato bancário de qualquer lugar.', icone: '🏦' },
+                { titulo: 'DRE em tempo real', descricao: 'Demonstrativo de resultados sempre atualizado na nuvem.', icone: '📈' },
+              ],
+            },
+            'emissao-fiscal': {
+              titulo: 'Emissão Fiscal — Online',
+              subtitulo: 'Notas fiscais emitidas de qualquer terminal',
+              descricao: 'Emita NFC-e e NF-e de qualquer computador conectado ao Big Chef Desktop Online. Dados fiscais sincronizados e centralizados na nuvem.',
+              icone: '📑',
+              recursos: [
+                { titulo: 'NFC-e de qualquer terminal', descricao: 'Emita nota de consumidor de qualquer caixa conectado.', icone: '🧾' },
+                { titulo: 'NF-e centralizada', descricao: 'Emissão de NF-e com dados unificados na nuvem.', icone: '📄' },
+                { titulo: 'Cancelamento e inutilização', descricao: 'Gerencie notas canceladas de qualquer computador.', icone: '❌' },
+                { titulo: 'Relatório fiscal remoto', descricao: 'Consulte notas emitidas de qualquer lugar com filtros avançados.', icone: '🔍' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Online',
+              subtitulo: 'Dados estratégicos acessíveis de qualquer lugar',
+              descricao: 'Acompanhe dashboards e relatórios detalhados remotamente. Ticket médio, produtos mais vendidos e DRE — tudo sincronizado na nuvem.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard remoto', descricao: 'Indicadores do dia acessíveis de qualquer computador conectado.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Acompanhe o valor médio das vendas mesmo fora do restaurante.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Saiba quais itens mais vendem em tempo real pela nuvem.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Meça a performance de cada atendente remotamente.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Online para Restaurantes',
+              subtitulo: 'Gerencie seu restaurante de qualquer lugar',
+              descricao: 'Com o Big Chef Desktop Online, gerencie seu restaurante remotamente. Dados na nuvem, múltiplos terminais sincronizados e acesso de qualquer computador.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'Múltiplos terminais', descricao: 'Opere caixa, salão e cozinha em computadores diferentes, tudo sincronizado.', icone: '🖥️' },
+                { titulo: 'Acesso remoto', descricao: 'Acompanhe as vendas e o financeiro mesmo fora do restaurante.', icone: '🌐' },
+                { titulo: 'Backup automático', descricao: 'Seus dados protegidos automaticamente na nuvem.', icone: '☁️' },
+                { titulo: 'Emissão fiscal sincronizada', descricao: 'NFC-e e NF-e emitidas de qualquer terminal conectado.', icone: '📑' },
+              ],
+            },
+            'bares-e-baladas': {
+              titulo: 'Sistema Online para Bares e Baladas',
+              subtitulo: 'Múltiplos pontos de venda sincronizados',
+              descricao: 'Gerencie comandas e mesas em vários terminais com o Big Chef Desktop Online. Dados sincronizados na nuvem para operações noturnas de alto volume.',
+              icone: '🍺',
+              beneficios: [
+                { titulo: 'Comandas multi-terminal', descricao: 'Qualquer caixa ou garçom registra pedidos — tudo sincronizado.', icone: '⚡' },
+                { titulo: 'Estoque em tempo real', descricao: 'Monitore bebidas e insumos com dados unificados na nuvem.', icone: '📦' },
+                { titulo: 'Divisão de conta sincronizada', descricao: 'Divida contas de qualquer terminal com dados centralizados.', icone: '➗' },
+                { titulo: 'Gestão remota', descricao: 'Acompanhe o faturamento da noite de qualquer lugar.', icone: '📱' },
+              ],
+            },
+            'cafeterias': {
+              titulo: 'Sistema Online para Cafeterias',
+              subtitulo: 'Múltiplas filiais conectadas na nuvem',
+              descricao: 'Gerencie uma ou mais cafeterias com dados centralizados. O Big Chef Desktop Online mantém tudo sincronizado entre filiais e terminais.',
+              icone: '☕',
+              beneficios: [
+                { titulo: 'PDV sincronizado', descricao: 'Atendimento rápido no balcão com dados unificados entre filiais.', icone: '🏪' },
+                { titulo: 'Programa de fidelidade', descricao: 'Clientes acumulam pontos em qualquer filial conectada.', icone: '⭐' },
+                { titulo: 'Controle de insumos', descricao: 'Estoque sincronizado entre todas as unidades.', icone: '📊' },
+                { titulo: 'Relatórios consolidados', descricao: 'Visualize resultados de todas as filiais em um só painel.', icone: '📈' },
+              ],
+            },
+            'dark-kitchens': {
+              titulo: 'Sistema Online para Dark Kitchens',
+              subtitulo: 'Gestão de delivery com dados na nuvem',
+              descricao: 'Gerencie múltiplas cozinhas e canais de delivery com dados sincronizados. O Big Chef Desktop Online centraliza pedidos de todos os marketplaces.',
+              icone: '🏭',
+              beneficios: [
+                { titulo: 'Integração com iFood e AiqFome', descricao: 'Pedidos de todos os canais centralizados e sincronizados na nuvem.', icone: '🔗' },
+                { titulo: 'Múltiplas cozinhas', descricao: 'Gerencie várias dark kitchens com dados unificados.', icone: '🏭' },
+                { titulo: 'Painel de produção remoto', descricao: 'Acompanhe a produção de qualquer lugar conectado.', icone: '📋' },
+                { titulo: 'Relatórios centralizados', descricao: 'Performance de todas as unidades em um só dashboard.', icone: '📊' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Sistema Online para Delivery',
+              subtitulo: 'Delivery profissional com dados na nuvem',
+              descricao: 'Monte seu canal de delivery com cardápio digital e chatbot no WhatsApp. O Big Chef Desktop Online sincroniza pedidos em todos os terminais automaticamente.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Site próprio de delivery', descricao: 'Cardápio online sincronizado automaticamente com o sistema.', icone: '🌐' },
+                { titulo: 'Chatbot para WhatsApp', descricao: 'Pedidos automáticos pelo WhatsApp sincronizados na nuvem.', icone: '💬' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente, atualizado de qualquer terminal.', icone: '📍' },
+                { titulo: 'Gestão de entregadores', descricao: 'Controle rotas e atribuições de qualquer computador conectado.', icone: '🏍️' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Big Chef Desktop Online',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o ERP com sincronização na nuvem e acesso multi-terminal.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções de gestão com sincronização na nuvem para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs com acesso remoto para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema com sincronização na nuvem — acesso de qualquer lugar',
+              'Multi-terminal: ideal para restaurantes com vários caixas',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão e retenção de clientes',
+              'Suporte completo com configuração remota inclusa',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Materiais de marketing focados nas vantagens da sincronização na nuvem.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o sistema com acesso remoto.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Cadastre-se e comece.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Big Chef Desktop Online.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto online',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
         },
       },
 
@@ -192,6 +789,26 @@ export const bigchef: Flavor = {
         nome: 'Big Chef Web',
         slogan: 'Seu restaurante direto no navegador',
         descricao: 'Acesse o Big Chef pelo navegador, sem instalar nada. Ideal para quem quer praticidade total.',
+        menus: {
+          funcionalidades: {
+            rotulo: "Funcionalidades",
+            prefixoRota: "/funcionalidades",
+            itens: [
+              { rotulo: "Frente de Caixa (PDV)", slug: "frente-de-caixa-pdv" },
+              { rotulo: "Chatbot para Delivery", slug: "chatbot-para-delivery" },
+              { rotulo: "Financeiro", slug: "financeiro" },
+              { rotulo: "Relatórios Gerenciais", slug: "relatorios-gerenciais" },
+            ],
+          },
+          segmentos: {
+            rotulo: "Segmentos",
+            prefixoRota: "/segmentos",
+            itens: [
+              { rotulo: "Restaurantes", slug: "restaurantes" },
+              { rotulo: "Sistema para Delivery", slug: "sistema-para-delivery" },
+            ],
+          },
+        },
         textos: {
           heroi: {
             selo: 'Zero instalação — 100% no navegador',
@@ -299,6 +916,170 @@ export const bigchef: Flavor = {
             ctaPrimario: 'Criar conta grátis',
             ctaSecundario: 'Ver planos e preços',
           },
+          cadastro: {
+            seloTeste: 'dias grátis · sem cartão',
+            tituloFormulario: 'Crie sua conta no Big Chef Web',
+            subtituloFormulario: 'Preencha os dados e acesse o sistema pelo navegador, sem instalar nada.',
+            campoEstabelecimento: 'Nome do estabelecimento',
+            placeholderCampoEstabelecimento: 'Ex: Restaurante da Família',
+            seloRiscoLateral: 'Sem risco',
+            tituloLateral: 'Zero instalação, 100% online!',
+            itensLateral: [
+              'Sem precisar cadastrar cartão de crédito',
+              'Acesso a **todos os módulos** durante o teste',
+              'Funciona em **qualquer navegador** moderno',
+              'Sempre na **última versão** automaticamente',
+              'Cancele quando quiser, sem burocracia',
+            ],
+            rotuloModulosLateral: 'Módulos inclusos no teste:',
+            modulosLateral: ['PDV Rápido', 'Delivery', 'NFC-e / NF-e', 'Financeiro', 'App Garçom', 'Relatórios'],
+          },
+          download: {
+            tituloSecao: 'Acessar o Big Chef Web',
+            prefixoOsDetectado: 'Detectamos que você usa',
+            osDesconhecido: 'Escolha como acessar abaixo',
+            prefixoBotaoDownload: 'Acessar via',
+            botaoOutrasPlataformas: 'Outras formas de acesso',
+            tituloPassos: 'Como começar em 3 passos',
+            passos: [
+              { titulo: 'Crie sua conta', descricao: 'Preencha o formulário de cadastro. Leva menos de 1 minuto.' },
+              { titulo: 'Acesse pelo navegador', descricao: 'Abra o Chrome, Edge ou Safari e faça login no sistema.' },
+              { titulo: 'Configure e comece a vender', descricao: 'Cadastre produtos, configure seu restaurante e comece a operar.' },
+            ],
+            tituloRequisitos: 'Requisitos do sistema',
+            rotuloDesktop: 'Navegador (PDV / Painel)',
+            rotuloMobile: 'Celular (App Garçom / Delivery)',
+          },
+          planos: {
+            seloHeroi: 'dias grátis, sem cartão de crédito',
+            tituloHeroi: 'Big Chef Web: seu restaurante direto no navegador',
+            subtituloHeroi: 'Experimente por {trialDays} dias grátis, sem cartão de crédito. Acesse pelo navegador, sem instalar nada, com todos os módulos liberados!',
+          },
+          paginasFuncionalidades: {
+            'frente-de-caixa-pdv': {
+              titulo: 'Frente de Caixa (PDV) — Web',
+              subtitulo: 'PDV completo direto no navegador',
+              descricao: 'O PDV do Big Chef Web funciona direto no navegador, sem instalar nada. Abra o Chrome ou Edge e comece a vender — ideal para operações ágeis e sem burocracia.',
+              icone: '🏪',
+              recursos: [
+                { titulo: 'Zero instalação', descricao: 'Abra o navegador e comece a vender imediatamente.', icone: '🌐' },
+                { titulo: 'Sempre atualizado', descricao: 'Novas funcionalidades disponíveis automaticamente, sem baixar nada.', icone: '🔄' },
+                { titulo: 'Múltiplas formas de pagamento', descricao: 'Dinheiro, cartão, Pix e vouchers em uma única venda.', icone: '💳' },
+                { titulo: 'Acesso de qualquer dispositivo', descricao: 'Funciona em qualquer computador ou tablet com navegador.', icone: '📱' },
+              ],
+            },
+            'chatbot-para-delivery': {
+              titulo: 'Chatbot para Delivery — Web',
+              subtitulo: 'Delivery completo gerenciado pelo navegador',
+              descricao: 'Receba pedidos pelo WhatsApp e site próprio e gerencie tudo pelo navegador. Sem instalar software, sem complicação — só abrir e operar.',
+              icone: '🛵',
+              recursos: [
+                { titulo: 'Cardápio digital', descricao: 'Seu cardápio online sempre atualizado, editável de qualquer navegador.', icone: '📱' },
+                { titulo: 'Chatbot WhatsApp', descricao: 'Atendimento automático 24h pelo WhatsApp do restaurante.', icone: '🤖' },
+                { titulo: 'Acompanhamento de pedido', descricao: 'Monitore todos os pedidos em tempo real pelo navegador.', icone: '📍' },
+                { titulo: 'Integração com iFood e AiqFome', descricao: 'Pedidos de marketplaces direto no painel web.', icone: '🔗' },
+              ],
+            },
+            'financeiro': {
+              titulo: 'Financeiro — Web',
+              subtitulo: 'Gestão financeira acessível de qualquer navegador',
+              descricao: 'Controle receitas, despesas e fluxo de caixa pelo navegador, de qualquer lugar. Sem instalar nada — basta abrir e gerenciar suas finanças.',
+              icone: '💰',
+              recursos: [
+                { titulo: 'Fluxo de caixa online', descricao: 'Entradas e saídas atualizadas em tempo real no navegador.', icone: '📊' },
+                { titulo: 'Contas a pagar e receber', descricao: 'Gerencie vencimentos de qualquer lugar com acesso web.', icone: '📅' },
+                { titulo: 'Conciliação bancária', descricao: 'Compare lançamentos com o extrato bancário pelo navegador.', icone: '🏦' },
+                { titulo: 'DRE automático', descricao: 'Demonstrativo de resultados gerado e acessível online.', icone: '📈' },
+              ],
+            },
+            'relatorios-gerenciais': {
+              titulo: 'Relatórios Gerenciais — Web',
+              subtitulo: 'Dados estratégicos acessíveis de qualquer navegador',
+              descricao: 'Dashboards e relatórios detalhados acessíveis pelo navegador. Ticket médio, produtos mais vendidos e DRE — sempre atualizados, sem instalar nada.',
+              icone: '📊',
+              recursos: [
+                { titulo: 'Dashboard online', descricao: 'Indicadores do dia acessíveis de qualquer navegador.', icone: '📈' },
+                { titulo: 'Ticket médio', descricao: 'Acompanhe o valor médio das vendas de qualquer dispositivo.', icone: '🎫' },
+                { titulo: 'Ranking de produtos', descricao: 'Saiba quais itens mais vendem em tempo real pelo navegador.', icone: '🏆' },
+                { titulo: 'Relatório por garçom', descricao: 'Meça a performance de cada atendente de qualquer lugar.', icone: '👤' },
+              ],
+            },
+          },
+          paginasSegmentos: {
+            'restaurantes': {
+              titulo: 'Sistema Web para Restaurantes',
+              subtitulo: 'Seu restaurante no navegador, sem instalar nada',
+              descricao: 'Acesse o Big Chef Web pelo navegador e gerencie seu restaurante de qualquer dispositivo. Sempre atualizado, sem downloads, sem complicação.',
+              icone: '🍽️',
+              beneficios: [
+                { titulo: 'Zero instalação', descricao: 'Abra o navegador e comece a operar imediatamente.', icone: '🌐' },
+                { titulo: 'Sempre atualizado', descricao: 'Novas funcionalidades disponíveis automaticamente.', icone: '🔄' },
+                { titulo: 'Acesso de qualquer dispositivo', descricao: 'Funciona no computador, tablet ou celular com navegador.', icone: '📱' },
+                { titulo: 'Gestão financeira completa', descricao: 'Fluxo de caixa, DRE e relatórios acessíveis online.', icone: '💰' },
+              ],
+            },
+            'sistema-para-delivery': {
+              titulo: 'Sistema Web para Delivery',
+              subtitulo: 'Delivery profissional direto no navegador',
+              descricao: 'Monte seu canal de delivery com cardápio digital e chatbot no WhatsApp. Gerencie tudo pelo navegador, sem instalar nenhum software.',
+              icone: '🛵',
+              beneficios: [
+                { titulo: 'Cardápio digital online', descricao: 'Seu cardápio sempre atualizado e editável pelo navegador.', icone: '🌐' },
+                { titulo: 'Chatbot para WhatsApp', descricao: 'Pedidos automáticos pelo WhatsApp gerenciados no navegador.', icone: '💬' },
+                { titulo: 'Rastreamento de pedido', descricao: 'Status em tempo real para o cliente.', icone: '📍' },
+                { titulo: 'Sem instalação', descricao: 'Gerencie todo o delivery pelo navegador, de qualquer lugar.', icone: '🚀' },
+              ],
+            },
+          },
+          parceiros: {
+            seloPagina: 'Programa de Parceiros',
+            tituloPagina: 'Cresça com o Big Chef Web',
+            subtituloPagina: 'Seja um parceiro comercial e ganhe comissões recorrentes indicando o ERP que funciona direto no navegador, sem instalação.',
+            seloSobre: 'Quem somos',
+            tituloSobre: 'Conheça a Word System',
+            descricaoSobre: 'Desenvolvemos soluções de gestão acessíveis pelo navegador para restaurantes, bares e delivery há mais de uma década.',
+            descricaoEmpresa: 'Especializada no desenvolvimento de ERPs web para o setor de alimentação fora do lar.',
+            sede: 'Santa Fé — PR, Brasil',
+            cnpjLabel: 'Empresa registrada e ativa desde 2016',
+            atuacao: 'Todo o território nacional',
+            numeros: [
+              { valor: '+10', rotulo: 'Anos no mercado', icone: '📅' },
+              { valor: '+3.000', rotulo: 'Clientes ativos', icone: '👥' },
+              { valor: '+15.000', rotulo: 'Estabelecimentos gerenciados', icone: '🏪' },
+              { valor: '24/7', rotulo: 'Suporte disponível', icone: '🎧' },
+            ],
+            motivosParceiro: [
+              'Sistema 100% web — funciona em qualquer navegador',
+              'Zero instalação: o cliente acessa e já começa a usar',
+              'Mais de 3.000 clientes ativos em todo o Brasil',
+              'Alta taxa de conversão pela facilidade de acesso',
+              'Suporte completo sem necessidade de visita técnica',
+              'Comissões recorrentes e previsíveis',
+            ],
+            vantagens: [
+              { icone: '💰', titulo: 'Comissão Recorrente', descricao: 'Receba comissões mensais por cada cliente ativo indicado por você.' },
+              { icone: '📦', titulo: 'Material de Apoio', descricao: 'Materiais de marketing focados na praticidade do acesso web.' },
+              { icone: '🎓', titulo: 'Treinamento Especializado', descricao: 'Capacitação completa sobre o sistema web para vender com confiança.' },
+              { icone: '🤝', titulo: 'Suporte Dedicado', descricao: 'Canal direto com nosso time comercial para fechar negócios.' },
+              { icone: '📈', titulo: 'Painel do Parceiro', descricao: 'Acompanhe indicações, comissões e desempenho em tempo real.' },
+              { icone: '🚀', titulo: 'Sem Investimento Inicial', descricao: 'Torne-se parceiro sem nenhum custo. Cadastre-se e comece.' },
+            ],
+            comoFunciona: [
+              { passo: '1', titulo: 'Cadastre-se', descricao: 'Preencha o formulário com seus dados e aguarde a aprovação.' },
+              { passo: '2', titulo: 'Receba seu acesso', descricao: 'Após aprovado, você terá acesso ao painel e materiais de apoio.' },
+              { passo: '3', titulo: 'Indique clientes', descricao: 'Compartilhe seu link exclusivo e apresente o Big Chef Web.' },
+              { passo: '4', titulo: 'Receba comissões', descricao: 'A cada cliente que assinar, você recebe comissão recorrente.' },
+            ],
+            itensLateral: [
+              'Comissão **recorrente** mensal',
+              'Material de marketing **exclusivo**',
+              'Treinamento **completo** sobre o produto web',
+              'Suporte **dedicado** do time comercial',
+              'Painel para acompanhar **indicações e ganhos**',
+              '**Sem investimento** inicial',
+            ],
+            perfisIdeais: ['Consultores de TI', 'Contadores', 'Vendedores autônomos', 'Empresas de tecnologia', 'Revendedores de software'],
+          },
         },
       },
     },
@@ -336,92 +1117,96 @@ export const bigchef: Flavor = {
       },
     },
 
-    contact: {
-      whatsappUrl: "https://wa.me/5500000000000",
+    contato: {
+      urlWhatsapp: "https://wa.me/5500000000000",
       email: "contato@bigchef.com.br",
     },
 
-    support: {
-      hours: {
-        weekdays: "07:30h – 17:30h",
-        saturday: "09h – 12h",
+    suporte: {
+      horarios: {
+        diasUteis: "07:30h – 17:30h",
+        sabado: "09h – 12h",
       },
     },
 
     links: {
-      webApp: "https://bigchef.com.br/painel/#/autenticacao/login",
-      appStoreInfo: URL_APP_STORE,
-      playStoreInfo: URL_PLAY_STORE,
+      sistemaWeb: "https://bigchef.com.br/painel/#/autenticacao/login",
+      appStore: URL_APP_STORE,
+      playStore: URL_PLAY_STORE,
     },
 
     download: {
-      categories: [
-        { key: "sistema_desktop", label: "Sistema Desktop", descricao: "Desktop (PDV / Painel)" },
-        { key: "sistema_web", label: "Sistema Web", descricao: "Web (PDV / Painel)" },
-        { key: "app_garcom", label: "App do Garçom", descricao: "Android / iPhone" },
+      categorias: [
+        { chave: "sistema_desktop", rotulo: "Sistema Desktop", descricao: "Desktop (PDV / Painel)" },
+        { chave: "sistema_web", rotulo: "Sistema Web", descricao: "Web (PDV / Painel)" },
+        { chave: "app_garcom", rotulo: "App do Garçom", descricao: "Android / iPhone" },
       ],
-      items: [
+      itens: [
         {
           id: "sistema_desktop-windows",
-          platformKey: "windows",
-          categoryKey: "sistema_desktop",
-          label: "Windows",
+          chavePlataforma: "windows",
+          chaveCategoria: "sistema_desktop",
+          rotulo: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-local",
+          urlDownload: "/baixar?destino=desktop-local",
           corBadge: "#0078D4",
         },
         {
           id: "sistema_web-windows",
-          platformKey: "windows",
-          categoryKey: "sistema_web",
-          label: "Windows",
+          chavePlataforma: "windows",
+          chaveCategoria: "sistema_web",
+          rotulo: "Windows",
           versao: "Windows 10 / 11 (64-bit)",
           tamanho: "142 MB",
-          downloadUrl: "/baixar?destino=desktop-online",
+          urlDownload: "/baixar?destino=desktop-online",
           corBadge: "#0078D4",
         },
         {
           id: "app-garcom-android",
-          platformKey: "android",
-          categoryKey: "app_garcom",
-          label: "Android",
+          chavePlataforma: "android",
+          chaveCategoria: "app_garcom",
+          rotulo: "Android",
           versao: "Android 8.0 ou superior",
           tamanho: "48 MB",
-          downloadUrl: URL_PLAY_STORE,
+          urlDownload: URL_PLAY_STORE,
           corBadge: "#34A853",
         },
         {
           id: "app-garcom-ios",
-          platformKey: "ios",
-          categoryKey: "app_garcom",
-          label: "iPhone / iPad",
+          chavePlataforma: "ios",
+          chaveCategoria: "app_garcom",
+          rotulo: "iPhone / iPad",
           versao: "iOS 15 ou superior",
           tamanho: "62 MB",
-          downloadUrl: URL_APP_STORE,
+          urlDownload: URL_APP_STORE,
           corBadge: "#000000",
         },
       ],
-      systemRequirements: {
+      requisitos: {
         desktop: [
-          { label: "Sistema operacional", min: "Windows 10 / macOS 12 / Ubuntu 20.04", rec: "Windows 11 / macOS 14 / Ubuntu 22.04" },
-          { label: "Processador", min: "Intel i3 / AMD Ryzen 3", rec: "Intel i5 / AMD Ryzen 5 ou superior" },
-          { label: "Memória RAM", min: "4 GB", rec: "8 GB ou mais" },
-          { label: "Armazenamento", min: "5 GB livres", rec: "20 GB livres (SSD)" },
-          { label: "Conexão", min: "2 Mbps (só login e sync)", rec: "10 Mbps ou mais" },
+          { rotulo: "Sistema operacional", minimo: "Windows 10 / macOS 12 / Ubuntu 20.04", recomendado: "Windows 11 / macOS 14 / Ubuntu 22.04" },
+          { rotulo: "Processador", minimo: "Intel i3 / AMD Ryzen 3", recomendado: "Intel i5 / AMD Ryzen 5 ou superior" },
+          { rotulo: "Memória RAM", minimo: "4 GB", recomendado: "8 GB ou mais" },
+          { rotulo: "Armazenamento", minimo: "5 GB livres", recomendado: "20 GB livres (SSD)" },
+          { rotulo: "Conexão", minimo: "2 Mbps (só login e sync)", recomendado: "10 Mbps ou mais" },
         ],
-        mobile: [
-          { label: "Sistema operacional", min: "Android 8.0 / iOS 15", rec: "Android 12+ / iOS 17+" },
-          { label: "Processador", min: "Quad-core 1.6 GHz", rec: "Octa-core 2.0 GHz ou superior" },
-          { label: "Memória RAM", min: "2 GB", rec: "4 GB ou mais" },
-          { label: "Armazenamento", min: "200 MB livres", rec: "1 GB livres" },
-          { label: "Conexão", min: "Wi-Fi 2.4 GHz / 4G", rec: "Wi-Fi 5 GHz / 4G+ ou 5G" },
+        celular: [
+          { rotulo: "Sistema operacional", minimo: "Android 8.0 / iOS 15", recomendado: "Android 12+ / iOS 17+" },
+          { rotulo: "Processador", minimo: "Quad-core 1.6 GHz", recomendado: "Octa-core 2.0 GHz ou superior" },
+          { rotulo: "Memória RAM", minimo: "2 GB", recomendado: "4 GB ou mais" },
+          { rotulo: "Armazenamento", minimo: "200 MB livres", recomendado: "1 GB livres" },
+          { rotulo: "Conexão", minimo: "Wi-Fi 2.4 GHz / 4G", recomendado: "Wi-Fi 5 GHz / 4G+ ou 5G" },
         ],
       },
     },
   },
 
+  // ┌──────────────────────────────────────────────────────────────────────────┐
+  // │  TEXTOS                                                                 │
+  // └──────────────────────────────────────────────────────────────────────────┘
   textos: {
+    // ── Página Inicial ─────────────────────────────────────────────────────
     heroi: {
       selo: "A plataforma mais completa para o seu restaurante",
       tituloAntes: "Automatize seu restaurante e venda",
@@ -529,6 +1314,8 @@ export const bigchef: Flavor = {
       ctaPrimario: "Começar {trialDays} dias grátis",
       ctaSecundario: "Ver planos e preços",
     },
+
+    // ── Cadastro ─────────────────────────────────────────────────────────────
     cadastro: {
       seloTeste: "dias grátis · sem cartão",
       tituloFormulario: "Crie sua conta no Big Chef",
@@ -547,6 +1334,8 @@ export const bigchef: Flavor = {
       rotuloModulosLateral: "Módulos inclusos no teste:",
       modulosLateral: ["PDV Rápido", "Mesas", "Delivery", "Comandas", "NFC-e / NF-e", "Financeiro", "App Garçom", "Relatórios"],
     },
+
+    // ── Baixar / Download ────────────────────────────────────────────────────
     baixar: {
       tituloSucesso: "Cadastro realizado!",
       subtituloSucesso: "Sua conta foi criada com sucesso. Agora baixe o sistema para começar a usar.",
@@ -568,11 +1357,15 @@ export const bigchef: Flavor = {
       rotuloDesktop: "Computador (PDV / Painel)",
       rotuloMobile: "Celular (App Garçom / Delivery)",
     },
+
+    // ── Planos ───────────────────────────────────────────────────────────────
     planos: {
       seloHeroi: "dias grátis, sem cartão de crédito",
       tituloHeroi: "ERP Big Chef: encontre o plano ideal para o seu negócio",
       subtituloHeroi: "Comece gratuitamente por {trialDays} dias, sem cadastro de cartão de crédito, e tenha acesso a todos os módulos do sistema!",
     },
+
+    // ── Páginas de Funcionalidades ──────────────────────────────────────────
     paginasFuncionalidades: {
       "frente-de-caixa-pdv": {
         titulo: "Frente de Caixa (PDV)",
@@ -647,6 +1440,8 @@ export const bigchef: Flavor = {
         ],
       },
     },
+
+    // ── Parceiros ────────────────────────────────────────────────────────────
     parceiros: {
       seloPagina: "Programa de Parceiros",
       tituloPagina: "Cresça com o Big Chef",
@@ -696,6 +1491,8 @@ export const bigchef: Flavor = {
       ],
       perfisIdeais: ["Consultores de TI", "Contadores", "Vendedores autônomos", "Empresas de tecnologia", "Revendedores de software"],
     },
+
+    // ── Páginas de Segmentos ──────────────────────────────────────────────────
     paginasSegmentos: {
       "restaurantes": {
         titulo: "Sistema para Restaurantes",

@@ -1,8 +1,8 @@
-import type { DownloadCategory, DownloadCategoryKey, DownloadPlatformKey } from "./config";
+import type { CategoriaDownload, ChaveCategoriaDownload, ChavePlataformaDownload } from "./config";
 
-export type ClientOSKey = DownloadPlatformKey | "unknown";
+export type ClientOSKey = ChavePlataformaDownload | "unknown";
 
-export const DOWNLOAD_BADGES: Record<DownloadPlatformKey, string> = {
+export const DOWNLOAD_BADGES: Record<ChavePlataformaDownload, string> = {
   windows: ".exe",
   mac: ".dmg",
   linux: ".deb",
@@ -10,13 +10,13 @@ export const DOWNLOAD_BADGES: Record<DownloadPlatformKey, string> = {
   ios: "App Store",
 };
 
-export function createDownloadCategoryMap(categories: DownloadCategory[]): Record<DownloadCategoryKey, DownloadCategory> {
-  return categories.reduce(
-    (acc, category) => {
-      acc[category.key] = category;
+export function createDownloadCategoryMap(categorias: CategoriaDownload[]): Record<ChaveCategoriaDownload, CategoriaDownload> {
+  return categorias.reduce(
+    (acc, categoria) => {
+      acc[categoria.chave] = categoria;
       return acc;
     },
-    {} as Record<DownloadCategoryKey, DownloadCategory>,
+    {} as Record<ChaveCategoriaDownload, CategoriaDownload>,
   );
 }
 

@@ -36,8 +36,8 @@ export function ContatoForm() {
 
     function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        const msg = `Olá! Tenho interesse no ${ConfigSite.name}.${form.mensagem ? `%0A%0AMensagem: ${encodeURIComponent(form.mensagem)}` : ""}%0A%0ANome: ${encodeURIComponent(form.nome)}%0AEmpresa: ${encodeURIComponent(form.empresa)}%0AE-mail: ${encodeURIComponent(form.email)}`;
-        window.open(`${ConfigSite.contact.whatsappUrl}?text=${msg}`, "_blank");
+        const msg = `Olá! Tenho interesse no ${ConfigSite.nome}.${form.mensagem ? `%0A%0AMensagem: ${encodeURIComponent(form.mensagem)}` : ""}%0A%0ANome: ${encodeURIComponent(form.nome)}%0AEmpresa: ${encodeURIComponent(form.empresa)}%0AE-mail: ${encodeURIComponent(form.email)}`;
+        window.open(`${ConfigSite.contato.urlWhatsapp}?text=${msg}`, "_blank");
     }
 
     const inputClass =

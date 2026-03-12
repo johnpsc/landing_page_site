@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { useAtualizacoes } from "~/hooks/useAtualizacoes";
 import CabecalhoSite from "../components/CabecalhoSite";
+import { usePlataforma } from "../components/inicio/PlataformaContext";
 import RodapeSite from "../components/RodapeSite";
 import SecaoDownload from "../components/SecaoDownload";
-import { ConfigSite, Textos } from "../lib/config";
 import { montarUrlDownloadApi } from "../lib/downloadApi";
 import { normalizarDestinoDownload } from "../lib/downloadDestino";
 import { Cores, Fontes, Sombras } from "../lib/theme";
@@ -21,6 +21,11 @@ export default function PaginaBaixar() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const location = useLocation();
+
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const textos = plat.textos;
+
     const cadastroRealizado = searchParams.get("cadastro") === "1";
     const destinoManual = searchParams.get("destino")?.trim();
     const destinoOriginal = searchParams.get("plataforma")?.trim();
@@ -72,7 +77,7 @@ export default function PaginaBaixar() {
         if (!destinoEhWeb) return;
         const timeoutMs = cadastroRealizado ? 5000 : 0;
         const timeoutId = window.setTimeout(() => {
-            window.location.assign(ConfigSite.links.webApp);
+            window.location.assign(configSite.links.sistemaWeb);
         }, timeoutMs);
 
         return () => {
@@ -131,11 +136,11 @@ export default function PaginaBaixar() {
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
                             </div>
-                            <h2 className="text-2xl font-extrabold mb-2" style={{ color: Cores.escura }}>{Textos.baixar.tituloSucesso}</h2>
+                            <h2 className="text-2xl font-extrabold mb-2" style={{ color: Cores.escura }}>{textos.baixar.tituloSucesso}</h2>
                             <p style={{ color: Cores.textoSuave }}>
                                 {destinoEhWeb
                                     ? "Sua conta foi criada com sucesso. Redirecionando você para o sistema web em 5 segundos..."
-                                    : Textos.baixar.subtituloSucesso}
+                                    : textos.baixar.subtituloSucesso}
                             </p>
                         </div>
                     )}
@@ -153,8 +158,8 @@ export default function PaginaBaixar() {
                                     ? "Conta criada com sucesso! Redirecionando para o sistema web..."
                                     : "Redirecionando para o sistema web..."}
                             </h2>
-                            <a href={ConfigSite.links.webApp} className="text-sm font-semibold hover:underline" style={{ color: Cores.primaria }}>
-                                {ConfigSite.links.webApp}
+                            <a href={configSite.links.sistemaWeb} className="text-sm font-semibold hover:underline" style={{ color: Cores.primaria }}>
+                                {configSite.links.sistemaWeb}
                             </a>
                         </div>
                     ) : destinoEhDesktopWeb ? (
@@ -178,14 +183,14 @@ export default function PaginaBaixar() {
 
                     <div className="mt-6 text-center">
                         <a
-                            href={ConfigSite.links.webApp}
+                            href={configSite.links.sistemaWeb}
                             className="inline-flex items-center gap-2 text-sm font-semibold hover:underline"
                             style={{ color: Cores.primaria }}
                         >
                             <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                                 <circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" />
                             </svg>
-                            {Textos.baixar.rotuloAcessoWeb} {new URL(ConfigSite.links.webApp).hostname}
+                            {textos.baixar.rotuloAcessoWeb} {new URL(configSite.links.sistemaWeb).hostname}
                         </a>
                     </div>
 

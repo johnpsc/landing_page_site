@@ -13,6 +13,8 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import { PlataformaProvider } from "./components/inicio/PlataformaContext";
+import { obterPlataformaDaSearchParams } from "./lib/downloadDestino";
 import { construirVariaveisCss, flavorAtivo } from "./lib/flavors/index";
 
 const flavorCssVars = construirVariaveisCss(flavorAtivo);
@@ -50,32 +52,43 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Rotas que exigem plataforma — se não há ?plataforma=, redireciona para "web" */
+const ROTAS_EXIGEM_PLATAFORMA = new Set(["/cadastro", "/parceiros"]);
+
 export default function App() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const plataformaAtual = obterPlataformaDaSearchParams(searchParams);
 
   useEffect(() => {
     const params = new URLSearchParams(searchParams);
     const destinoAtual = params.get("destino")?.trim();
-    const plataformaAtual = params.get("plataforma")?.trim();
+    const plataforma = params.get("plataforma")?.trim();
 
     // ── Afiliado: captura ref da URL e persiste no localStorage ──
     const refUrl = params.get("ref")?.trim();
     if (refUrl) {
       try { localStorage.setItem("ref_afiliado", refUrl); } catch { }
     } else {
-      // Se não veio na URL, reinsere a partir do localStorage
       try {
         const refSalvo = localStorage.getItem("ref_afiliado");
         if (refSalvo) params.set("ref", refSalvo);
       } catch { }
     }
 
-    if (plataformaAtual && params.get("ref") === searchParams.get("ref")) return;
+    // Se tem destino mas não tem plataforma, define a plataforma a partir do destino
+    if (destinoAtual && !plataforma) {
+      params.set("plataforma", destinoAtual);
+    }
 
-    const plataformaFinal = destinoAtual || plataformaAtual || "desktop-local";
-    params.set("plataforma", plataformaFinal);
+    // ── Auto-plataforma: rotas que exigem plataforma recebem "web" se vazia ──
+    if (!params.get("plataforma")?.trim() && ROTAS_EXIGEM_PLATAFORMA.has(location.pathname)) {
+      params.set("plataforma", "web");
+    }
+
+    // Só redireciona se houve alguma alteração nos params
+    if (params.toString() === searchParams.toString()) return;
 
     navigate(
       {
@@ -87,7 +100,11 @@ export default function App() {
     );
   }, [location.pathname, navigate, searchParams]);
 
-  return <Outlet />;
+  return (
+    <PlataformaProvider plataforma={plataformaAtual}>
+      <Outlet />
+    </PlataformaProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

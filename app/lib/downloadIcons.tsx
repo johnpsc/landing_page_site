@@ -1,6 +1,6 @@
-import type { DownloadPlatformKey } from "./config";
+import type { ChavePlataformaDownload } from "./config";
 
-const DOWNLOAD_ICON_SPECS: Record<DownloadPlatformKey, { viewBox: string; path: string }> = {
+const DOWNLOAD_ICON_SPECS: Record<ChavePlataformaDownload, { viewBox: string; path: string }> = {
     windows: {
         viewBox: "0 0 88 88",
         path: "M0 12.402l35.687-4.86.016 34.423-35.67.203zm35.67 33.529l.028 34.453L.028 75.48.026 45.7zm4.326-39.025L87.314 0v41.527l-47.318.376zm47.329 39.349-.011 41.34-47.318-6.678-.066-34.739z",
@@ -23,7 +23,7 @@ const DOWNLOAD_ICON_SPECS: Record<DownloadPlatformKey, { viewBox: string; path: 
     },
 };
 
-export function renderDownloadIcon(platform: DownloadPlatformKey, className: string) {
+export function renderDownloadIcon(platform: ChavePlataformaDownload, className: string) {
     const spec = DOWNLOAD_ICON_SPECS[platform];
     return (
         <svg viewBox={spec.viewBox} className={className} fill="currentColor">

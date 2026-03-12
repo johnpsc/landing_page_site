@@ -1,7 +1,8 @@
 import { Link, useParams, useSearchParams } from "react-router";
 import CabecalhoSite from "../components/CabecalhoSite";
+import { usePlataforma } from "../components/inicio/PlataformaContext";
 import RodapeSite from "../components/RodapeSite";
-import { ConfigSite, MenusCabecalhoConfig, Textos } from "../lib/config";
+import { ConfigSite } from "../lib/config";
 import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../lib/downloadDestino";
 import { Cores, Fontes, Sombras } from "../lib/theme";
 
@@ -20,8 +21,8 @@ const DESIGN_FUNCIONALIDADE: Record<string, number> = {
 
 export function meta() {
     return [
-        { title: `Funcionalidades - ${ConfigSite.name}` },
-        { name: "description", content: `Conheça as funcionalidades do ${ConfigSite.name}.` },
+        { title: `Funcionalidades - ${ConfigSite.nome}` },
+        { name: "description", content: `Conheça as funcionalidades do ${ConfigSite.nome}.` },
     ];
 }
 
@@ -32,8 +33,12 @@ export default function PaginaFuncionalidade() {
     const plataformaAtual = obterPlataformaDaSearchParams(searchParams);
     const withDestino = (url: string) => adicionarDestinoNaUrl(url, destinoAtual, plataformaAtual);
 
-    const pagina = slug ? Textos.paginasFuncionalidades[slug] : undefined;
-    const menuFuncionalidades = MenusCabecalhoConfig.funcionalidades;
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const textos = plat.textos;
+
+    const pagina = slug ? textos.paginasFuncionalidades[slug] : undefined;
+    const menuFuncionalidades = plat.menus.funcionalidades;
     const design = slug ? (DESIGN_FUNCIONALIDADE[slug] ?? 0) : 0;
 
     /* ─── 404 ─── */
@@ -64,7 +69,7 @@ export default function PaginaFuncionalidade() {
                 style={{ backgroundColor: Cores.primaria, boxShadow: Sombras.botaoHeroiPrimario }}
                 className="text-white px-8 py-4 rounded-xl font-bold text-lg hover:-translate-y-1 transition-all duration-300 text-center"
             >
-                Começar {ConfigSite.diasTeste} dias grátis
+                Começar {configSite.diasTeste} dias grátis
             </Link>
             <Link
                 to={withDestino("/planos")}
@@ -531,7 +536,7 @@ export default function PaginaFuncionalidade() {
                             {menuFuncionalidades.itens
                                 .filter((item) => item.slug !== slug)
                                 .map((item) => {
-                                    const data = Textos.paginasFuncionalidades[item.slug];
+                                    const data = textos.paginasFuncionalidades[item.slug];
                                     return (
                                         <Link
                                             key={item.slug}
@@ -555,7 +560,7 @@ export default function PaginaFuncionalidade() {
                         Pronto para usar {pag.titulo}?
                     </h2>
                     <p className="text-lg mb-10" style={{ color: Cores.textoSuave }}>
-                        Experimente o {ConfigSite.name} por {ConfigSite.diasTeste} dias sem compromisso.
+                        Experimente o {configSite.nome} por {configSite.diasTeste} dias sem compromisso.
                     </p>
                     <Link
                         to={withDestino("/cadastro")}

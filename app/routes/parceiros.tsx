@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import CabecalhoSite from "../components/CabecalhoSite";
+import { usePlataforma } from "../components/inicio/PlataformaContext";
 import RodapeSite from "../components/RodapeSite";
 import { useAfiliado } from "../hooks/useAfiliado";
-import { ConfigSite, Textos } from "../lib/config";
+import { ConfigSite } from "../lib/config";
 import { Cores, Fontes, Sombras } from "../lib/theme";
 import { enviarFormularioParceiro } from "../services/ServicoApi";
 import { maskCNPJ, maskPhone } from "../utils/formatacao";
@@ -25,23 +26,25 @@ function IconSend() {
     );
 }
 
-// ─── Dados do flavor ─────────────────────────────────────────────────────────
-
-const P = Textos.parceiros;
-const VANTAGENS = P.vantagens;
-const COMO_FUNCIONA = P.comoFunciona;
 
 // ─── Componente principal ────────────────────────────────────────────────────
 
 export function meta() {
     return [
-        { title: `Seja Parceiro - ${ConfigSite.name}` },
-        { name: "description", content: `Torne-se parceiro ${ConfigSite.name} e ganhe comissões recorrentes indicando nosso sistema.` },
+        { title: `Seja Parceiro - ${ConfigSite.nome}` },
+        { name: "description", content: `Torne-se parceiro ${ConfigSite.nome} e ganhe comissões recorrentes indicando nosso sistema.` },
     ];
 }
 
 export default function PaginaParceiros() {
     const afiliado = useAfiliado();
+
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const textos = plat.textos;
+    const P = textos.parceiros;
+    const VANTAGENS = P.vantagens;
+    const COMO_FUNCIONA = P.comoFunciona;
     const [form, setForm] = useState({
         nome_completo: "",
         empresa: "",
@@ -187,7 +190,7 @@ export default function PaginaParceiros() {
                             Cadastro recebido!
                         </h1>
                         <p className="text-lg mb-8" style={{ color: Cores.textoSuave }}>
-                            Obrigado pelo interesse em ser parceiro {ConfigSite.name}! Nossa equipe comercial entrará em contato em até 48H úteis.
+                            Obrigado pelo interesse em ser parceiro {configSite.nome}! Nossa equipe comercial entrará em contato em até 48H úteis.
                         </p>
                         <a
                             href="/"
@@ -223,9 +226,9 @@ export default function PaginaParceiros() {
                     </div>
 
                     <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight tracking-tight" style={{ color: Cores.escura }}>
-                        {P.tituloPagina.split(ConfigSite.name)[0]}
+                        {P.tituloPagina.split(configSite.nome)[0]}
                         <span className="text-transparent bg-clip-text" style={{ backgroundImage: `linear-gradient(to right, ${Cores.primaria}, ${Cores.primariaEscura})` }}>
-                            {ConfigSite.name}
+                            {configSite.nome}
                         </span>
                     </h1>
                     <p className="text-xl md:text-2xl mb-4 max-w-3xl mx-auto leading-relaxed" style={{ color: Cores.textoSuave }}>
@@ -268,14 +271,14 @@ export default function PaginaParceiros() {
                         {/* Card — Sobre a empresa */}
                         <div className="bg-white rounded-2xl p-8" style={{ boxShadow: Sombras.cardFuncionalidade }}>
                             <div className="flex items-center gap-4 mb-5">
-                                <img src={ConfigSite.logo} alt={`Logo ${ConfigSite.name}`} className="h-12 object-contain" />
+                                <img src={configSite.logo} alt={`Logo ${configSite.nome}`} className="h-12 object-contain" />
                                 <div>
-                                    <h3 className="text-lg font-bold" style={{ color: Cores.escura }}>{ConfigSite.name}</h3>
-                                    <p className="text-sm" style={{ color: Cores.textoSuave }}>{ConfigSite.slogan}</p>
+                                    <h3 className="text-lg font-bold" style={{ color: Cores.escura }}>{configSite.nome}</h3>
+                                    <p className="text-sm" style={{ color: Cores.textoSuave }}>{configSite.slogan}</p>
                                 </div>
                             </div>
                             <p className="text-sm leading-relaxed mb-5" style={{ color: Cores.textoSuave }}>
-                                {ConfigSite.description} Somos a <strong style={{ color: Cores.escura }}>{ConfigSite.companyName}</strong>, {P.descricaoEmpresa}
+                                {configSite.descricao} Somos a <strong style={{ color: Cores.escura }}>{configSite.nomeEmpresa}</strong>, {P.descricaoEmpresa}
                             </p>
 
                             {/* Sede e contato */}
@@ -630,7 +633,7 @@ export default function PaginaParceiros() {
                                     {P.seloPagina}
                                 </span>
                                 <h2 className="text-xl font-extrabold leading-snug">
-                                    Junte-se a dezenas de parceiros que já faturam com o {ConfigSite.name}
+                                    Junte-se a dezenas de parceiros que já faturam com o {configSite.nome}
                                 </h2>
                             </div>
 
@@ -667,7 +670,7 @@ export default function PaginaParceiros() {
                             </div>
 
                             <div className="relative z-10 pt-4 border-t border-white/10 text-xs text-white/30 leading-relaxed">
-                                © {ConfigSite.companyName}
+                                © {configSite.nomeEmpresa}
                             </div>
                         </div>
                     </div>

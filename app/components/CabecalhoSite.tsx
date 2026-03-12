@@ -1,22 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router";
-import { ConfigSite, MenusCabecalhoConfig, Secoes, type DownloadPlatformKey, type MenuDropdown } from "../lib/config";
+import { type CategoriaDownload, type ChavePlataformaDownload, type ItemDownload, type MenuSuspenso } from "../lib/config";
 import { adicionarDestinoNaUrl, obterDestinoDownloadDaSearchParams, obterPlataformaDaSearchParams } from "../lib/downloadDestino";
 import { renderDownloadIcon } from "../lib/downloadIcons";
 import { createDownloadCategoryMap, detectClientOS, DOWNLOAD_BADGES, type ClientOSKey } from "../lib/downloadUtils";
 import { Cores, Sombras } from "../lib/theme";
+import { usePlataforma } from "./inicio/PlataformaContext";
 
-// ─── Downloads ───────────────────────────────────────────────────────────────
+// ─── Tipos auxiliares ────────────────────────────────────────────────────────
 
 type OSKey = ClientOSKey;
 
-type DownloadHeaderItem = (typeof ConfigSite.download.items)[number] & {
+type DownloadHeaderItem = ItemDownload & {
     badge: string;
     icon: React.ReactNode;
-    category: (typeof ConfigSite.download.categories)[number];
+    categoria: CategoriaDownload;
 };
 
-const CLASSES_ICONES_DOWNLOAD: Record<DownloadPlatformKey, string> = {
+const CLASSES_ICONES_DOWNLOAD: Record<ChavePlataformaDownload, string> = {
     windows: "w-5 h-5 shrink-0",
     mac: "w-4 h-4 shrink-0",
     linux: "w-5 h-5 shrink-0",
@@ -24,32 +25,11 @@ const CLASSES_ICONES_DOWNLOAD: Record<DownloadPlatformKey, string> = {
     ios: "w-4 h-4 shrink-0",
 };
 
-const DOWNLOAD_CATEGORY_MAP = createDownloadCategoryMap(ConfigSite.download.categories);
-
-const DOWNLOADS_HEADER: DownloadHeaderItem[] = ConfigSite.download.items.map((downloadItem) => ({
-    ...downloadItem,
-    badge: DOWNLOAD_BADGES[downloadItem.platformKey],
-    icon: renderDownloadIcon(downloadItem.platformKey, CLASSES_ICONES_DOWNLOAD[downloadItem.platformKey]),
-    category: DOWNLOAD_CATEGORY_MAP[downloadItem.categoryKey],
-}));
-
-// ─── Menus dropdown do cabeçalho ─────────────────────────────────────────────
-
 type MenuDropdownKey = "funcionalidades" | "segmentos" | "plataformas";
-
-/** Menus de navegação (funcionalidades e segmentos) — abrem páginas */
-const MENUS_NAV_DROPDOWN: { key: MenuDropdownKey; menu: MenuDropdown }[] = (
-    ["funcionalidades", "segmentos"] as const
-)
-    .filter((k) => MenusCabecalhoConfig[k] != null)
-    .map((k) => ({ key: k, menu: MenusCabecalhoConfig[k]! }));
-
-/** Menu de plataformas — altera o param ?plataforma= na URL */
-const MENU_PLATAFORMAS = MenusCabecalhoConfig.plataformas ?? null;
 
 /**
  * Header compartilhado entre todas as páginas do site.
- * Destaca automaticamente o item de nav correspondente à rota atual.
+ * Lê config, menus e downloads da plataforma ativa via usePlataforma().
  */
 export default function CabecalhoSite() {
     const { pathname } = useLocation();
@@ -57,6 +37,32 @@ export default function CabecalhoSite() {
     const [searchParams] = useSearchParams();
     const destinoAtual = obterDestinoDownloadDaSearchParams(searchParams);
     const plataformaAtual = obterPlataformaDaSearchParams(searchParams);
+
+    // ── Config resolvida pela plataforma ativa ─────────────────────────
+    const plat = usePlataforma();
+    const configSite = plat.config;
+    const menusConfig = plat.menus;
+
+    // ── Downloads e menus computados a partir da plataforma ────────────
+    const DOWNLOADS_HEADER = useMemo<DownloadHeaderItem[]>(() => {
+        const catMap = createDownloadCategoryMap(configSite.download.categorias);
+        return configSite.download.itens.map((item) => ({
+            ...item,
+            badge: DOWNLOAD_BADGES[item.chavePlataforma],
+            icon: renderDownloadIcon(item.chavePlataforma, CLASSES_ICONES_DOWNLOAD[item.chavePlataforma]),
+            categoria: catMap[item.chaveCategoria],
+        }));
+    }, [configSite.download]);
+
+    const MENUS_NAV_DROPDOWN = useMemo<{ key: MenuDropdownKey; menu: MenuSuspenso }[]>(() => {
+        return (["funcionalidades", "segmentos"] as const)
+            .filter((k) => menusConfig[k] != null)
+            .map((k) => ({ key: k, menu: menusConfig[k]! }));
+    }, [menusConfig]);
+
+    const MENU_PLATAFORMAS = menusConfig.plataformas ?? null;
+
+    // ── Estado local ──────────────────────────────────────────────────
     const [menuAberto, setMenuAberto] = useState(false);
     const [downloadAberto, setDownloadAberto] = useState(false);
     const [navDropdownAberto, setNavDropdownAberto] = useState<MenuDropdownKey | null>(null);
@@ -123,14 +129,14 @@ export default function CabecalhoSite() {
         return { color: isActive ? Cores.primaria : Cores.textoSuave, backgroundColor: isActive ? Cores.primariaClara : undefined };
     }
 
-    if (!Secoes.cabecalho) return null;
+    if (!plat.cabecalho) return null;
 
     return (
         <header className="fixed w-full top-0 z-50 shadow-(--shadow-header) backdrop-blur-md bg-white/90 transition-all border-b border-(--color-primary-light)">
             <div className="py-4 px-6 flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                     <Link to={withDestino("/")} className="flex items-center" onClick={() => setMenuAberto(false)}>
-                        <img src={ConfigSite.logo} alt={`${ConfigSite.name} Logo`} className="h-10 object-contain" />
+                        <img src={configSite.logo} alt={`${configSite.nome} Logo`} className="h-10 object-contain" />
                     </Link>
                     {/* 
                         {Secoes.tem('appGarcom') && (
@@ -261,9 +267,6 @@ export default function CabecalhoSite() {
                 </div>
 
                 <div className="flex items-center gap-6">
-
-
-
                     {/* ── Botão Baixar (desktop) ── */}
                     <div className="hidden md:block relative" ref={dropdownRef}>
                         <button
@@ -287,18 +290,18 @@ export default function CabecalhoSite() {
                                 style={{ boxShadow: "0 20px 60px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)" }}
                             >
                                 <div className="py-2">
-                                    {ConfigSite.download.categories.map((cat, catIndex) => {
-                                        const items = DOWNLOADS_HEADER.filter((d) => d.categoryKey === cat.key);
+                                    {configSite.download.categorias.map((cat, catIndex) => {
+                                        const items = DOWNLOADS_HEADER.filter((d) => d.chaveCategoria === cat.chave);
                                         if (items.length === 0) return null;
                                         return (
-                                            <div key={cat.key}>
+                                            <div key={cat.chave}>
                                                 {catIndex > 0 && <div className="h-px mx-3 my-1.5 bg-gray-100" />}
                                                 <p className="px-4 pb-1 pt-1 text-[10px] font-bold uppercase tracking-widest" style={{ color: Cores.textoSuave }}>
-                                                    {cat.label}
+                                                    {cat.rotulo}
                                                 </p>
                                                 {items.map((d) => {
-                                                    const downloadUrl = withDestino(d.downloadUrl);
-                                                    const isRecomendado = d.platformKey === osDetectado;
+                                                    const downloadUrl = withDestino(d.urlDownload);
+                                                    const isRecomendado = d.chavePlataforma === osDetectado;
                                                     return (
                                                         <a
                                                             key={d.id}
@@ -313,7 +316,7 @@ export default function CabecalhoSite() {
                                                             <span className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: d.corBadge }}>
                                                                 {d.icon}
                                                             </span>
-                                                            <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.label}</span>
+                                                            <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.rotulo}</span>
                                                             {isRecomendado
                                                                 ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>✦</span>
                                                                 : <span className="text-xs shrink-0" style={{ color: Cores.textoSuave }}>{d.badge}</span>
@@ -326,14 +329,14 @@ export default function CabecalhoSite() {
                                     })}
                                 </div>
                                 <div className="px-4 py-2.5 border-t border-gray-100">
-                                    <p className="text-xs text-center" style={{ color: Cores.textoSuave }}>{ConfigSite.diasTeste} dias grátis em todos os planos</p>
+                                    <p className="text-xs text-center" style={{ color: Cores.textoSuave }}>{configSite.diasTeste} dias grátis em todos os planos</p>
                                 </div>
                             </div>
                         )}
                     </div>
 
                     <a
-                        href={ConfigSite.links.webApp}
+                        href={configSite.links.sistemaWeb}
                         style={{ color: Cores.textoSuave, borderColor: Cores.borda }}
                         className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl font-semibold border bg-white hover:border-(--color-primary) hover:text-(--color-primary) transition-all duration-200"
                     >
@@ -473,17 +476,17 @@ export default function CabecalhoSite() {
 
                     {/* Downloads mobile */}
                     <div className="mt-1 rounded-xl overflow-hidden border border-gray-100">
-                        {ConfigSite.download.categories.map((cat, catIndex) => {
-                            const items = DOWNLOADS_HEADER.filter((d) => d.categoryKey === cat.key);
+                        {configSite.download.categorias.map((cat, catIndex) => {
+                            const items = DOWNLOADS_HEADER.filter((d) => d.chaveCategoria === cat.chave);
                             if (items.length === 0) return null;
                             return (
-                                <div key={cat.key}>
+                                <div key={cat.chave}>
                                     <p className={`px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest bg-gray-50${catIndex > 0 ? " border-t border-gray-100" : ""}`} style={{ color: Cores.textoSuave }}>
-                                        {cat.label}
+                                        {cat.rotulo}
                                     </p>
                                     {items.map((d) => {
-                                        const downloadUrl = withDestino(d.downloadUrl);
-                                        const isRec = d.platformKey === osDetectado;
+                                        const downloadUrl = withDestino(d.urlDownload);
+                                        const isRec = d.chavePlataforma === osDetectado;
                                         return (
                                             <a
                                                 key={d.id}
@@ -495,7 +498,7 @@ export default function CabecalhoSite() {
                                                 <span className="w-5 h-5 flex items-center justify-center shrink-0" style={{ color: d.corBadge }}>
                                                     {d.icon}
                                                 </span>
-                                                <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.label}</span>
+                                                <span className="flex-1 text-sm font-medium" style={{ color: Cores.escura }}>{d.rotulo}</span>
                                                 {isRec
                                                     ? <span className="text-[10px] font-bold px-1.5 py-0.5 rounded text-white shrink-0" style={{ backgroundColor: Cores.primaria }}>✦</span>
                                                     : <span className="text-xs" style={{ color: Cores.textoSuave }}>{d.badge}</span>
@@ -510,7 +513,7 @@ export default function CabecalhoSite() {
 
                     <div className="mt-2 pt-3 border-t border-gray-100 flex flex-col gap-2">
                         <a
-                            href={ConfigSite.links.webApp}
+                            href={configSite.links.sistemaWeb}
                             className="block px-4 py-3 rounded-xl font-semibold text-sm border border-gray-200 text-center hover:border-(--color-primary) transition-colors"
                             style={{ color: Cores.textoSuave }}
                             onClick={() => setMenuAberto(false)}
