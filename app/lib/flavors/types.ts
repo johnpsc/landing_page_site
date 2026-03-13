@@ -361,11 +361,29 @@ export type TextosFlavor = {
     rotuloDesktop: string;
     rotuloMobile: string;
   };
-  // ── Página de planos (HeroPlanos.tsx) ────────────────────────────────────
+  // ── Página de planos (HeroPlanos.tsx, CardPlanosPainel, TabelaComparacao) ─
   planos: {
+    // Hero
     seloHeroi: string;
     tituloHeroi: string;
     subtituloHeroi: string;
+    // Card
+    botaoEscolher: string;
+    botaoPlanoAtual: string;
+    rotuloMaisVendido: string;
+    linkCompararPlanos: string;
+    prefixoEconomize: string;
+    sufixoMes: string;
+    sufixoTotal: string;
+    rotuloUsuarios: string;
+    rotuloPainelAdmin: string;
+    rotuloAppMobile: string;
+    rotuloEspacoIlimitado: string;
+    // Tabela comparativa
+    seloComparativo: string;
+    tituloComparativo: string;
+    dicaRolarMobile: string;
+    botaoComecePelaTabela: string;
   };
   // ── Páginas de funcionalidades (/funcionalidades/:slug) ──────────────────
   paginasFuncionalidades: Record<string, {

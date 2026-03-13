@@ -2,6 +2,7 @@
 import { useCardPlano } from "../hooks/useCardPlano";
 import { Cores } from "../lib/theme";
 import type { ModeloPlanos, ModeloTipoDeMensalidade } from "../models/ModeloPlanos";
+import { usePlataforma } from "./inicio/PlataformaContext";
 
 export type { ModeloPlanos, ModeloTipoDeMensalidade };
 
@@ -22,6 +23,9 @@ export default function CardPlanosPainel({
     targetRef,
     mostrarPlanoCliente,
 }: CardPlanosPainelProps) {
+    const { textos } = usePlataforma();
+    const t = textos.planos;
+
     if (!item) return null;
 
     const {
@@ -49,7 +53,7 @@ export default function CardPlanosPainel({
 
     return (
         <div className="relative pt-2 px-0 md:pl-2 md:pr-2">
-            {isMaisVendido && <BadgeMaisVendido />}
+            {isMaisVendido && <BadgeMaisVendido rotuloMaisVendido={t.rotuloMaisVendido} />}
 
             <div className="h-full px-4 md:px-5">
                 <div
@@ -81,7 +85,7 @@ export default function CardPlanosPainel({
                                 className="transition-opacity duration-300"
                                 style={{ opacity: percentual > 0 ? 1 : 0, pointerEvents: percentual > 0 ? "auto" : "none" }}
                             >
-                                <BadgeEconomia texto={`Economize ${economiaFormatada}`} />
+                                <BadgeEconomia texto={`${t.prefixoEconomize} ${economiaFormatada}`} />
                             </div>
 
                             {/* Preço mensal */}
@@ -93,7 +97,7 @@ export default function CardPlanosPainel({
                                 <span className={`text-[18px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>
                                     ,{valorF.decimal}
                                 </span>
-                                <span className={`text-[18px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>/mês</span>
+                                <span className={`text-[18px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>{t.sufixoMes}</span>
                             </div>
 
                             {/* Botão CTA */}
@@ -111,15 +115,15 @@ export default function CardPlanosPainel({
                                     {carregando ? (
                                         <div className="w-3.75 h-3.75 border-2 border-white border-t-transparent rounded-full animate-spin" />
                                     ) : isSelecionado ? (
-                                        "Plano Atual"
+                                        t.botaoPlanoAtual
                                     ) : (
-                                        "Comece Agora"
+                                        t.botaoEscolher
                                     )}
                                 </button>
                             </div>
 
                             {/* Box de features fixas */}
-                            <FeaturesBox isMaisVendido={isMaisVendido} quantidadeUsuarios={item.quantidadedeusuario} />
+                            <FeaturesBox isMaisVendido={isMaisVendido} quantidadeUsuarios={item.quantidadedeusuario} rotuloUsuarios={t.rotuloUsuarios} rotuloPainelAdmin={t.rotuloPainelAdmin} rotuloAppMobile={t.rotuloAppMobile} rotuloEspacoIlimitado={t.rotuloEspacoIlimitado} />
 
                             {/* Modalidades incluídas */}
                             <div className="mt-3.75 w-full flex flex-col">
@@ -151,7 +155,7 @@ export default function CardPlanosPainel({
                                 <span className={`text-[16px] font-semibold mb-1.5 ${textClass("text-white/60", "text-gray-500")}`}>
                                     ,{valorTotalF.decimal}
                                 </span>
-                                <span className={`text-[16px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>/total</span>
+                                <span className={`text-[16px] mb-1.5 ml-1 ${textClass("text-white/60", "text-gray-400")}`}>{t.sufixoTotal}</span>
                             </div>
 
                             {/* Link para tabela comparativa */}
@@ -161,7 +165,7 @@ export default function CardPlanosPainel({
                                     }`}
                                 style={!isMaisVendido ? { color: Cores.primaria } : {}}
                             >
-                                Comparar os Planos
+                                {t.linkCompararPlanos}
                             </button>
                         </div>
                     </div>
@@ -173,7 +177,7 @@ export default function CardPlanosPainel({
 
 // ── Sub-componentes visuais internos ────────────────────────────────────────
 
-function BadgeMaisVendido() {
+function BadgeMaisVendido({ rotuloMaisVendido }: { rotuloMaisVendido: string }) {
     return (
         <div className="absolute top-0 -right-2.5 z-10 w-25 h-7.5 flex items-center justify-center">
             <div className="relative w-full h-full">
@@ -188,7 +192,7 @@ function BadgeMaisVendido() {
                     className="w-30 rounded-[5px] px-2.5 py-0.5 text-white text-sm text-center -translate-x-2.5"
                     style={{ backgroundColor: Cores.primaria }}
                 >
-                    Mais vendido
+                    {rotuloMaisVendido}
                 </div>
             </div>
         </div>
@@ -233,9 +237,17 @@ function BadgeEconomia({ texto }: { texto: string }) {
 function FeaturesBox({
     isMaisVendido,
     quantidadeUsuarios,
+    rotuloUsuarios,
+    rotuloPainelAdmin,
+    rotuloAppMobile,
+    rotuloEspacoIlimitado,
 }: {
     isMaisVendido: boolean;
     quantidadeUsuarios?: string;
+    rotuloUsuarios: string;
+    rotuloPainelAdmin: string;
+    rotuloAppMobile: string;
+    rotuloEspacoIlimitado: string;
 }) {
     const spanClass = isMaisVendido ? "text-white/70" : "text-gray-700";
     const boxClass = isMaisVendido
@@ -249,7 +261,7 @@ function FeaturesBox({
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                 </svg>
             ),
-            label: `${quantidadeUsuarios ?? "0"} Usuários`,
+            label: `${quantidadeUsuarios ?? "0"} ${rotuloUsuarios}`,
         },
         {
             icon: (
@@ -257,7 +269,7 @@ function FeaturesBox({
                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
             ),
-            label: "Painel Administrativo",
+            label: rotuloPainelAdmin,
         },
         {
             icon: (
@@ -265,7 +277,7 @@ function FeaturesBox({
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
             ),
-            label: "App Android e iOS",
+            label: rotuloAppMobile,
         },
         {
             icon: (
@@ -273,7 +285,7 @@ function FeaturesBox({
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
                 </svg>
             ),
-            label: "Espaço ilimitado",
+            label: rotuloEspacoIlimitado,
         },
     ];
 

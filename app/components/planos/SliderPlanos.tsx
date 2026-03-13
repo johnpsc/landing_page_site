@@ -14,7 +14,7 @@ interface PlanSliderProps {
 /**
  * Slider de cards de planos.
  * – Mobile: lista vertical ocupando as laterais.
- * – Desktop: slider horizontal com botões de navegação.
+ * – Desktop: slider horizontal centralizado com botões de navegação.
  */
 export default function SliderPlanos({
     planos,
@@ -43,26 +43,33 @@ export default function SliderPlanos({
                 </div>
             </div>
 
-            {/* ─── Desktop: slider com setas ──────────────────────────── */}
+            {/* ─── Desktop: slider com setas centralizado ───────────────── */}
             <div className="hidden md:flex flex-row items-center justify-center w-full px-2 mt-8">
-                <NavButton direction="left" onClick={() => onScroll("left")} />
+                <div className="flex items-center max-w-full">
+                    <NavButton direction="left" onClick={() => onScroll("left")} />
 
-                <div className="flex-1 overflow-hidden" ref={scrollRef}>
-                    <div className="flex no-scrollbar gap-0 py-5 items-stretch">
-                        {planos.map((item) => (
-                            <div key={item.id} className="shrink-0 flex items-stretch">
-                                <CardPlanosPainel
-                                    item={item}
-                                    tipodemensalidadeSelecionado={tipodemensalidadeSelecionado}
-                                    mostrarPlanoCliente={mostrarPlanoCliente}
-                                    targetRef={tabelaComparacaoRef}
-                                />
-                            </div>
-                        ))}
+                    {/* Removido flex-1 para não forçar expansão desnecessária e adicionado justify-center */}
+                    <div
+                        className="overflow-hidden mx-2"
+                        ref={scrollRef}
+                        style={{ maxWidth: 'fit-content' }}
+                    >
+                        <div className="flex no-scrollbar gap-0 py-5 items-stretch justify-center">
+                            {planos.map((item) => (
+                                <div key={item.id} className="shrink-0 flex items-stretch">
+                                    <CardPlanosPainel
+                                        item={item}
+                                        tipodemensalidadeSelecionado={tipodemensalidadeSelecionado}
+                                        mostrarPlanoCliente={mostrarPlanoCliente}
+                                        targetRef={tabelaComparacaoRef}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                </div>
 
-                <NavButton direction="right" onClick={() => onScroll("right")} />
+                    <NavButton direction="right" onClick={() => onScroll("right")} />
+                </div>
             </div>
         </>
     );

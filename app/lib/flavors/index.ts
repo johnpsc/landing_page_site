@@ -1,5 +1,4 @@
 import { bigchef } from "./bigchef";
-import { mulherz } from "./mulherz";
 import { sagestart } from "./sagestart";
 import type { ConfigPlataforma, ConfiguracaoFlavor, Flavor, MenusCabecalho, SecaoInicioId, TextosFlavor } from "./types";
 
@@ -11,7 +10,6 @@ export * from "./types";
 const FLAVORS = {
   bigchef,
   sagestart,
-  mulherz,
 } as const;
 
 export type FlavorKey = keyof typeof FLAVORS;

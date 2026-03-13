@@ -8,7 +8,7 @@
  * CSS Custom Properties — Tokens de cor dinâmicos
  *
  * Todos os valores são injetados por buildCssVars() em root.tsx
- * a partir do flavor ativo (BigChef, SageStart, Mulherz, etc.).
+ * a partir do flavor ativo (BigChef, SageStart, etc.).
  *
  * NÃO declare --color-* ou --shadow-* aqui — buildCssVars() é a única fonte.
  *
